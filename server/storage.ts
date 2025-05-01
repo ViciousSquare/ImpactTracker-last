@@ -65,7 +65,9 @@ export interface IStorage {
   // Solutions
   getSolutions(filters: {
     query: string;
+    sector: string;
     region: string;
+    businessType: string;
     sdg: string;
     demographic: string;
     page: number;
@@ -459,7 +461,9 @@ export class MemStorage implements IStorage {
   // Solution operations
   async getSolutions(filters: {
     query: string;
+    sector: string;
     region: string;
+    businessType: string;
     sdg: string;
     demographic: string;
     page: number;
@@ -472,6 +476,8 @@ export class MemStorage implements IStorage {
         organizationName: 'Canadian Food Bank Network',
         icon: 'volunteer_activism',
         sector: 'Food Security',
+        businessType: 'Non-Profit',
+        region: 'National',
         description: 'Distributes nutritious food to rural and remote communities through innovative mobile pantries and community partnerships.',
         peopleReached: 185000,
         socialROI: 11.32,
@@ -486,6 +492,8 @@ export class MemStorage implements IStorage {
         organizationName: 'Climate Action Coalition',
         icon: 'eco',
         sector: 'Environment',
+        businessType: 'Social Enterprise',
+        region: 'British Columbia',
         description: 'Rescues surplus food from restaurants and grocers to reduce waste while addressing food insecurity in urban centers.',
         peopleReached: 92000,
         socialROI: 8.65,
@@ -500,6 +508,8 @@ export class MemStorage implements IStorage {
         organizationName: 'Community Harvest Network',
         icon: 'school',
         sector: 'Food Security',
+        businessType: 'Non-Profit',
+        region: 'Ontario',
         description: 'Partners with First Nations communities to revitalize traditional food systems and build food sovereignty through education and infrastructure.',
         peopleReached: 43000,
         socialROI: 7.29,
