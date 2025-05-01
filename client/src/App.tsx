@@ -11,6 +11,7 @@ import Home from "@/pages/home";
 import Leaderboard from "@/pages/leaderboard";
 import SolutionFinder from "@/pages/solution-finder";
 import OrganizationProfilePage from "@/pages/organization/[id]";
+import MethodologyPage from "@/pages/methodology";
 
 function Router() {
   return (

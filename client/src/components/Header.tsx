@@ -13,6 +13,7 @@ const Header = () => {
   const navigation = [
     { name: t('nav.leaderboard'), href: '/leaderboard', icon: 'leaderboard' },
     { name: t('nav.solutionFinder'), href: '/solution-finder', icon: 'search' },
+    { name: t('nav.methodology'), href: '/methodology', icon: 'science' },
     { name: t('nav.reports'), href: '/reports', icon: 'insights' },
     { name: t('nav.about'), href: '/about', icon: 'info' },
   ];

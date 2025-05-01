@@ -15,6 +15,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Navigation
     'nav.leaderboard': 'Leaderboard',
     'nav.solutionFinder': 'Solution Finder',
+    'nav.methodology': 'Methodology',
     'nav.reports': 'Reports',
     'nav.about': 'About',
     'nav.signIn': 'Sign In',
@@ -139,6 +140,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Navigation
     'nav.leaderboard': 'Tableau de classement',
     'nav.solutionFinder': 'Chercheur de solutions',
+    'nav.methodology': 'Méthodologie',
     'nav.reports': 'Rapports',
     'nav.about': 'À propos',
     'nav.signIn': 'Se connecter',
