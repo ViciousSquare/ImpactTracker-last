@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'wouter';
@@ -31,10 +31,11 @@ import { ChevronRight } from 'lucide-react';
 
 const LeaderboardSection = () => {
   const { t } = useLanguage();
-  const [sector, setSector] = useState('all');
   const [region, setRegion] = useState('all');
   const [sdg, setSdg] = useState('all');
-  const [currentPage, setCurrentPage] = useState(1);
+  
+  // Carousel ref for manual scrolling
+  const carouselRef = useRef<HTMLDivElement>(null);
 
   // Fetch trending items
   const { data: trendingItems, isLoading: trendingLoading } = useQuery<TrendingItem[]>({
@@ -46,12 +47,60 @@ const LeaderboardSection = () => {
     items: LeaderboardItem[];
     total: number;
   }>({
-    queryKey: ['/api/leaderboard', sector, region, sdg, currentPage],
+    queryKey: ['/api/leaderboard', 'all', region, sdg, 1],
   });
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+  // Generate additional test data for demonstration purposes
+  const generateMockOrganizationsForSectors = () => {
+    if (!leaderboardData || !leaderboardData.items) return {};
+    
+    const sectorData: Record<string, LeaderboardItem[]> = {};
+    
+    // Group existing items by sector
+    leaderboardData.items.forEach(item => {
+      if (!sectorData[item.sector]) {
+        sectorData[item.sector] = [];
+      }
+      sectorData[item.sector].push(item);
+    });
+    
+    // Make sure each sector has at least 5 items by creating variations of existing items
+    SECTOR_OPTIONS.filter(s => s.value !== 'all').forEach(sectorOption => {
+      const sector = sectorOption.value as Sector; // Type assertion to Sector
+      if (!sectorData[sector] || sectorData[sector].length < 5) {
+        // Use items from other sectors if this sector has no items
+        const sourceItems = sectorData[sector] || leaderboardData.items;
+        const neededItems = 5 - (sectorData[sector]?.length || 0);
+        
+        if (!sectorData[sector]) {
+          sectorData[sector] = [];
+        }
+        
+        for (let i = 0; i < neededItems; i++) {
+          const baseItem = sourceItems[i % sourceItems.length];
+          if (baseItem) {
+            // Get valid ImpactGrade and ensure type safety
+            const gradeOptions: ImpactGrade[] = ['A+', 'A', 'A-', 'B+', 'B'];
+            const randomGrade = gradeOptions[Math.floor(Math.random() * gradeOptions.length)];
+            
+            sectorData[sector].push({
+              ...baseItem,
+              id: baseItem.id + 1000 + i, // Create a unique ID
+              name: `${sector} Organization ${i+1}`,
+              sector: sector,
+              impactScore: Math.floor(70 + Math.random() * 30),
+              impactGrade: randomGrade,
+              yearlyChange: Math.floor(Math.random() * 20) - 5,
+            });
+          }
+        }
+      }
+    });
+    
+    return sectorData;
   };
+  
+  const sectorData = generateMockOrganizationsForSectors();
 
   // Define verification type icon and text
   const getVerificationDetails = (type: string) => {
@@ -64,6 +113,53 @@ const LeaderboardSection = () => {
         return { icon: 'description', text: t('verification.selfReported'), className: 'text-neutral-500' };
     }
   };
+  
+  // Add horizontal scrolling with mouse drag
+  useEffect(() => {
+    const carousel = carouselRef.current;
+    if (!carousel) return;
+    
+    let isDown = false;
+    let startX: number;
+    let scrollLeft: number;
+    
+    const handleMouseDown = (e: MouseEvent) => {
+      isDown = true;
+      carousel.classList.add('cursor-grabbing');
+      startX = e.pageX - carousel.offsetLeft;
+      scrollLeft = carousel.scrollLeft;
+    };
+    
+    const handleMouseLeave = () => {
+      isDown = false;
+      carousel.classList.remove('cursor-grabbing');
+    };
+    
+    const handleMouseUp = () => {
+      isDown = false;
+      carousel.classList.remove('cursor-grabbing');
+    };
+    
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - carousel.offsetLeft;
+      const walk = (x - startX) * 2; // Scroll speed
+      carousel.scrollLeft = scrollLeft - walk;
+    };
+    
+    carousel.addEventListener('mousedown', handleMouseDown);
+    carousel.addEventListener('mouseleave', handleMouseLeave);
+    carousel.addEventListener('mouseup', handleMouseUp);
+    carousel.addEventListener('mousemove', handleMouseMove);
+    
+    return () => {
+      carousel.removeEventListener('mousedown', handleMouseDown);
+      carousel.removeEventListener('mouseleave', handleMouseLeave);
+      carousel.removeEventListener('mouseup', handleMouseUp);
+      carousel.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
 
   return (
     <section className="py-8 md:py-12">
@@ -76,19 +172,6 @@ const LeaderboardSection = () => {
           
           {/* Filter controls */}
           <div className="mt-4 md:mt-0 flex flex-wrap gap-2">
-            <Select value={sector} onValueChange={setSector}>
-              <SelectTrigger className="bg-white border border-neutral-300 rounded-md px-3 py-2 text-sm text-neutral-700 h-auto w-auto">
-                <SelectValue placeholder={t('leaderboard.allSectors')} />
-              </SelectTrigger>
-              <SelectContent>
-                {SECTOR_OPTIONS.map(option => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            
             <Select value={region} onValueChange={setRegion}>
               <SelectTrigger className="bg-white border border-neutral-300 rounded-md px-3 py-2 text-sm text-neutral-700 h-auto w-auto">
                 <SelectValue placeholder={t('leaderboard.allRegions')} />
@@ -130,150 +213,8 @@ const LeaderboardSection = () => {
           </div>
         )}
         
-        {/* Leaderboard table */}
+        {/* Sector-based horizontal scrolling leaderboards */}
         <div className="bg-white rounded-lg shadow-sm border border-neutral-200 overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-neutral-200">
-              <thead>
-                <tr className="bg-neutral-100">
-                  <th className="px-4 py-3 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
-                    {t('leaderboard.table.rank')}
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
-                    {t('leaderboard.table.organization')}
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
-                    <div className="flex items-center">
-                      <span>{t('leaderboard.table.impactIQ')}</span>
-                      <span className="material-icons ml-1 text-neutral-500 cursor-pointer">unfold_more</span>
-                    </div>
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
-                    <div className="flex items-center">
-                      <span>{t('leaderboard.table.socialROI')}</span>
-                      <span className="material-icons ml-1 text-neutral-500 cursor-pointer">unfold_more</span>
-                    </div>
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
-                    {t('leaderboard.table.sector')}
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
-                    {t('leaderboard.table.region')}
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
-                    {t('leaderboard.table.grade')}
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
-                    {t('leaderboard.table.verification')}
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-neutral-200">
-                {leaderboardLoading ? (
-                  Array(5).fill(0).map((_, i) => (
-                    <tr key={i} className="table-row-hover">
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        <Skeleton className="h-4 w-4" />
-                      </td>
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        <div className="flex items-center">
-                          <Skeleton className="h-10 w-10 rounded-full" />
-                          <div className="ml-3">
-                            <Skeleton className="h-4 w-32" />
-                            <Skeleton className="h-3 w-20 mt-1" />
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        <Skeleton className="h-4 w-10" />
-                        <Skeleton className="h-3 w-16 mt-1" />
-                      </td>
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        <Skeleton className="h-4 w-16" />
-                      </td>
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        <Skeleton className="h-4 w-20" />
-                      </td>
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        <Skeleton className="h-4 w-16" />
-                      </td>
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        <Skeleton className="h-6 w-8 rounded-full" />
-                      </td>
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        <Skeleton className="h-4 w-20" />
-                      </td>
-                    </tr>
-                  ))
-                ) : leaderboardData && leaderboardData.items.length > 0 ? (
-                  leaderboardData.items.map((item) => {
-                    const verificationDetails = getVerificationDetails(item.verificationType);
-                    
-                    return (
-                      <tr key={item.id} className="table-row-hover">
-                        <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-neutral-900">
-                          {item.rank}
-                        </td>
-                        <td className="px-4 py-4 whitespace-nowrap">
-                          <div 
-                            className="flex items-center cursor-pointer"
-                            onClick={() => window.location.href = `/organization/${item.id}`}
-                          >
-                            <div className="h-10 w-10 flex-shrink-0 rounded-full bg-primary-100 flex items-center justify-center text-primary-500">
-                              <span className="material-icons">
-                                {item.sector === 'Food Security' ? 'volunteer_activism' : 
-                                 item.sector === 'Housing' ? 'house' :
-                                 item.sector === 'Education' ? 'school' :
-                                 item.sector === 'Environment' ? 'eco' :
-                                 'healing'}
-                              </span>
-                            </div>
-                            <div className="ml-3">
-                              <div className="text-sm font-medium text-neutral-900">{item.name}</div>
-                              <div className="text-xs text-neutral-500">{item.sector}</div>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-4 py-4 whitespace-nowrap">
-                          <div className="text-sm font-medium text-neutral-900">{item.impactScore}</div>
-                          <div className={`text-xs ${item.yearlyChange >= 0 ? 'text-success' : 'text-error'}`}>
-                            {item.yearlyChange > 0 ? '+' : ''}{item.yearlyChange}% {t('common.fromLastYear')}
-                          </div>
-                        </td>
-                        <td className="px-4 py-4 whitespace-nowrap text-sm text-neutral-900">
-                          ${item.socialROI.toFixed(2)}
-                        </td>
-                        <td className="px-4 py-4 whitespace-nowrap text-sm text-neutral-900">
-                          {item.sector}
-                        </td>
-                        <td className="px-4 py-4 whitespace-nowrap text-sm text-neutral-900">
-                          {item.region}
-                        </td>
-                        <td className="px-4 py-4 whitespace-nowrap">
-                          <BadgeWithIcon 
-                            text={item.impactGrade} 
-                            variant="success"
-                          />
-                        </td>
-                        <td className="px-4 py-4 whitespace-nowrap text-sm text-neutral-900">
-                          <div className={`flex items-center ${verificationDetails.className}`}>
-                            <span className="material-icons text-sm mr-1">{verificationDetails.icon}</span>
-                            {verificationDetails.text}
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })
-                ) : (
-                  <tr>
-                    <td colSpan={8} className="px-4 py-6 text-center text-neutral-500">
-                      No organizations found matching the selected filters.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
           
           {/* Sector Lists - Horizontal Scrolling */}
           <div className="py-6 border-t border-neutral-200">
@@ -431,108 +372,18 @@ const LeaderboardSection = () => {
             </Carousel>
           </div>
           
-          {/* Pagination */}
-          {leaderboardData && leaderboardData.total > 0 && (
-            <div className="bg-neutral-50 px-4 py-3 flex items-center justify-between border-t border-neutral-200 sm:px-6">
-              <div className="flex-1 flex justify-between sm:hidden">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-                  disabled={currentPage === 1}
-                >
-                  {t('leaderboard.pagination.previous')}
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  disabled={currentPage * 5 >= leaderboardData.total}
-                >
-                  {t('leaderboard.pagination.next')}
-                </Button>
-              </div>
-              <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                <div>
-                  <p className="text-sm text-neutral-700">
-                    {t('leaderboard.pagination.showing')} <span className="font-medium">{(currentPage - 1) * 5 + 1}</span> {t('leaderboard.pagination.to')} <span className="font-medium">{Math.min(currentPage * 5, leaderboardData.total)}</span> {t('leaderboard.pagination.of')} <span className="font-medium">{leaderboardData.total}</span> {t('leaderboard.pagination.results')}
-                  </p>
-                </div>
-                <div>
-                  <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-neutral-300 text-sm font-medium"
-                      onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-                      disabled={currentPage === 1}
-                    >
-                      <span className="sr-only">{t('leaderboard.pagination.previous')}</span>
-                      <span className="material-icons text-sm">chevron_left</span>
-                    </Button>
-                    
-                    {/* Page buttons */}
-                    {Array.from({ length: Math.min(5, Math.ceil(leaderboardData.total / 5)) }, (_, i) => i + 1).map((page) => (
-                      <Button
-                        key={page}
-                        variant={currentPage === page ? "default" : "outline"}
-                        size="sm"
-                        className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
-                          currentPage === page 
-                            ? 'z-10 bg-primary-50 border-primary-500 text-primary-600' 
-                            : 'bg-white border-neutral-300 text-neutral-500 hover:bg-neutral-50'
-                        }`}
-                        onClick={() => handlePageChange(page)}
-                      >
-                        {page}
-                      </Button>
-                    ))}
-                    
-                    {/* Conditional ellipsis */}
-                    {Math.ceil(leaderboardData.total / 5) > 5 && (
-                      <span className="relative inline-flex items-center px-4 py-2 border border-neutral-300 bg-white text-sm font-medium text-neutral-700">
-                        ...
-                      </span>
-                    )}
-                    
-                    {/* Last page button */}
-                    {Math.ceil(leaderboardData.total / 5) > 5 && (
-                      <Button
-                        variant={currentPage === Math.ceil(leaderboardData.total / 5) ? "default" : "outline"}
-                        size="sm"
-                        className="bg-white border-neutral-300 text-neutral-500 hover:bg-neutral-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
-                        onClick={() => handlePageChange(Math.ceil(leaderboardData.total / 5))}
-                      >
-                        {Math.ceil(leaderboardData.total / 5)}
-                      </Button>
-                    )}
-                    
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-neutral-300 text-sm font-medium"
-                      onClick={() => handlePageChange(currentPage + 1)}
-                      disabled={currentPage * 5 >= leaderboardData.total}
-                    >
-                      <span className="sr-only">{t('leaderboard.pagination.next')}</span>
-                      <span className="material-icons text-sm">chevron_right</span>
-                    </Button>
-                  </nav>
-                </div>
-              </div>
-            </div>
-          )}
+          {/* No pagination needed as we're showing all sectors in horizontal scroll */}
         </div>
         
         {/* View more link */}
         <div className="mt-6 text-center">
-          <div 
+          <Link 
+            href="/leaderboard"
             className="inline-flex items-center text-primary-500 hover:text-primary-600 font-medium cursor-pointer"
-            onClick={() => window.location.href = "/leaderboard"}
           >
             View full leaderboard
             <span className="material-icons ml-1 text-sm">arrow_forward</span>
-          </div>
+          </Link>
         </div>
       </div>
     </section>
