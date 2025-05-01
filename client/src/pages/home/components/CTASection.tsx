@@ -42,16 +42,19 @@ const CTASection = () => {
               </div>
             </div>
             <div className="mt-8">
-              <Link href="/join">
-                <Button className="bg-white hover:bg-neutral-100 text-primary-600 font-medium">
-                  {t('cta.join')}
-                </Button>
-              </Link>
-              <Link href="/about">
-                <Button variant="outline" className="ml-4 border-white hover:bg-primary-700 text-white font-medium">
-                  {t('cta.learnMore')}
-                </Button>
-              </Link>
+              <Button 
+                className="bg-white hover:bg-neutral-100 text-primary-600 font-medium"
+                onClick={() => window.location.href = '/join'}
+              >
+                {t('cta.join')}
+              </Button>
+              <Button 
+                variant="outline" 
+                className="ml-4 border-white hover:bg-primary-700 text-white font-medium"
+                onClick={() => window.location.href = '/about'}
+              >
+                {t('cta.learnMore')}
+              </Button>
             </div>
           </div>
           

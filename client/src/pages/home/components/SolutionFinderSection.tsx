@@ -114,12 +114,13 @@ const SolutionFinderSection = () => {
             <p className="text-neutral-600">{t('solution.subtitle')}</p>
           </div>
           
-          <Link href="/solution-finder">
-            <a className="mt-2 md:mt-0 inline-flex items-center text-primary-500 hover:text-primary-600 font-medium">
-              {t('solution.advancedSearch')}
-              <span className="material-icons ml-1 text-sm">tune</span>
-            </a>
-          </Link>
+          <div
+            className="mt-2 md:mt-0 inline-flex items-center text-primary-500 hover:text-primary-600 font-medium cursor-pointer"
+            onClick={() => window.location.href = "/solution-finder"}
+          >
+            {t('solution.advancedSearch')}
+            <span className="material-icons ml-1 text-sm">tune</span>
+          </div>
         </div>
         
         {/* Search and filters */}
@@ -271,11 +272,12 @@ const SolutionFinderSection = () => {
                       </span>
                     </div>
                     
-                    <Link href={`/solution/${solution.id}`}>
-                      <a className="text-primary-500 hover:text-primary-600 font-medium text-sm">
-                        {t('common.details')}
-                      </a>
-                    </Link>
+                    <span 
+                      className="text-primary-500 hover:text-primary-600 font-medium text-sm cursor-pointer"
+                      onClick={() => window.location.href = `/solution/${solution.id}`}
+                    >
+                      {t('common.details')}
+                    </span>
                   </div>
                 </div>
               );

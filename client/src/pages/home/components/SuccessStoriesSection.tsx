@@ -65,12 +65,13 @@ const SuccessStoriesSection = () => {
             <p className="text-neutral-600">{t('successStories.subtitle')}</p>
           </div>
           
-          <Link href="/success-stories">
-            <a className="mt-2 md:mt-0 inline-flex items-center text-primary-500 hover:text-primary-600 font-medium">
-              {t('successStories.viewAll')}
-              <span className="material-icons ml-1 text-sm">arrow_forward</span>
-            </a>
-          </Link>
+          <div
+            className="mt-2 md:mt-0 inline-flex items-center text-primary-500 hover:text-primary-600 font-medium cursor-pointer"
+            onClick={() => window.location.href = "/success-stories"}
+          >
+            {t('successStories.viewAll')}
+            <span className="material-icons ml-1 text-sm">arrow_forward</span>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -261,11 +262,12 @@ const SuccessStoriesSection = () => {
                     </div>
                     
                     <div className="mt-4 text-center">
-                      <Link href={`/organization/${activeStory.id}`}>
-                        <Button className="bg-primary-500 hover:bg-primary-600 text-white">
-                          {t('successStories.viewFullProfile')}
-                        </Button>
-                      </Link>
+                      <Button 
+                        className="bg-primary-500 hover:bg-primary-600 text-white"
+                        onClick={() => window.location.href = `/organization/${activeStory.id}`}
+                      >
+                        {t('successStories.viewFullProfile')}
+                      </Button>
                     </div>
                   </div>
                 </div>

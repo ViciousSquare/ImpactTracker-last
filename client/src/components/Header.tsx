@@ -51,15 +51,15 @@ const Header = () => {
           <nav className="hidden md:flex space-x-8">
             {navigation.map((item) => (
               <Link key={item.name} href={item.href}>
-                <a 
-                  className={`font-medium flex items-center ${
+                <span 
+                  className={`font-medium flex items-center cursor-pointer ${
                     isActive(item.href) 
                       ? 'text-primary-500 border-b-2 border-primary-500 pb-4 -mb-4' 
                       : 'text-neutral-700 hover:text-primary-500'
                   }`}
                 >
                   <span className="material-icons mr-1 text-sm">{item.icon}</span> {item.name}
-                </a>
+                </span>
               </Link>
             ))}
           </nav>
@@ -103,8 +103,8 @@ const Header = () => {
                 <div className="flex flex-col space-y-4">
                   {navigation.map((item) => (
                     <Link key={item.name} href={item.href}>
-                      <a 
-                        className={`font-medium flex items-center p-2 rounded ${
+                      <span 
+                        className={`font-medium flex items-center p-2 rounded cursor-pointer ${
                           isActive(item.href) 
                             ? 'bg-primary-50 text-primary-600' 
                             : 'text-neutral-700 hover:bg-neutral-100'
@@ -112,7 +112,7 @@ const Header = () => {
                         onClick={() => setIsOpen(false)}
                       >
                         <span className="material-icons mr-2 text-sm">{item.icon}</span> {item.name}
-                      </a>
+                      </span>
                     </Link>
                   ))}
                   
