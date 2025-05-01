@@ -6,6 +6,7 @@ import BadgeWithIcon from '@/components/ui/badge-with-icon';
 import ProgressWithLabel from '@/components/ui/progress-with-label';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useState, useMemo } from 'react';
+import { MetricTooltip } from '@/components/ui/metric-tooltip';
 
 const OrganizationProfileSection = () => {
   const { t } = useLanguage();
@@ -131,12 +132,14 @@ const OrganizationProfileSection = () => {
                 <div className="bg-primary-600 h-32 md:h-48"></div>
                 <div className="absolute top-2 right-2">
                   {organization.verificationType && (
-                    <div className="bg-white bg-opacity-90 backdrop-blur-sm rounded-md px-3 py-1 text-xs font-medium text-primary-500 flex items-center">
-                      <span className="material-icons text-sm mr-1">
-                        {getVerificationBadge(organization.verificationType).icon}
-                      </span>
-                      {getVerificationBadge(organization.verificationType).text}
-                    </div>
+                    <MetricTooltip metric="verificationType">
+                      <div className="bg-white bg-opacity-90 backdrop-blur-sm rounded-md px-3 py-1 text-xs font-medium text-primary-500 flex items-center">
+                        <span className="material-icons text-sm mr-1">
+                          {getVerificationBadge(organization.verificationType).icon}
+                        </span>
+                        {getVerificationBadge(organization.verificationType).text}
+                      </div>
+                    </MetricTooltip>
                   )}
                 </div>
                 <div className="px-4 sm:px-6 pb-4 relative -mt-16 flex flex-col md:flex-row">
@@ -158,15 +161,18 @@ const OrganizationProfileSection = () => {
                       </div>
                       
                       <div className="flex items-center mt-2 md:mt-0">
-                        <span className="text-2xl font-serif font-bold text-neutral-900">{organization.impactScore}</span>
-                        <span className="ml-2 text-xs text-neutral-700 leading-tight">
-                          Impact IQ<br />Score
-                        </span>
-                        <BadgeWithIcon
-                          text={organization.impactGrade}
-                          variant="success"
-                          className="ml-3"
-                        />
+                        <MetricTooltip metric="impactScore">
+                          <span className="text-2xl font-serif font-bold text-neutral-900">{organization.impactScore}</span>
+                          <span className="ml-2 text-xs text-neutral-700 leading-tight">
+                            Impact IQ<br />Score
+                          </span>
+                        </MetricTooltip>
+                        <MetricTooltip metric="impactGrade" className="ml-3">
+                          <BadgeWithIcon
+                            text={organization.impactGrade}
+                            variant="success"
+                          />
+                        </MetricTooltip>
                       </div>
                     </div>
                   </div>
@@ -254,7 +260,9 @@ const OrganizationProfileSection = () => {
                           <span className="font-medium text-neutral-900">{organization.stats.peopleReached}</span>
                         </div>
                         <div className="flex justify-between text-sm">
-                          <span className="text-neutral-600">{t('org.stats.socialROI')}</span>
+                          <MetricTooltip metric="socialROI">
+                            <span className="text-neutral-600">{t('org.stats.socialROI')}</span>
+                          </MetricTooltip>
                           <span className="font-medium text-neutral-900">${organization.stats.socialROI} per $1</span>
                         </div>
                         <div className="flex justify-between text-sm">
