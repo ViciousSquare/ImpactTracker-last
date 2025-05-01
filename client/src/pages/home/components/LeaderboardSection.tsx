@@ -117,54 +117,7 @@ const LeaderboardSection = () => {
     }
   };
   
-  // Add horizontal scrolling with mouse drag
-  useEffect(() => {
-    const carousel = carouselRef.current;
-    if (!carousel) return;
-    
-    let isDown = false;
-    let startX: number;
-    let scrollLeft: number;
-    
-    const handleMouseDown = (e: MouseEvent) => {
-      isDown = true;
-      carousel.classList.add('cursor-grabbing');
-      startX = e.pageX - carousel.offsetLeft;
-      scrollLeft = carousel.scrollLeft;
-    };
-    
-    const handleMouseLeave = () => {
-      isDown = false;
-      carousel.classList.remove('cursor-grabbing');
-    };
-    
-    const handleMouseUp = () => {
-      isDown = false;
-      carousel.classList.remove('cursor-grabbing');
-    };
-    
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - carousel.offsetLeft;
-      const walk = (x - startX) * 2; // Scroll speed
-      carousel.scrollLeft = scrollLeft - walk;
-    };
-    
-    carousel.addEventListener('mousedown', handleMouseDown);
-    carousel.addEventListener('mouseleave', handleMouseLeave);
-    carousel.addEventListener('mouseup', handleMouseUp);
-    carousel.addEventListener('mousemove', handleMouseMove);
-    
-    return () => {
-      if (carousel) {
-        carousel.removeEventListener('mousedown', handleMouseDown);
-        carousel.removeEventListener('mouseleave', handleMouseLeave);
-        carousel.removeEventListener('mouseup', handleMouseUp);
-        carousel.removeEventListener('mousemove', handleMouseMove);
-      }
-    };
-  }, []);
+  // No need for mouse drag functionality as we now use natural overflow scrolling
 
   return (
     <section className="py-6 md:py-10 bg-gradient-to-b from-white to-primary-50">
