@@ -20,6 +20,14 @@ import {
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import { 
+  Carousel, 
+  CarouselContent, 
+  CarouselItem, 
+  CarouselNext, 
+  CarouselPrevious 
+} from '@/components/ui/carousel';
+import { ChevronRight } from 'lucide-react';
 
 const LeaderboardSection = () => {
   const { t } = useLanguage();
@@ -265,6 +273,112 @@ const LeaderboardSection = () => {
                 )}
               </tbody>
             </table>
+          </div>
+          
+          {/* Sector Carousel - Horizontal Scrolling */}
+          <div className="py-6 border-t border-neutral-200">
+            <div className="mb-4">
+              <h3 className="text-lg font-semibold text-neutral-900">{t('leaderboard.bySector')}</h3>
+              <p className="text-sm text-neutral-600">{t('leaderboard.exploreBySector')}</p>
+            </div>
+            
+            <Carousel
+              opts={{
+                align: "start",
+                loop: false,
+              }}
+              className="w-full"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex space-x-2">
+                  <CarouselPrevious className="relative static left-0 right-auto top-0 -translate-y-0 translate-x-0 border-neutral-200" />
+                  <CarouselNext className="relative static right-0 left-auto top-0 -translate-y-0 translate-x-0 border-neutral-200" />
+                </div>
+                <Link 
+                  href="/leaderboard" 
+                  className="text-primary-500 hover:text-primary-600 text-sm font-medium flex items-center"
+                >
+                  {t('leaderboard.viewAll')}
+                  <ChevronRight className="h-4 w-4 ml-1" />
+                </Link>
+              </div>
+              
+              <CarouselContent>
+                {SECTOR_OPTIONS.filter(s => s.value !== 'all').map((sectorOption) => (
+                  <CarouselItem key={sectorOption.value} className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
+                    <div className="bg-white rounded-lg shadow-sm border border-neutral-200 overflow-hidden h-full flex flex-col">
+                      <div className="bg-primary-50 p-4 border-b border-neutral-200">
+                        <div className="flex items-center space-x-3">
+                          <div className="bg-primary-100 rounded-md p-2">
+                            <span className="material-icons text-primary-600">
+                              {sectorOption.value === 'Food Security' ? 'volunteer_activism' : 
+                               sectorOption.value === 'Housing' ? 'house' :
+                               sectorOption.value === 'Education' ? 'school' :
+                               sectorOption.value === 'Environment' ? 'eco' :
+                               sectorOption.value === 'Economic Development' ? 'trending_up' :
+                               sectorOption.value === 'Social Services' ? 'support' :
+                               sectorOption.value === 'Arts & Culture' ? 'palette' :
+                               'healing'}
+                            </span>
+                          </div>
+                          <h3 className="text-lg font-medium text-neutral-900">{sectorOption.label}</h3>
+                        </div>
+                      </div>
+                      
+                      {/* We'll display top 3 organizations in this sector */}
+                      {leaderboardData && (
+                        <div className="p-4 flex-1">
+                          {leaderboardData.items
+                            .filter(item => item.sector === sectorOption.value || sectorOption.value === 'all')
+                            .slice(0, 3)
+                            .map((item) => (
+                              <div key={item.id} className="border-b border-neutral-100 py-3 last:border-0">
+                                <Link 
+                                  href={`/organization/${item.id}`} 
+                                  className="flex items-center"
+                                >
+                                  <span className="font-medium text-sm w-6 text-neutral-500">#{item.rank}</span>
+                                  <div className="flex-1">
+                                    <span className="text-primary-600 hover:text-primary-700 font-medium text-sm block">
+                                      {item.name}
+                                    </span>
+                                    <div className="flex items-center text-xs text-neutral-500 mt-1">
+                                      <BadgeWithIcon 
+                                        text={item.impactGrade} 
+                                        variant="success"
+                                        className="mr-2"
+                                      />
+                                      <span>{item.impactScore} IQ</span>
+                                    </div>
+                                  </div>
+                                </Link>
+                              </div>
+                            ))
+                          }
+                          
+                          {/* If no items in this sector, show message */}
+                          {leaderboardData.items.filter(item => item.sector === sectorOption.value || sectorOption.value === 'all').length === 0 && (
+                            <div className="py-4 text-center text-neutral-500 text-sm">
+                              No organizations in this sector.
+                            </div>
+                          )}
+                        </div>
+                      )}
+                      
+                      <div className="px-4 py-3 bg-neutral-50 border-t border-neutral-200 mt-auto">
+                        <Link 
+                          href={`/leaderboard?sector=${encodeURIComponent(sectorOption.value)}`} 
+                          className="text-primary-500 hover:text-primary-600 text-sm font-medium flex items-center justify-between w-full"
+                        >
+                          <span>{t('leaderboard.viewSector')}</span>
+                          <ChevronRight className="h-4 w-4" />
+                        </Link>
+                      </div>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
           </div>
           
           {/* Pagination */}
