@@ -288,35 +288,45 @@ const OrganizationProfileSection = () => {
                       <div className="bg-neutral-50 p-4 rounded-lg border border-neutral-200">
                         <h4 className="font-medium text-neutral-900 mb-3">{t('org.impactBreakdown')}</h4>
                         <div className="space-y-3">
-                          <ProgressWithLabel
-                            label={t('org.metrics.reportingQuality')}
-                            value={organization.metrics.reportingQuality}
-                            max={20}
-                          />
+                          <MetricTooltip metric="reportingQuality">
+                            <ProgressWithLabel
+                              label={t('org.metrics.reportingQuality')}
+                              value={organization.metrics.reportingQuality}
+                              max={20}
+                            />
+                          </MetricTooltip>
                           
-                          <ProgressWithLabel
-                            label={t('org.metrics.reach')}
-                            value={organization.metrics.reach}
-                            max={20}
-                          />
+                          <MetricTooltip metric="reach">
+                            <ProgressWithLabel
+                              label={t('org.metrics.reach')}
+                              value={organization.metrics.reach}
+                              max={20}
+                            />
+                          </MetricTooltip>
                           
-                          <ProgressWithLabel
-                            label={t('org.metrics.socialROI')}
-                            value={organization.metrics.socialROI}
-                            max={20}
-                          />
+                          <MetricTooltip metric="socialROI">
+                            <ProgressWithLabel
+                              label={t('org.metrics.socialROI')}
+                              value={organization.metrics.socialROI}
+                              max={20}
+                            />
+                          </MetricTooltip>
                           
-                          <ProgressWithLabel
-                            label={t('org.metrics.outcomeEffectiveness')}
-                            value={organization.metrics.outcomeEffectiveness}
-                            max={20}
-                          />
+                          <MetricTooltip metric="outcomeEffectiveness">
+                            <ProgressWithLabel
+                              label={t('org.metrics.outcomeEffectiveness')}
+                              value={organization.metrics.outcomeEffectiveness}
+                              max={20}
+                            />
+                          </MetricTooltip>
                           
-                          <ProgressWithLabel
-                            label={t('org.metrics.transparencyGovernance')}
-                            value={organization.metrics.transparencyGovernance}
-                            max={20}
-                          />
+                          <MetricTooltip metric="transparencyGovernance">
+                            <ProgressWithLabel
+                              label={t('org.metrics.transparencyGovernance')}
+                              value={organization.metrics.transparencyGovernance}
+                              max={20}
+                            />
+                          </MetricTooltip>
                         </div>
                       </div>
                       
@@ -346,12 +356,18 @@ const OrganizationProfileSection = () => {
                                 <tr key={index}>
                                   <td className="px-3 py-2 text-sm text-neutral-900">{program.name}</td>
                                   <td className="px-3 py-2 text-sm text-neutral-900">{program.peopleReached.toLocaleString()}</td>
-                                  <td className="px-3 py-2 text-sm text-neutral-900">${program.socialROI.toFixed(2)}</td>
+                                  <td className="px-3 py-2 text-sm text-neutral-900">
+                                    <MetricTooltip metric="socialROI">
+                                      ${program.socialROI.toFixed(2)}
+                                    </MetricTooltip>
+                                  </td>
                                   <td className="px-3 py-2">
-                                    <BadgeWithIcon 
-                                      text={program.impactGrade}
-                                      variant="success"
-                                    />
+                                    <MetricTooltip metric="impactGrade">
+                                      <BadgeWithIcon 
+                                        text={program.impactGrade}
+                                        variant="success"
+                                      />
+                                    </MetricTooltip>
                                   </td>
                                 </tr>
                               ))}

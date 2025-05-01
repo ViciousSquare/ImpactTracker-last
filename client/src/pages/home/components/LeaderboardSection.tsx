@@ -13,6 +13,7 @@ import {
 } from '@/lib/types';
 import TrendingTicker from '@/components/ui/trending-ticker';
 import BadgeWithIcon from '@/components/ui/badge-with-icon';
+import { MetricTooltip } from '@/components/ui/metric-tooltip';
 import { 
   Select, 
   SelectContent, 
@@ -315,19 +316,23 @@ const LeaderboardSection = () => {
                                     </td>
                                     <td className="px-4 py-3 whitespace-nowrap">
                                       <div className="text-sm font-medium text-neutral-900">
-                                        {item.impactScore}
-                                        {item.yearlyChange !== 0 && (
-                                          <span className={`ml-1 text-xs ${item.yearlyChange > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                            {item.yearlyChange > 0 ? '▲' : '▼'}{Math.abs(item.yearlyChange)}%
-                                          </span>
-                                        )}
+                                        <MetricTooltip metric="impactScore">
+                                          {item.impactScore}
+                                          {item.yearlyChange !== 0 && (
+                                            <span className={`ml-1 text-xs ${item.yearlyChange > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                              {item.yearlyChange > 0 ? '▲' : '▼'}{Math.abs(item.yearlyChange)}%
+                                            </span>
+                                          )}
+                                        </MetricTooltip>
                                       </div>
                                     </td>
                                     <td className="px-4 py-3 whitespace-nowrap">
-                                      <BadgeWithIcon 
-                                        text={item.impactGrade} 
-                                        variant="success"
-                                      />
+                                      <MetricTooltip metric="impactGrade">
+                                        <BadgeWithIcon 
+                                          text={item.impactGrade} 
+                                          variant="success"
+                                        />
+                                      </MetricTooltip>
                                     </td>
                                   </tr>
                                 ))
