@@ -14,6 +14,7 @@ import {
 } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { MetricTooltip } from '@/components/ui/metric-tooltip';
 import { 
   Select, 
   SelectContent, 
@@ -320,6 +321,11 @@ const SolutionFinderSection = () => {
         <div className="mb-6">
           <div className="mb-4 flex items-center justify-between">
             <h3 className="text-lg font-semibold text-neutral-900">Featured Solutions</h3>
+            <div className="flex items-center gap-4 text-sm text-neutral-600">
+              <MetricTooltip metric="impactGrade">Impact Grade</MetricTooltip>
+              <MetricTooltip metric="socialROI">Social ROI</MetricTooltip>
+              <MetricTooltip metric="effectiveness">Effectiveness</MetricTooltip>
+            </div>
           </div>
           
           <Carousel
