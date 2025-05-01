@@ -114,11 +114,11 @@ const SuccessStoriesSection = () => {
   const activeStory = successStories[activeStoryIndex];
 
   return (
-    <section className="py-12 bg-white border-t border-b border-neutral-200">
+    <section className="py-6 md:py-10 bg-gradient-to-b from-white to-primary-50 border-t border-b border-neutral-200">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
           <div>
-            <h2 className="text-2xl font-bold text-neutral-900 mb-1">{t('successStories.title')}</h2>
+            <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-800 to-primary-600 mb-1">{t('successStories.title')}</h2>
             <p className="text-neutral-600">{t('successStories.subtitle')}</p>
           </div>
           
@@ -151,12 +151,8 @@ const SuccessStoriesSection = () => {
             }}
             className="w-full"
           >
-            <div className="flex space-x-2 mb-4">
-              <CarouselPrevious className="relative static left-0 right-auto top-0 -translate-y-0 translate-x-0 border-neutral-200" />
-              <CarouselNext className="relative static right-0 left-auto top-0 -translate-y-0 translate-x-0 border-neutral-200" />
-            </div>
-            
-            <CarouselContent ref={carouselRef} className="cursor-grab">
+            {/* Removed arrow buttons in favor of side scrolling */}
+            <CarouselContent ref={carouselRef} className="cursor-grab overflow-visible">
               {successStories.map((story, index) => (
                 <CarouselItem key={story.id} className="sm:basis-full md:basis-1/2 lg:basis-1/2 xl:basis-1/3 p-2">
                   <Card 

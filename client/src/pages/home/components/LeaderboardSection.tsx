@@ -165,11 +165,11 @@ const LeaderboardSection = () => {
   }, []);
 
   return (
-    <section className="py-8 md:py-12">
+    <section className="py-6 md:py-10 bg-gradient-to-b from-white to-primary-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
           <div>
-            <h2 className="text-2xl font-bold text-neutral-900 mb-1">{t('leaderboard.title')}</h2>
+            <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-primary-800 mb-1">{t('leaderboard.title')}</h2>
             <p className="text-neutral-600">{t('leaderboard.subtitle')}</p>
           </div>
           
@@ -242,12 +242,8 @@ const LeaderboardSection = () => {
               }}
               className="w-full"
             >
-              <div className="flex space-x-2 mb-4">
-                <CarouselPrevious className="relative static left-0 right-auto top-0 -translate-y-0 translate-x-0 border-neutral-200" />
-                <CarouselNext className="relative static right-0 left-auto top-0 -translate-y-0 translate-x-0 border-neutral-200" />
-              </div>
-              
-              <CarouselContent>
+              {/* Removed arrow buttons in favor of side scrolling */}
+              <CarouselContent ref={carouselRef} className="cursor-grab overflow-visible">
                 {SECTOR_OPTIONS.filter(s => s.value !== 'all').map((sectorOption) => (
                   <CarouselItem key={sectorOption.value} className="sm:basis-1/2 md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
                     <div className="bg-white rounded-lg shadow-sm border border-neutral-200 overflow-hidden h-full flex flex-col">
