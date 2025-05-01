@@ -60,6 +60,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get success stories
+  app.get('/api/organizations/success-stories', async (req, res) => {
+    try {
+      const successStories = await storage.getSuccessStories();
+      res.json(successStories);
+    } catch (error) {
+      res.status(500).json({ message: 'Failed to fetch success stories' });
+    }
+  });
+
   // Get organization by ID
   app.get('/api/organizations/:id', async (req, res) => {
     try {

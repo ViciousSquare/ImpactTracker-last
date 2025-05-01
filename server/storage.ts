@@ -60,6 +60,7 @@ export interface IStorage {
   // Organizations
   getFeaturedOrganization(): Promise<OrganizationProfile | undefined>;
   getOrganizationById(id: number): Promise<OrganizationProfile | undefined>;
+  getSuccessStories(): Promise<OrganizationProfile[]>;
   
   // Solutions
   getSolutions(filters: {
@@ -341,6 +342,118 @@ export class MemStorage implements IStorage {
   async getOrganizationById(id: number): Promise<OrganizationProfile | undefined> {
     // For demo, return the featured organization for any ID
     return this.getFeaturedOrganization();
+  }
+  
+  async getSuccessStories(): Promise<OrganizationProfile[]> {
+    // Return a few showcase organizations as success stories
+    return [
+      {
+        id: 2,
+        name: 'Housing First Initiative',
+        logo: undefined,
+        mission: 'Housing First Initiative aims to end homelessness by providing immediate access to permanent housing with supportive services, following the principle that stable housing is the foundation for recovery and wellbeing.',
+        sector: 'Housing',
+        region: 'Ontario',
+        established: 2008,
+        impactScore: 92,
+        impactGrade: ImpactGrade.A,
+        verificationType: VerificationType.Audited,
+        yearlyChange: 5.7,
+        sdgAlignment: [
+          'SDG 1: No Poverty',
+          'SDG 11: Sustainable Cities and Communities',
+          'SDG 3: Good Health'
+        ],
+        metrics: {
+          reportingQuality: 18,
+          reach: 17,
+          socialROI: 19,
+          outcomeEffectiveness: 18,
+          transparencyGovernance: 20
+        },
+        stats: {
+          peopleReached: '45,000 annually',
+          socialROI: 7.26,
+          programs: 8,
+          funding: '$18.3M',
+          programAllocation: 84
+        },
+        yearlyTrend: [78, 81, 85, 89, 92],
+        topPrograms: [
+          {
+            name: 'Permanent Supportive Housing',
+            peopleReached: 22000,
+            socialROI: 9.52,
+            impactGrade: ImpactGrade.APlus
+          },
+          {
+            name: 'Rapid Rehousing',
+            peopleReached: 14000,
+            socialROI: 6.81,
+            impactGrade: ImpactGrade.A
+          },
+          {
+            name: 'Homelessness Prevention',
+            peopleReached: 9000,
+            socialROI: 5.44,
+            impactGrade: ImpactGrade.AMinus
+          }
+        ]
+      },
+      {
+        id: 3,
+        name: 'Youth STEM Foundation',
+        logo: undefined,
+        mission: 'Youth STEM Foundation is dedicated to inspiring and preparing the next generation of Canadian innovators through accessible, engaging, and inclusive STEM education programs for underrepresented youth.',
+        sector: 'Education',
+        region: 'Quebec',
+        established: 2011,
+        impactScore: 88,
+        impactGrade: ImpactGrade.AMinus,
+        verificationType: VerificationType.Verified,
+        yearlyChange: -1.2,
+        sdgAlignment: [
+          'SDG 4: Quality Education',
+          'SDG 5: Gender Equality',
+          'SDG 10: Reduced Inequalities'
+        ],
+        metrics: {
+          reportingQuality: 16,
+          reach: 18,
+          socialROI: 17,
+          outcomeEffectiveness: 19,
+          transparencyGovernance: 18
+        },
+        stats: {
+          peopleReached: '78,000 annually',
+          socialROI: 5.93,
+          programs: 12,
+          funding: '$12.8M',
+          programAllocation: 82
+        },
+        yearlyTrend: [82, 86, 90, 89, 88],
+        topPrograms: [
+          {
+            name: 'Girls in STEM',
+            peopleReached: 32000,
+            socialROI: 7.25,
+            impactGrade: ImpactGrade.A
+          },
+          {
+            name: 'Coding Bootcamps',
+            peopleReached: 28000,
+            socialROI: 5.12,
+            impactGrade: ImpactGrade.AMinus
+          },
+          {
+            name: 'Science Center Outreach',
+            peopleReached: 18000,
+            socialROI: 4.56,
+            impactGrade: ImpactGrade.BPlus
+          }
+        ]
+      }
+    ];
   }
   
   // Solution operations

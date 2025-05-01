@@ -2,6 +2,7 @@ import React from 'react';
 import HeroSection from './components/HeroSection';
 import LeaderboardSection from './components/LeaderboardSection';
 import OrganizationProfileSection from './components/OrganizationProfileSection';
+import SuccessStoriesSection from './components/SuccessStoriesSection';
 import SolutionFinderSection from './components/SolutionFinderSection';
 import CTASection from './components/CTASection';
 import { useQuery } from '@tanstack/react-query';
@@ -25,6 +26,7 @@ const Home = () => {
       <HeroSection stats={statistics || statsPlaceholder} loading={statsLoading} />
       <LeaderboardSection />
       <OrganizationProfileSection />
+      <SuccessStoriesSection />
       <SolutionFinderSection />
       <CTASection />
     </>
