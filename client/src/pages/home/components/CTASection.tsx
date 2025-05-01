@@ -63,7 +63,7 @@ const CTASection = () => {
                     <span className="material-icons">business</span>
                   </div>
                   <div className="ml-3">
-                    <p className="font-medium">{t('cta.portal')}</p>
+                    <p className="font-medium text-white">{t('cta.portal')}</p>
                     <p className="text-xs text-white">{t('cta.portalSubtitle')}</p>
                   </div>
                 </div>
@@ -75,28 +75,28 @@ const CTASection = () => {
               <div className="space-y-3">
                 <div className="bg-white bg-opacity-10 p-3 rounded-md">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm font-medium">{t('cta.uploadReport')}</span>
+                    <span className="text-sm font-medium text-white">{t('cta.uploadReport')}</span>
                     <span className="material-icons text-white">upload_file</span>
                   </div>
                 </div>
                 
                 <div className="bg-white bg-opacity-10 p-3 rounded-md">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm font-medium">{t('cta.updateMetrics')}</span>
+                    <span className="text-sm font-medium text-white">{t('cta.updateMetrics')}</span>
                     <span className="material-icons text-white">analytics</span>
                   </div>
                 </div>
                 
                 <div className="bg-white bg-opacity-10 p-3 rounded-md">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm font-medium">{t('cta.managePrograms')}</span>
+                    <span className="text-sm font-medium text-white">{t('cta.managePrograms')}</span>
                     <span className="material-icons text-white">folder_open</span>
                   </div>
                 </div>
                 
                 <div className="bg-white bg-opacity-10 p-3 rounded-md">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm font-medium">{t('cta.requestVerification')}</span>
+                    <span className="text-sm font-medium text-white">{t('cta.requestVerification')}</span>
                     <span className="material-icons text-white">verified</span>
                   </div>
                 </div>

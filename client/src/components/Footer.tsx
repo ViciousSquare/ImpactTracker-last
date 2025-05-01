@@ -63,7 +63,7 @@ const Footer = () => {
               {platformLinks.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href}>
-                    <a className="text-neutral-400 hover:text-white text-sm">{link.name}</a>
+                    <span className="text-neutral-400 hover:text-white text-sm cursor-pointer">{link.name}</span>
                   </Link>
                 </li>
               ))}
@@ -77,7 +77,7 @@ const Footer = () => {
               {organizationLinks.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href}>
-                    <a className="text-neutral-400 hover:text-white text-sm">{link.name}</a>
+                    <span className="text-neutral-400 hover:text-white text-sm cursor-pointer">{link.name}</span>
                   </Link>
                 </li>
               ))}
@@ -91,7 +91,7 @@ const Footer = () => {
               {aboutLinks.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href}>
-                    <a className="text-neutral-400 hover:text-white text-sm">{link.name}</a>
+                    <span className="text-neutral-400 hover:text-white text-sm cursor-pointer">{link.name}</span>
                   </Link>
                 </li>
               ))}
@@ -102,11 +102,17 @@ const Footer = () => {
         {/* Bottom section */}
         <div className="mt-8 pt-8 border-t border-neutral-800 flex flex-col md:flex-row justify-between items-center">
           <div className="flex flex-col md:flex-row md:items-center mb-4 md:mb-0">
-            <a href="#" className="text-neutral-400 hover:text-white text-sm">{t('footer.termsOfService')}</a>
-            <span className="hidden md:inline mx-2">•</span>
-            <a href="#" className="text-neutral-400 hover:text-white text-sm">{t('footer.privacyPolicy')}</a>
-            <span className="hidden md:inline mx-2">•</span>
-            <a href="#" className="text-neutral-400 hover:text-white text-sm">{t('footer.cookiePolicy')}</a>
+            <Link href="/terms">
+              <span className="text-neutral-400 hover:text-white text-sm cursor-pointer">{t('footer.termsOfService')}</span>
+            </Link>
+            <span className="hidden md:inline mx-2 text-neutral-600">•</span>
+            <Link href="/privacy">
+              <span className="text-neutral-400 hover:text-white text-sm cursor-pointer">{t('footer.privacyPolicy')}</span>
+            </Link>
+            <span className="hidden md:inline mx-2 text-neutral-600">•</span>
+            <Link href="/cookies">
+              <span className="text-neutral-400 hover:text-white text-sm cursor-pointer">{t('footer.cookiePolicy')}</span>
+            </Link>
           </div>
           
           <div className="flex items-center">
