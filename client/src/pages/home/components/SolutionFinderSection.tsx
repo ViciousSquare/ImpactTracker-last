@@ -6,7 +6,9 @@ import {
   SolutionItem, 
   SolutionSearchValues, 
   solutionSearchSchema,
+  SECTOR_OPTIONS,
   REGION_OPTIONS,
+  BUSINESS_TYPE_OPTIONS,
   SDG_OPTIONS,
   DEMOGRAPHIC_OPTIONS
 } from '@/lib/types';
@@ -27,7 +29,9 @@ const SolutionFinderSection = () => {
   const { t } = useLanguage();
   const [searchValues, setSearchValues] = useState<SolutionSearchValues>({
     query: '',
+    sector: 'all',
     region: 'all',
+    businessType: 'all',
     sdg: 'all',
     demographic: 'all',
   });

@@ -88,6 +88,13 @@ export interface LeaderboardItem {
   verificationType: VerificationType;
 }
 
+export type BusinessType = 
+  | "Non-Profit" 
+  | "Corporate" 
+  | "Government" 
+  | "Academic" 
+  | "Social Enterprise";
+
 // Interface for Solution Finder items
 export interface SolutionItem {
   id: number;
@@ -95,6 +102,8 @@ export interface SolutionItem {
   organizationName: string;
   icon: string;
   sector: Sector;
+  businessType: BusinessType;
+  region: Region;
   description: string;
   peopleReached: number;
   socialROI: number;
@@ -167,7 +176,9 @@ export type SearchFormValues = z.infer<typeof searchFormSchema>;
 
 export const solutionSearchSchema = z.object({
   query: z.string().optional(),
+  sector: z.string().optional(),
   region: z.string().optional(),
+  businessType: z.string().optional(),
   sdg: z.string().optional(),
   demographic: z.string().optional(),
 });
@@ -231,4 +242,13 @@ export const DEMOGRAPHIC_OPTIONS = [
   { value: "Persons with Disabilities", label: "Persons with Disabilities" },
   { value: "Low Income", label: "Low Income" },
   { value: "Rural Communities", label: "Rural Communities" },
+];
+
+export const BUSINESS_TYPE_OPTIONS = [
+  { value: "all", label: "All Business Types" },
+  { value: "Non-Profit", label: "Non-Profit" },
+  { value: "Corporate", label: "Corporate" },
+  { value: "Government", label: "Government" },
+  { value: "Academic", label: "Academic" },
+  { value: "Social Enterprise", label: "Social Enterprise" }
 ];
