@@ -560,47 +560,313 @@ export class MemStorage implements IStorage {
         region: 'Atlantic',
         established: 2009,
         impactScore: 85,
-        impactGrade: ImpactGrade.A,
+        impactGrade: ImpactGrade.AMinus,
         verificationType: VerificationType.Verified,
-        yearlyChange: 4.7,
+        yearlyChange: 4.8,
         sdgAlignment: [
           'SDG 8: Decent Work and Economic Growth',
           'SDG 9: Industry, Innovation and Infrastructure',
+          'SDG 10: Reduced Inequalities'
+        ],
+        metrics: {
+          reportingQuality: 17,
+          reach: 16,
+          socialROI: 17,
+          outcomeEffectiveness: 17,
+          transparencyGovernance: 18
+        },
+        stats: {
+          peopleReached: '72,000 annually',
+          socialROI: 7.45,
+          programs: 6,
+          funding: '$12.8M',
+          programAllocation: 82
+        },
+        yearlyTrend: [74, 77, 80, 83, 85],
+        topPrograms: [
+          {
+            name: 'Small Business Development',
+            peopleReached: 32000,
+            socialROI: 8.15,
+            impactGrade: ImpactGrade.A
+          },
+          {
+            name: 'Skills Training Initiative',
+            peopleReached: 25000,
+            socialROI: 7.35,
+            impactGrade: ImpactGrade.AMinus
+          },
+          {
+            name: 'Infrastructure Investment',
+            peopleReached: 15000,
+            socialROI: 6.85,
+            impactGrade: ImpactGrade.BMinus
+          }
+        ]
+      },
+      {
+        id: 12,
+        name: 'Arts & Heritage Foundation',
+        logo: undefined,
+        mission: 'Arts & Heritage Foundation preserves and promotes Canada\'s cultural heritage through community arts programming, cultural preservation initiatives, and inclusive artistic education.',
+        sector: 'Arts & Culture',
+        region: 'Quebec',
+        established: 2004,
+        impactScore: 83,
+        impactGrade: ImpactGrade.A,
+        verificationType: VerificationType.Verified,
+        yearlyChange: 2.5,
+        sdgAlignment: [
+          'SDG 4: Quality Education',
+          'SDG 10: Reduced Inequalities',
           'SDG 11: Sustainable Cities and Communities'
         ],
         metrics: {
           reportingQuality: 16,
           reach: 17,
           socialROI: 17,
-          outcomeEffectiveness: 18,
+          outcomeEffectiveness: 16,
           transparencyGovernance: 17
         },
         stats: {
-          peopleReached: '48,000 annually',
-          socialROI: 7.65,
+          peopleReached: '190,000 annually',
+          socialROI: 6.85,
           programs: 9,
-          funding: '$11.8M',
-          programAllocation: 82
+          funding: '$13.5M',
+          programAllocation: 81
         },
-        yearlyTrend: [73, 77, 81, 83, 85],
+        yearlyTrend: [75, 78, 80, 82, 83],
         topPrograms: [
           {
-            name: 'Small Business Development',
-            peopleReached: 22000,
-            socialROI: 8.25,
+            name: 'Community Arts Access',
+            peopleReached: 85000,
+            socialROI: 7.25,
             impactGrade: ImpactGrade.A
           },
           {
-            name: 'Workforce Skills Training',
-            peopleReached: 15000,
-            socialROI: 7.45,
+            name: 'Cultural Heritage Preservation',
+            peopleReached: 65000,
+            socialROI: 6.75,
             impactGrade: ImpactGrade.AMinus
           },
           {
-            name: 'Community Infrastructure Projects',
-            peopleReached: 11000,
+            name: 'Arts Education for Youth',
+            peopleReached: 40000,
+            socialROI: 6.45,
+            impactGrade: ImpactGrade.B
+          }
+        ]
+      },
+      {
+        id: 13,
+        name: 'Indigenous Community Alliance',
+        logo: undefined,
+        mission: 'Indigenous Community Alliance strengthens Indigenous communities through cultural revitalization, economic sovereignty initiatives, and land-based education programs.',
+        sector: 'Social Services',
+        region: 'British Columbia',
+        established: 2006,
+        impactScore: 89,
+        impactGrade: ImpactGrade.A,
+        verificationType: VerificationType.Audited,
+        yearlyChange: 5.6,
+        sdgAlignment: [
+          'SDG 4: Quality Education',
+          'SDG 10: Reduced Inequalities',
+          'SDG 15: Life on Land',
+          'SDG 16: Peace, Justice and Strong Institutions'
+        ],
+        metrics: {
+          reportingQuality: 18,
+          reach: 18,
+          socialROI: 17,
+          outcomeEffectiveness: 18,
+          transparencyGovernance: 18
+        },
+        stats: {
+          peopleReached: '35,000 annually',
+          socialROI: 8.65,
+          programs: 8,
+          funding: '$15.2M',
+          programAllocation: 86
+        },
+        yearlyTrend: [76, 80, 84, 87, 89],
+        topPrograms: [
+          {
+            name: 'Cultural Revitalization',
+            peopleReached: 16000,
+            socialROI: 9.15,
+            impactGrade: ImpactGrade.A
+          },
+          {
+            name: 'Economic Sovereignty',
+            peopleReached: 12000,
+            socialROI: 8.45,
+            impactGrade: ImpactGrade.A
+          },
+          {
+            name: 'Land-Based Education',
+            peopleReached: 7000,
+            socialROI: 8.25,
+            impactGrade: ImpactGrade.AMinus
+          }
+        ]
+      },
+      {
+        id: 14,
+        name: 'Youth Mental Health Collective',
+        logo: undefined,
+        mission: 'Youth Mental Health Collective promotes mental wellness among young Canadians through peer support networks, digital wellness resources, and mental health education in schools.',
+        sector: 'Health & Wellbeing',
+        region: 'Ontario',
+        established: 2010,
+        impactScore: 86,
+        impactGrade: ImpactGrade.A,
+        verificationType: VerificationType.Verified,
+        yearlyChange: 6.2,
+        sdgAlignment: [
+          'SDG 3: Good Health',
+          'SDG 4: Quality Education',
+          'SDG 10: Reduced Inequalities'
+        ],
+        metrics: {
+          reportingQuality: 17,
+          reach: 18,
+          socialROI: 17,
+          outcomeEffectiveness: 17,
+          transparencyGovernance: 17
+        },
+        stats: {
+          peopleReached: '225,000 annually',
+          socialROI: 7.95,
+          programs: 7,
+          funding: '$16.8M',
+          programAllocation: 83
+        },
+        yearlyTrend: [72, 76, 79, 82, 86],
+        topPrograms: [
+          {
+            name: 'Peer Support Networks',
+            peopleReached: 95000,
+            socialROI: 8.35,
+            impactGrade: ImpactGrade.A
+          },
+          {
+            name: 'Digital Wellness Platform',
+            peopleReached: 75000,
+            socialROI: 7.85,
+            impactGrade: ImpactGrade.AMinus
+          },
+          {
+            name: 'School Mental Health Program',
+            peopleReached: 55000,
+            socialROI: 7.65,
+            impactGrade: ImpactGrade.B
+          }
+        ]
+      },
+      {
+        id: 15,
+        name: 'Rural Food Security Initiative',
+        logo: undefined,
+        mission: 'Rural Food Security Initiative improves access to nutritious food in rural and remote communities through local food systems development, nutrition education, and food distribution networks.',
+        sector: 'Food Security',
+        region: 'Prairies',
+        established: 2008,
+        impactScore: 84,
+        impactGrade: ImpactGrade.AMinus,
+        verificationType: VerificationType.Verified,
+        yearlyChange: 3.7,
+        sdgAlignment: [
+          'SDG 2: Zero Hunger',
+          'SDG 3: Good Health',
+          'SDG 12: Responsible Consumption'
+        ],
+        metrics: {
+          reportingQuality: 16,
+          reach: 17,
+          socialROI: 17,
+          outcomeEffectiveness: 17,
+          transparencyGovernance: 17
+        },
+        stats: {
+          peopleReached: '85,000 annually',
+          socialROI: 7.35,
+          programs: 6,
+          funding: '$11.2M',
+          programAllocation: 84
+        },
+        yearlyTrend: [74, 77, 80, 82, 84],
+        topPrograms: [
+          {
+            name: 'Local Food Systems Development',
+            peopleReached: 38000,
+            socialROI: 8.05,
+            impactGrade: ImpactGrade.A
+          },
+          {
+            name: 'Nutrition Education',
+            peopleReached: 26000,
             socialROI: 7.15,
             impactGrade: ImpactGrade.AMinus
+          },
+          {
+            name: 'Rural Food Distribution Network',
+            peopleReached: 21000,
+            socialROI: 6.85,
+            impactGrade: ImpactGrade.B
+          }
+        ]
+      },
+      {
+        id: 16,
+        name: 'Northern Conservation Network',
+        logo: undefined,
+        mission: 'Northern Conservation Network protects Canada\'s northern ecosystems through community-based conservation, climate adaptation strategies, and sustainable resource management.',
+        sector: 'Environment',
+        region: 'Northern',
+        established: 2007,
+        impactScore: 82,
+        impactGrade: ImpactGrade.A,
+        verificationType: VerificationType.Verified,
+        yearlyChange: 4.2,
+        sdgAlignment: [
+          'SDG 13: Climate Action',
+          'SDG 14: Life Below Water',
+          'SDG 15: Life on Land'
+        ],
+        metrics: {
+          reportingQuality: 16,
+          reach: 16,
+          socialROI: 17,
+          outcomeEffectiveness: 16,
+          transparencyGovernance: 17
+        },
+        stats: {
+          peopleReached: '28,000 annually',
+          socialROI: 8.15,
+          programs: 5,
+          funding: '$10.5M',
+          programAllocation: 85
+        },
+        yearlyTrend: [71, 74, 77, 80, 82],
+        topPrograms: [
+          {
+            name: 'Community-Based Conservation',
+            peopleReached: 12000,
+            socialROI: 8.45,
+            impactGrade: ImpactGrade.A
+          },
+          {
+            name: 'Climate Adaptation Strategies',
+            peopleReached: 9000,
+            socialROI: 8.15,
+            impactGrade: ImpactGrade.AMinus
+          },
+          {
+            name: 'Sustainable Resource Management',
+            peopleReached: 7000,
+            socialROI: 7.85,
+            impactGrade: ImpactGrade.B
           }
         ]
       }
