@@ -245,7 +245,7 @@ const LeaderboardSection = () => {
               className="w-full"
             >
               {/* Removed arrow buttons in favor of side scrolling */}
-              <CarouselContent ref={carouselRef} className="cursor-grab overflow-visible">
+              <CarouselContent className="cursor-grab overflow-visible" ref={carouselRef}>
                 {SECTOR_OPTIONS.filter(s => s.value !== 'all').map((sectorOption) => (
                   <CarouselItem key={sectorOption.value} className="sm:basis-1/2 md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
                     <div className="bg-white rounded-lg shadow-sm border border-neutral-200 overflow-hidden h-full flex flex-col">

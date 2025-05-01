@@ -154,7 +154,7 @@ const SuccessStoriesSection = () => {
             className="w-full"
           >
             {/* Removed arrow buttons in favor of side scrolling */}
-            <CarouselContent ref={carouselRef} className="cursor-grab overflow-visible">
+            <CarouselContent className="cursor-grab overflow-visible" ref={carouselRef}>
               {successStories.map((story, index) => (
                 <CarouselItem key={story.id} className="sm:basis-full md:basis-1/2 lg:basis-1/2 xl:basis-1/3 p-2">
                   <Card 

@@ -338,7 +338,7 @@ const SolutionFinderSection = () => {
             className="w-full"
           >
             {/* Removed arrow buttons in favor of side scrolling */}
-            <CarouselContent ref={carouselRef} className="cursor-grab overflow-visible">
+            <CarouselContent className="cursor-grab overflow-visible" ref={carouselRef}>
               {isLoading ? (
                 Array(3).fill(0).map((_, i) => (
                   <CarouselItem key={i} className="pl-4 md:basis-1/2 lg:basis-1/3">
