@@ -263,42 +263,37 @@ const SuccessStoriesSection = () => {
                   {/* Impact IQ Breakdown */}
                   <div className="bg-neutral-50 p-4 rounded-lg border border-neutral-200">
                     <h4 className="font-medium text-neutral-900 mb-3">
-                      <MetricTooltip metric="impactScore">{t('org.impactBreakdown')}</MetricTooltip>
+                      <MetricTooltip metric="impactBreakdown">{t('org.impactBreakdown')}</MetricTooltip>
                     </h4>
                     <div className="space-y-3">
                       <ProgressWithLabel
                         label={t('org.metrics.reportingQuality')}
                         value={activeStory.metrics.reportingQuality}
                         max={20}
-                        metric="reportingQuality"
                       />
                       
                       <ProgressWithLabel
                         label={t('org.metrics.reach')}
                         value={activeStory.metrics.reach}
                         max={20}
-                        metric="reach"
                       />
                       
                       <ProgressWithLabel
                         label={t('org.metrics.socialROI')}
                         value={activeStory.metrics.socialROI}
                         max={20}
-                        metric="socialROI"
                       />
                       
                       <ProgressWithLabel
                         label={t('org.metrics.outcomeEffectiveness')}
                         value={activeStory.metrics.outcomeEffectiveness}
                         max={20}
-                        metric="outcomeEffectiveness"
                       />
                       
                       <ProgressWithLabel
                         label={t('org.metrics.transparencyGovernance')}
                         value={activeStory.metrics.transparencyGovernance}
                         max={20}
-                        metric="transparencyGovernance"
                       />
                     </div>
                   </div>
