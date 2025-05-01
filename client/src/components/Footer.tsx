@@ -29,41 +29,52 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-black text-neutral-400 py-8 md:py-12">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="relative text-neutral-200 py-12 md:py-16 overflow-hidden">
+      {/* Gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-indigo-950 to-slate-950 z-0"></div>
+      
+      {/* Decorative gradient lines */}
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-50"></div>
+      <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-indigo-900/20 rounded-full blur-3xl"></div>
+      <div className="absolute -top-20 -right-20 w-60 h-60 bg-purple-900/20 rounded-full blur-3xl"></div>
+      
+      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 lg:gap-12">
           {/* Brand section */}
           <div>
-            <div className="flex items-center mb-4">
-              <div className="w-8 h-8 rounded-full bg-primary-500 flex items-center justify-center text-white">
+            <div className="flex items-center mb-5">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center text-white shadow-lg">
                 <span className="material-icons text-sm">bar_chart</span>
               </div>
-              <h2 className="ml-2 text-xl font-semibold text-white">Basic<span className="text-primary-500">Impacts</span></h2>
+              <h2 className="ml-3 text-xl font-semibold text-white">Basic<span className="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">Impacts</span></h2>
             </div>
-            <p className="text-sm mb-4">
+            <p className="text-indigo-100/80 mb-6 leading-relaxed">
               {t('footer.tagline')}
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-neutral-400 hover:text-white">
-                <span className="material-icons">facebook</span>
+              <a href="#" className="h-8 w-8 rounded-full bg-indigo-900/50 hover:bg-indigo-800 flex items-center justify-center text-indigo-200 hover:text-white transition-colors duration-200">
+                <span className="material-icons text-sm">facebook</span>
               </a>
-              <a href="#" className="text-neutral-400 hover:text-white">
-                <span className="material-icons">twitter</span>
+              <a href="#" className="h-8 w-8 rounded-full bg-indigo-900/50 hover:bg-indigo-800 flex items-center justify-center text-indigo-200 hover:text-white transition-colors duration-200">
+                <span className="material-icons text-sm">twitter</span>
               </a>
-              <a href="#" className="text-neutral-400 hover:text-white">
-                <span className="material-icons">linkedin</span>
+              <a href="#" className="h-8 w-8 rounded-full bg-indigo-900/50 hover:bg-indigo-800 flex items-center justify-center text-indigo-200 hover:text-white transition-colors duration-200">
+                <span className="material-icons text-sm">linkedin</span>
               </a>
             </div>
           </div>
           
           {/* Platform links */}
           <div>
-            <h3 className="text-white font-medium mb-4">{t('footer.platform')}</h3>
-            <ul className="space-y-2">
+            <h3 className="text-white font-medium mb-5 text-lg">{t('footer.platform')}</h3>
+            <ul className="space-y-3">
               {platformLinks.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href}>
-                    <span className="text-neutral-400 hover:text-white text-sm cursor-pointer">{link.name}</span>
+                    <span className="text-indigo-200/80 hover:text-white text-sm cursor-pointer transition-colors duration-200 flex items-center">
+                      <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full mr-2"></span>
+                      {link.name}
+                    </span>
                   </Link>
                 </li>
               ))}
@@ -72,12 +83,15 @@ const Footer = () => {
           
           {/* For Organizations links */}
           <div>
-            <h3 className="text-white font-medium mb-4">{t('footer.forOrganizations')}</h3>
-            <ul className="space-y-2">
+            <h3 className="text-white font-medium mb-5 text-lg">{t('footer.forOrganizations')}</h3>
+            <ul className="space-y-3">
               {organizationLinks.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href}>
-                    <span className="text-neutral-400 hover:text-white text-sm cursor-pointer">{link.name}</span>
+                    <span className="text-indigo-200/80 hover:text-white text-sm cursor-pointer transition-colors duration-200 flex items-center">
+                      <span className="w-1.5 h-1.5 bg-purple-500 rounded-full mr-2"></span>
+                      {link.name}
+                    </span>
                   </Link>
                 </li>
               ))}
@@ -86,12 +100,15 @@ const Footer = () => {
           
           {/* About links */}
           <div>
-            <h3 className="text-white font-medium mb-4">{t('footer.about')}</h3>
-            <ul className="space-y-2">
+            <h3 className="text-white font-medium mb-5 text-lg">{t('footer.about')}</h3>
+            <ul className="space-y-3">
               {aboutLinks.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href}>
-                    <span className="text-neutral-400 hover:text-white text-sm cursor-pointer">{link.name}</span>
+                    <span className="text-indigo-200/80 hover:text-white text-sm cursor-pointer transition-colors duration-200 flex items-center">
+                      <span className="w-1.5 h-1.5 bg-pink-500 rounded-full mr-2"></span>
+                      {link.name}
+                    </span>
                   </Link>
                 </li>
               ))}
@@ -100,34 +117,34 @@ const Footer = () => {
         </div>
         
         {/* Bottom section */}
-        <div className="mt-8 pt-8 border-t border-neutral-800 flex flex-col md:flex-row justify-between items-center">
-          <div className="flex flex-col md:flex-row md:items-center mb-4 md:mb-0">
+        <div className="mt-12 pt-8 border-t border-indigo-900/50 flex flex-col md:flex-row justify-between items-center">
+          <div className="flex flex-col md:flex-row md:items-center mb-6 md:mb-0 space-y-2 md:space-y-0">
             <Link href="/terms">
-              <span className="text-neutral-400 hover:text-white text-sm cursor-pointer">{t('footer.termsOfService')}</span>
+              <span className="text-indigo-200/70 hover:text-white text-sm cursor-pointer transition-colors duration-200">{t('footer.termsOfService')}</span>
             </Link>
-            <span className="hidden md:inline mx-2 text-neutral-600">•</span>
+            <span className="hidden md:inline mx-2 text-indigo-800/80">•</span>
             <Link href="/privacy">
-              <span className="text-neutral-400 hover:text-white text-sm cursor-pointer">{t('footer.privacyPolicy')}</span>
+              <span className="text-indigo-200/70 hover:text-white text-sm cursor-pointer transition-colors duration-200">{t('footer.privacyPolicy')}</span>
             </Link>
-            <span className="hidden md:inline mx-2 text-neutral-600">•</span>
+            <span className="hidden md:inline mx-2 text-indigo-800/80">•</span>
             <Link href="/cookies">
-              <span className="text-neutral-400 hover:text-white text-sm cursor-pointer">{t('footer.cookiePolicy')}</span>
+              <span className="text-indigo-200/70 hover:text-white text-sm cursor-pointer transition-colors duration-200">{t('footer.cookiePolicy')}</span>
             </Link>
           </div>
           
           <div className="flex items-center">
-            <div className="mr-4 flex items-center text-neutral-500 text-sm">
+            <div className="mr-6 flex items-center text-indigo-200/70 text-sm">
               <span className="material-icons text-xs mr-1">language</span>
               <select 
-                className="bg-transparent border-none text-neutral-400 focus:ring-0"
+                className="bg-transparent border-none text-indigo-200/70 focus:text-white focus:ring-0 cursor-pointer"
                 value={language}
                 onChange={(e) => setLanguage(e.target.value as 'en' | 'fr')}
               >
-                <option value="en">English</option>
-                <option value="fr">Français</option>
+                <option className="bg-indigo-950 text-white" value="en">English</option>
+                <option className="bg-indigo-950 text-white" value="fr">Français</option>
               </select>
             </div>
-            <p className="text-sm text-neutral-500">{t('footer.copyright')}</p>
+            <p className="text-sm text-indigo-200/60">{t('footer.copyright')}</p>
           </div>
         </div>
       </div>

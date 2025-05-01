@@ -64,103 +64,117 @@ const AboutPage = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-b from-black to-primary-950 text-white py-20 px-4">
-        <div className="container mx-auto max-w-5xl">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary-200 to-primary-100 bg-clip-text text-transparent">
+      <section className="relative overflow-hidden text-white py-20 px-4">
+        {/* Vibrant gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-indigo-900 via-purple-900 to-violet-900 z-0"></div>
+        
+        {/* Decorative elements */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500 opacity-10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-purple-500 opacity-10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+        
+        <div className="container relative z-10 mx-auto max-w-5xl">
+          <div className="text-center mb-16">
+            <div className="inline-block px-4 py-1 bg-white/10 backdrop-blur-sm rounded-full mb-6">
+              <span className="text-white/90 text-sm">Understanding Our Mission</span>
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white via-indigo-200 to-purple-200 bg-clip-text text-transparent">
               Why Basic Impacts Exists
             </h1>
-            <p className="text-xl max-w-3xl mx-auto text-gray-300">
+            <p className="text-xl max-w-3xl mx-auto text-indigo-100 leading-relaxed">
               We're building a future where social impact is transparent, measurable, and accountable —
               addressing the critical gaps in Canada's social sector.
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16">
-            <div className="bg-black/30 backdrop-blur-sm rounded-xl p-8 border border-gray-800">
-              <h2 className="text-2xl font-bold mb-4 text-primary-200 flex items-center">
-                <Target className="mr-2 h-6 w-6" />
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8 border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300">
+              <h2 className="text-2xl font-bold mb-4 bg-gradient-to-r from-rose-200 to-rose-300 bg-clip-text text-transparent flex items-center">
+                <div className="p-2 rounded-lg bg-rose-500/20 mr-3">
+                  <Target className="h-6 w-6 text-rose-200" />
+                </div>
                 The Problem
               </h2>
-              <p className="mb-6 text-gray-300">
+              <p className="mb-6 text-white/80 leading-relaxed">
                 Canada's social sector lacks standardized impact measurement, leading to inefficient resource allocation, 
                 duplicated efforts, and an inability to identify truly effective approaches to our most pressing social challenges.
               </p>
               <ul className="space-y-4">
                 <li className="flex">
-                  <div className="mr-4 text-red-400 mt-1">
+                  <div className="mr-4 text-rose-300 mt-1">
                     <ChevronRight size={18} />
                   </div>
-                  <p className="text-gray-300">
+                  <p className="text-white/80">
                     <span className="text-white font-medium">Funding decisions</span> are made without adequate impact data
                   </p>
                 </li>
                 <li className="flex">
-                  <div className="mr-4 text-red-400 mt-1">
+                  <div className="mr-4 text-rose-300 mt-1">
                     <ChevronRight size={18} />
                   </div>
-                  <p className="text-gray-300">
+                  <p className="text-white/80">
                     <span className="text-white font-medium">Organizations struggle</span> to demonstrate their effectiveness
                   </p>
                 </li>
                 <li className="flex">
-                  <div className="mr-4 text-red-400 mt-1">
+                  <div className="mr-4 text-rose-300 mt-1">
                     <ChevronRight size={18} />
                   </div>
-                  <p className="text-gray-300">
+                  <p className="text-white/80">
                     <span className="text-white font-medium">Billions wasted</span> on programs without proven outcomes
                   </p>
                 </li>
                 <li className="flex">
-                  <div className="mr-4 text-red-400 mt-1">
+                  <div className="mr-4 text-rose-300 mt-1">
                     <ChevronRight size={18} />
                   </div>
-                  <p className="text-gray-300">
+                  <p className="text-white/80">
                     <span className="text-white font-medium">No standardized metrics</span> to compare program effectiveness
                   </p>
                 </li>
               </ul>
             </div>
             
-            <div className="bg-black/30 backdrop-blur-sm rounded-xl p-8 border border-gray-800">
-              <h2 className="text-2xl font-bold mb-4 text-primary-200 flex items-center">
-                <Award className="mr-2 h-6 w-6" />
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8 border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300">
+              <h2 className="text-2xl font-bold mb-4 bg-gradient-to-r from-emerald-200 to-emerald-300 bg-clip-text text-transparent flex items-center">
+                <div className="p-2 rounded-lg bg-emerald-500/20 mr-3">
+                  <Award className="h-6 w-6 text-emerald-200" />
+                </div>
                 Our Solution
               </h2>
-              <p className="mb-6 text-gray-300">
+              <p className="mb-6 text-white/80 leading-relaxed">
                 Basic Impacts provides a comprehensive platform that standardizes impact measurement, 
                 creates transparency, and enables data-driven decision making across the social sector.
               </p>
               <ul className="space-y-4">
                 <li className="flex">
-                  <div className="mr-4 text-green-400 mt-1">
+                  <div className="mr-4 text-emerald-300 mt-1">
                     <BadgeCheck size={18} />
                   </div>
-                  <p className="text-gray-300">
+                  <p className="text-white/80">
                     <span className="text-white font-medium">Standardized metrics</span> across sectors and programs
                   </p>
                 </li>
                 <li className="flex">
-                  <div className="mr-4 text-green-400 mt-1">
+                  <div className="mr-4 text-emerald-300 mt-1">
                     <BadgeCheck size={18} />
                   </div>
-                  <p className="text-gray-300">
+                  <p className="text-white/80">
                     <span className="text-white font-medium">Evidence-based evaluation</span> of program effectiveness
                   </p>
                 </li>
                 <li className="flex">
-                  <div className="mr-4 text-green-400 mt-1">
+                  <div className="mr-4 text-emerald-300 mt-1">
                     <BadgeCheck size={18} />
                   </div>
-                  <p className="text-gray-300">
+                  <p className="text-white/80">
                     <span className="text-white font-medium">Data visualization</span> making impact transparent and accessible
                   </p>
                 </li>
                 <li className="flex">
-                  <div className="mr-4 text-green-400 mt-1">
+                  <div className="mr-4 text-emerald-300 mt-1">
                     <BadgeCheck size={18} />
                   </div>
-                  <p className="text-gray-300">
+                  <p className="text-white/80">
                     <span className="text-white font-medium">Accountability framework</span> that rewards proven results
                   </p>
                 </li>

@@ -36,30 +36,58 @@ const HeroSection = ({ stats, loading }: HeroSectionProps) => {
   };
 
   return (
-    <section className="bg-black text-white py-8 md:py-12">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative overflow-hidden text-white py-12 md:py-16">
+      {/* Vibrant gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-indigo-800 via-purple-700 to-fuchsia-700 z-0"></div>
+      
+      {/* Decorative pattern overlay */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMiI+PHBhdGggZD0iTTM2IDM0djZoNnYtNmgtNnptMCAwdi02aC02djZoNnptNiAwaDZ2LTZoLTZ2NnptLTEyIDBoLTZ2Nmg2di02eiIvPjwvZz48L2c+PC9zdmc+Cg==')]
+        opacity-20 z-0"></div>
+      
+      <div className="container relative mx-auto px-4 sm:px-6 lg:px-8 z-10">
         <div className="flex flex-col md:flex-row items-center justify-between">
-          <div className="mb-6 md:mb-0 md:w-1/2">
-            <h2 className="text-2xl md:text-3xl font-bold mb-2 text-white">{t('hero.title')}</h2>
-            <p className="text-white text-lg mb-4">{t('hero.subtitle')}</p>
-            <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-4">
-              <div className="relative">
+          <div className="mb-8 md:mb-0 md:w-1/2">
+            <div className="inline-block px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm mb-4">
+              <span className="text-xs font-medium text-white">{t('common.preview')} • Basic Impacts Platform</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold mb-3 bg-gradient-to-r from-white via-white to-purple-100 bg-clip-text text-transparent">
+              {t('hero.title')}
+            </h2>
+            <p className="text-indigo-100 text-lg mb-6 max-w-xl leading-relaxed">
+              {t('hero.subtitle')}
+            </p>
+            <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-4 mb-4">
+              <div className="relative flex-1">
                 <span className="material-icons absolute left-3 top-3 text-neutral-500">search</span>
                 <Input 
                   type="text" 
                   placeholder={t('hero.search')}
-                  className="pl-10 pr-4 py-3 rounded-md w-full text-neutral-800 focus:ring-2 focus:ring-white"
+                  className="pl-10 pr-4 py-3 rounded-xl w-full text-neutral-800 focus:ring-2 focus:ring-purple-300 border-0 shadow-lg"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
-              <Button type="submit" className="bg-[#FF7D00] hover:bg-[#E56F00] text-white font-medium py-3 px-6 rounded-md whitespace-nowrap">
+              <Button 
+                type="submit" 
+                className="btn-gradient btn-gradient-accent rounded-xl px-6 py-3 font-medium text-base"
+              >
                 {t('hero.cta')}
               </Button>
             </form>
+            <div className="flex gap-3 mt-3">
+              <span className="text-white/70 text-xs flex items-center">
+                <span className="h-1.5 w-1.5 rounded-full bg-indigo-300 inline-block mr-1"></span>
+                Trusted by 2400+ organizations
+              </span>
+              <span className="text-white/70 text-xs flex items-center">
+                <span className="h-1.5 w-1.5 rounded-full bg-purple-300 inline-block mr-1"></span>
+                100% transparent
+              </span>
+            </div>
           </div>
+          
           <div className="md:w-5/12">
-            <div className="bg-neutral-800 border border-neutral-700 rounded-lg py-4 px-2 sm:px-4 flex justify-between">
+            <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl py-6 px-4 sm:px-6 flex justify-between shadow-lg">
               {loading ? (
                 <>
                   <StatSkeleton />
@@ -68,25 +96,34 @@ const HeroSection = ({ stats, loading }: HeroSectionProps) => {
                 </>
               ) : (
                 <>
-                  <div className="text-center px-1 sm:px-2">
-                    <p className="text-xl sm:text-2xl md:text-3xl font-bold mb-1 text-white">
+                  <div className="text-center px-1 sm:px-3">
+                    <div className="bg-indigo-500/20 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
+                      <span className="text-indigo-100 material-icons">business</span>
+                    </div>
+                    <p className="text-2xl sm:text-3xl md:text-4xl font-bold mb-1 bg-gradient-to-r from-white to-indigo-200 bg-clip-text text-transparent">
                       {stats.organizationCount.toLocaleString()}
                     </p>
-                    <p className="text-xs sm:text-sm font-medium text-white/90">{t('hero.stats.organizations')}</p>
+                    <p className="text-xs sm:text-sm font-medium text-white/80">{t('hero.stats.organizations')}</p>
                   </div>
                   
-                  <div className="text-center px-1 sm:px-2">
-                    <p className="text-xl sm:text-2xl md:text-3xl font-bold mb-1 text-white">
+                  <div className="text-center px-1 sm:px-3">
+                    <div className="bg-purple-500/20 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
+                      <span className="text-purple-100 material-icons">dashboard</span>
+                    </div>
+                    <p className="text-2xl sm:text-3xl md:text-4xl font-bold mb-1 bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
                       {stats.programCount.toLocaleString()}
                     </p>
-                    <p className="text-xs sm:text-sm font-medium text-white/90">{t('hero.stats.programs')}</p>
+                    <p className="text-xs sm:text-sm font-medium text-white/80">{t('hero.stats.programs')}</p>
                   </div>
                   
-                  <div className="text-center px-1 sm:px-2">
-                    <p className="text-xl sm:text-2xl md:text-3xl font-bold mb-1 text-white whitespace-nowrap">
+                  <div className="text-center px-1 sm:px-3">
+                    <div className="bg-fuchsia-500/20 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
+                      <span className="text-fuchsia-100 material-icons">attach_money</span>
+                    </div>
+                    <p className="text-2xl sm:text-3xl md:text-4xl font-bold mb-1 bg-gradient-to-r from-white to-fuchsia-200 bg-clip-text text-transparent whitespace-nowrap">
                       {formatImpactValue(stats.impactValue)}
                     </p>
-                    <p className="text-xs sm:text-sm font-medium text-white/90">{t('hero.stats.impactValue')}</p>
+                    <p className="text-xs sm:text-sm font-medium text-white/80">{t('hero.stats.impactValue')}</p>
                   </div>
                 </>
               )}
