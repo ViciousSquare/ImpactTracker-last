@@ -179,7 +179,7 @@ const OrganizationProfileSection = () => {
             <>
               {/* Organization header */}
               <div className="relative">
-                <div className="bg-primary-600 h-32 md:h-48"></div>
+                <div className="bg-primary-600 h-16 md:h-24"></div>
                 <div className="absolute top-2 right-2">
                   {organization.verificationType && (
                     <MetricTooltip metric="verificationType">
@@ -192,7 +192,7 @@ const OrganizationProfileSection = () => {
                     </MetricTooltip>
                   )}
                 </div>
-                <div className="px-4 sm:px-6 pb-4 relative -mt-16 flex flex-col md:flex-row">
+                <div className="px-4 sm:px-6 pb-4 relative -mt-12 flex flex-col md:flex-row">
                   <div className="bg-white p-2 rounded-lg shadow-sm inline-block">
                     <div className="h-24 w-24 bg-primary-100 rounded-md flex items-center justify-center">
                       <span className="material-icons text-primary-500 text-4xl">
@@ -444,8 +444,8 @@ const OrganizationProfileSection = () => {
 const OrganizationProfileSkeleton = () => (
   <>
     <div className="relative">
-      <div className="bg-primary-600 h-32 md:h-48"></div>
-      <div className="px-4 sm:px-6 pb-4 relative -mt-16 flex flex-col md:flex-row">
+      <div className="bg-primary-600 h-16 md:h-24"></div>
+      <div className="px-4 sm:px-6 pb-4 relative -mt-12 flex flex-col md:flex-row">
         <div className="bg-white p-2 rounded-lg shadow-sm inline-block">
           <Skeleton className="h-24 w-24 rounded-md" />
         </div>
