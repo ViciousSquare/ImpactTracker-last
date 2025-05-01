@@ -20,6 +20,7 @@ import {
   SelectValue 
 } from '@/components/ui/select';
 import BadgeWithIcon from '@/components/ui/badge-with-icon';
+import { MetricTooltip } from '@/components/ui/metric-tooltip';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { X } from 'lucide-react';
@@ -361,10 +362,12 @@ const SolutionFinder = () => {
                         <div className="h-12 w-12 bg-primary-100 rounded-md flex items-center justify-center">
                           <span className="material-icons text-primary-500">{solution.icon}</span>
                         </div>
-                        <BadgeWithIcon 
-                          text={solution.impactGrade}
-                          variant="success"
-                        />
+                        <MetricTooltip metric="impactGrade">
+                          <BadgeWithIcon 
+                            text={solution.impactGrade}
+                            variant="success"
+                          />
+                        </MetricTooltip>
                       </div>
                       
                       <h4 className="font-semibold text-neutral-900 mb-1">{solution.name}</h4>
@@ -385,26 +388,34 @@ const SolutionFinder = () => {
                       </div>
                       
                       <div className="flex justify-between text-sm mb-1">
-                        <span className="text-neutral-600">{t('org.stats.peopleReached')}</span>
+                        <MetricTooltip metric="peopleReached">
+                          <span className="text-neutral-600">{t('org.stats.peopleReached')}</span>
+                        </MetricTooltip>
                         <span className="font-medium text-neutral-900">{solution.peopleReached.toLocaleString()}</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-neutral-600">{t('org.stats.socialROI')}</span>
+                        <MetricTooltip metric="socialROI">
+                          <span className="text-neutral-600">{t('org.stats.socialROI')}</span>
+                        </MetricTooltip>
                         <span className="font-medium text-neutral-900">${solution.socialROI.toFixed(2)} per $1</span>
                       </div>
                     </div>
                     
                     <div className="bg-neutral-50 p-4 border-t border-neutral-200 flex justify-between items-center">
                       <div className="flex items-center text-sm text-neutral-700">
-                        <span className="flex items-center">
-                          <span className="material-icons text-accent-orange text-sm">thumb_up</span>
-                          <span className="ml-1">{solution.effectiveness}% {t('common.effective')}</span>
-                        </span>
+                        <MetricTooltip metric="effectiveness">
+                          <span className="flex items-center">
+                            <span className="material-icons text-accent-orange text-sm">thumb_up</span>
+                            <span className="ml-1">{solution.effectiveness}% {t('common.effective')}</span>
+                          </span>
+                        </MetricTooltip>
                         <span className="mx-2">•</span>
-                        <span className={`flex items-center ${verificationDetails.className}`}>
-                          <span className="material-icons text-sm">{verificationDetails.icon}</span>
-                          <span className="ml-1">{verificationDetails.text}</span>
-                        </span>
+                        <MetricTooltip metric="verificationType">
+                          <span className={`flex items-center ${verificationDetails.className}`}>
+                            <span className="material-icons text-sm">{verificationDetails.icon}</span>
+                            <span className="ml-1">{verificationDetails.text}</span>
+                          </span>
+                        </MetricTooltip>
                       </div>
                       
                       <Button variant="link" className="text-primary-500 hover:text-primary-600 p-0">
@@ -438,15 +449,19 @@ const SolutionFinder = () => {
                             </div>
                             
                             <div className="flex items-center mt-2 md:mt-0 space-x-2">
-                              <BadgeWithIcon 
-                                text={solution.impactGrade}
-                                variant="success"
-                              />
+                              <MetricTooltip metric="impactGrade">
+                                <BadgeWithIcon 
+                                  text={solution.impactGrade}
+                                  variant="success"
+                                />
+                              </MetricTooltip>
                               
-                              <div className={`flex items-center ${verificationDetails.className}`}>
-                                <span className="material-icons text-sm mr-1">{verificationDetails.icon}</span>
-                                <span className="text-xs">{verificationDetails.text}</span>
-                              </div>
+                              <MetricTooltip metric="verificationType">
+                                <div className={`flex items-center ${verificationDetails.className}`}>
+                                  <span className="material-icons text-sm mr-1">{verificationDetails.icon}</span>
+                                  <span className="text-xs">{verificationDetails.text}</span>
+                                </div>
+                              </MetricTooltip>
                             </div>
                           </div>
                           
@@ -466,17 +481,23 @@ const SolutionFinder = () => {
                           
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-2">
                             <div className="flex items-center">
-                              <span className="text-sm text-neutral-600 mr-2">{t('org.stats.peopleReached')}</span>
+                              <MetricTooltip metric="peopleReached">
+                                <span className="text-sm text-neutral-600 mr-2">{t('org.stats.peopleReached')}</span>
+                              </MetricTooltip>
                               <span className="text-sm font-medium text-neutral-900">{solution.peopleReached.toLocaleString()}</span>
                             </div>
                             
                             <div className="flex items-center">
-                              <span className="text-sm text-neutral-600 mr-2">{t('org.stats.socialROI')}</span>
+                              <MetricTooltip metric="socialROI">
+                                <span className="text-sm text-neutral-600 mr-2">{t('org.stats.socialROI')}</span>
+                              </MetricTooltip>
                               <span className="text-sm font-medium text-neutral-900">${solution.socialROI.toFixed(2)}</span>
                             </div>
                             
                             <div className="flex items-center">
-                              <span className="text-sm text-neutral-600 mr-2">Effectiveness:</span>
+                              <MetricTooltip metric="effectiveness">
+                                <span className="text-sm text-neutral-600 mr-2">Effectiveness:</span>
+                              </MetricTooltip>
                               <span className="text-sm font-medium text-neutral-900">{solution.effectiveness}%</span>
                             </div>
                           </div>
