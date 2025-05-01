@@ -19,6 +19,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/leaderboard" component={Leaderboard} />
       <Route path="/solution-finder" component={SolutionFinder} />
+      <Route path="/methodology" component={MethodologyPage} />
       <Route path="/organization/:id" component={OrganizationProfilePage} />
       <Route component={NotFound} />
     </Switch>
