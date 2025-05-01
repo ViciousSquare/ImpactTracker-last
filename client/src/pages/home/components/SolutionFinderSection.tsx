@@ -96,7 +96,7 @@ const SolutionFinderSection = () => {
         carousel.removeEventListener('mousemove', handleMouseMove);
       }
     };
-  }, [carouselRef]);
+  }, []);
 
   // Fetch solution finder data with filters
   const { data: solutions, isLoading } = useQuery<SolutionItem[]>({

@@ -164,7 +164,7 @@ const LeaderboardSection = () => {
         carousel.removeEventListener('mousemove', handleMouseMove);
       }
     };
-  }, [carouselRef]);
+  }, []);
 
   return (
     <section className="py-6 md:py-10 bg-gradient-to-b from-white to-primary-50">

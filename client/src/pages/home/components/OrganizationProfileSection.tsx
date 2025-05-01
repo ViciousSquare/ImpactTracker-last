@@ -140,7 +140,7 @@ const OrganizationProfileSection = () => {
         
         {/* Organization Selection Carousel */}
         {!isLoading && organizations && organizations.length > 1 && (
-          <div className="mb-6 overflow-x-auto scrollbar-hide">
+          <div className="mb-6 overflow-x-auto scrollbar-hide cursor-grab" ref={carouselRef}>
             <div className="flex space-x-4 pb-4" style={{ minWidth: 'max-content' }}>
               {organizations.map((org, index) => (
                 <div 
