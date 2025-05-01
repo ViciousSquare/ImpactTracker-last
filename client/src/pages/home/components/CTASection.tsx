@@ -12,7 +12,7 @@ const CTASection = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <div>
             <h2 className="text-2xl md:text-3xl font-bold mb-4">{t('cta.title')}</h2>
-            <p className="mb-6 text-primary-100">
+            <p className="mb-6 text-white">
               {t('cta.subtitle')}
             </p>
             <div className="space-y-4">
@@ -20,19 +20,19 @@ const CTASection = () => {
                 <div className="flex-shrink-0 h-5 w-5 rounded-full bg-white flex items-center justify-center text-primary-500">
                   <span className="material-icons text-xs">check</span>
                 </div>
-                <p className="ml-2 text-sm text-primary-50">{t('cta.feature1')}</p>
+                <p className="ml-2 text-sm text-white">{t('cta.feature1')}</p>
               </div>
               <div className="flex items-start">
                 <div className="flex-shrink-0 h-5 w-5 rounded-full bg-white flex items-center justify-center text-primary-500">
                   <span className="material-icons text-xs">check</span>
                 </div>
-                <p className="ml-2 text-sm text-primary-50">{t('cta.feature2')}</p>
+                <p className="ml-2 text-sm text-white">{t('cta.feature2')}</p>
               </div>
               <div className="flex items-start">
                 <div className="flex-shrink-0 h-5 w-5 rounded-full bg-white flex items-center justify-center text-primary-500">
                   <span className="material-icons text-xs">check</span>
                 </div>
-                <p className="ml-2 text-sm text-primary-50">{t('cta.feature3')}</p>
+                <p className="ml-2 text-sm text-white">{t('cta.feature3')}</p>
               </div>
               <div className="flex items-start">
                 <div className="flex-shrink-0 h-5 w-5 rounded-full bg-white flex items-center justify-center text-primary-500">
