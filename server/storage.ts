@@ -347,7 +347,7 @@ export class MemStorage implements IStorage {
   }
   
   async getSuccessStories(): Promise<OrganizationProfile[]> {
-    // Return a few showcase organizations as success stories
+    // Return showcase organizations as success stories
     return [
       {
         id: 2,
@@ -452,6 +452,164 @@ export class MemStorage implements IStorage {
             peopleReached: 18000,
             socialROI: 4.56,
             impactGrade: ImpactGrade.BPlus
+          }
+        ]
+      },
+      {
+        id: 4,
+        name: 'Clean Energy Alliance',
+        logo: undefined,
+        mission: 'Clean Energy Alliance works to accelerate Canada\'s transition to renewable energy through community-driven projects, policy advocacy, and public education initiatives.',
+        sector: 'Environment',
+        region: 'British Columbia',
+        established: 2010,
+        impactScore: 91,
+        impactGrade: ImpactGrade.A,
+        verificationType: VerificationType.Audited,
+        yearlyChange: 4.3,
+        sdgAlignment: [
+          'SDG 7: Affordable and Clean Energy',
+          'SDG 13: Climate Action',
+          'SDG 11: Sustainable Cities and Communities'
+        ],
+        metrics: {
+          reportingQuality: 19,
+          reach: 18,
+          socialROI: 18,
+          outcomeEffectiveness: 19,
+          transparencyGovernance: 17
+        },
+        stats: {
+          peopleReached: '120,000 annually',
+          socialROI: 8.47,
+          programs: 9,
+          funding: '$21.5M',
+          programAllocation: 86
+        },
+        yearlyTrend: [80, 84, 87, 89, 91],
+        topPrograms: [
+          {
+            name: 'Community Solar Projects',
+            peopleReached: 45000,
+            socialROI: 9.85,
+            impactGrade: ImpactGrade.APlus
+          },
+          {
+            name: 'Clean Energy Education',
+            peopleReached: 38000,
+            socialROI: 7.92,
+            impactGrade: ImpactGrade.A
+          },
+          {
+            name: 'Green Building Transformation',
+            peopleReached: 23000,
+            socialROI: 7.65,
+            impactGrade: ImpactGrade.A
+          }
+        ]
+      },
+      {
+        id: 5,
+        name: 'Indigenous Health Network',
+        logo: undefined,
+        mission: 'Indigenous Health Network is committed to improving health outcomes in Indigenous communities through culturally-responsive care, traditional healing practices, and community-based health programs.',
+        sector: 'Health',
+        region: 'Northern',
+        established: 2005,
+        impactScore: 85,
+        impactGrade: ImpactGrade.A,
+        verificationType: VerificationType.Verified,
+        yearlyChange: 3.2,
+        sdgAlignment: [
+          'SDG 3: Good Health',
+          'SDG 10: Reduced Inequalities'
+        ],
+        metrics: {
+          reportingQuality: 17,
+          reach: 16,
+          socialROI: 17,
+          outcomeEffectiveness: 18,
+          transparencyGovernance: 17
+        },
+        stats: {
+          peopleReached: '42,000 annually',
+          socialROI: 7.65,
+          programs: 12,
+          funding: '$15.8M',
+          programAllocation: 85
+        },
+        yearlyTrend: [76, 79, 82, 84, 85],
+        topPrograms: [
+          {
+            name: 'Community Health Representatives',
+            peopleReached: 18000,
+            socialROI: 8.35,
+            impactGrade: ImpactGrade.A
+          },
+          {
+            name: 'Traditional Healing Integration',
+            peopleReached: 14000,
+            socialROI: 7.82,
+            impactGrade: ImpactGrade.A
+          },
+          {
+            name: 'Maternal & Child Health',
+            peopleReached: 8500,
+            socialROI: 6.75,
+            impactGrade: ImpactGrade.AMinus
+          }
+        ]
+      },
+      {
+        id: 6,
+        name: 'Rural Economic Innovation',
+        logo: undefined,
+        mission: 'Rural Economic Innovation supports economic resilience in rural communities through entrepreneurship development, digital inclusion, and sustainable local economies.',
+        sector: 'Economic Development',
+        region: 'Prairies',
+        established: 2012,
+        impactScore: 81,
+        impactGrade: ImpactGrade.AMinus,
+        verificationType: VerificationType.Verified,
+        yearlyChange: 6.5,
+        sdgAlignment: [
+          'SDG 8: Decent Work and Economic Growth',
+          'SDG 9: Industry, Innovation and Infrastructure',
+          'SDG 11: Sustainable Cities and Communities'
+        ],
+        metrics: {
+          reportingQuality: 16,
+          reach: 16,
+          socialROI: 17,
+          outcomeEffectiveness: 16,
+          transparencyGovernance: 16
+        },
+        stats: {
+          peopleReached: '32,000 annually',
+          socialROI: 6.92,
+          programs: 8,
+          funding: '$12.3M',
+          programAllocation: 83
+        },
+        yearlyTrend: [68, 72, 75, 78, 81],
+        topPrograms: [
+          {
+            name: 'Rural Business Accelerator',
+            peopleReached: 15000,
+            socialROI: 7.65,
+            impactGrade: ImpactGrade.A
+          },
+          {
+            name: 'Digital Skills Initiative',
+            peopleReached: 11000,
+            socialROI: 6.45,
+            impactGrade: ImpactGrade.AMinus
+          },
+          {
+            name: 'Local Value Chain Development',
+            peopleReached: 6000,
+            socialROI: 6.15,
+            impactGrade: ImpactGrade.AMinus
           }
         ]
       }
