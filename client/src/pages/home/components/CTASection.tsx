@@ -38,7 +38,7 @@ const CTASection = () => {
                 <div className="flex-shrink-0 h-5 w-5 rounded-full bg-white flex items-center justify-center text-primary-500">
                   <span className="material-icons text-xs">check</span>
                 </div>
-                <p className="ml-2 text-sm text-primary-50">{t('cta.feature4')}</p>
+                <p className="ml-2 text-sm text-white">{t('cta.feature4')}</p>
               </div>
             </div>
             <div className="mt-8">
@@ -64,7 +64,7 @@ const CTASection = () => {
                   </div>
                   <div className="ml-3">
                     <p className="font-medium">{t('cta.portal')}</p>
-                    <p className="text-xs text-primary-200">{t('cta.portalSubtitle')}</p>
+                    <p className="text-xs text-white">{t('cta.portalSubtitle')}</p>
                   </div>
                 </div>
                 <div className="text-xs px-2 py-1 bg-white text-primary-500 rounded-full">
@@ -76,28 +76,28 @@ const CTASection = () => {
                 <div className="bg-white bg-opacity-10 p-3 rounded-md">
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium">{t('cta.uploadReport')}</span>
-                    <span className="material-icons text-primary-200">upload_file</span>
+                    <span className="material-icons text-white">upload_file</span>
                   </div>
                 </div>
                 
                 <div className="bg-white bg-opacity-10 p-3 rounded-md">
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium">{t('cta.updateMetrics')}</span>
-                    <span className="material-icons text-primary-200">analytics</span>
+                    <span className="material-icons text-white">analytics</span>
                   </div>
                 </div>
                 
                 <div className="bg-white bg-opacity-10 p-3 rounded-md">
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium">{t('cta.managePrograms')}</span>
-                    <span className="material-icons text-primary-200">folder_open</span>
+                    <span className="material-icons text-white">folder_open</span>
                   </div>
                 </div>
                 
                 <div className="bg-white bg-opacity-10 p-3 rounded-md">
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium">{t('cta.requestVerification')}</span>
-                    <span className="material-icons text-primary-200">verified</span>
+                    <span className="material-icons text-white">verified</span>
                   </div>
                 </div>
               </div>
