@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useQuery } from '@tanstack/react-query';
 import { OrganizationProfile } from '@/lib/types';
@@ -20,10 +20,58 @@ import { ChevronRight } from 'lucide-react';
 const SuccessStoriesSection = () => {
   const { t } = useLanguage();
   const [activeStoryIndex, setActiveStoryIndex] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
   
   const { data: successStories, isLoading } = useQuery<OrganizationProfile[]>({
     queryKey: ['/api/organizations/success-stories'],
   });
+  
+  // Add horizontal scrolling with mouse drag
+  useEffect(() => {
+    const carousel = carouselRef.current;
+    if (!carousel) return;
+    
+    let isDown = false;
+    let startX: number;
+    let scrollLeft: number;
+    
+    const handleMouseDown = (e: MouseEvent) => {
+      isDown = true;
+      carousel.classList.add('cursor-grabbing');
+      startX = e.pageX - carousel.offsetLeft;
+      scrollLeft = carousel.scrollLeft;
+    };
+    
+    const handleMouseLeave = () => {
+      isDown = false;
+      carousel.classList.remove('cursor-grabbing');
+    };
+    
+    const handleMouseUp = () => {
+      isDown = false;
+      carousel.classList.remove('cursor-grabbing');
+    };
+    
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - carousel.offsetLeft;
+      const walk = (x - startX) * 2; // Scroll speed
+      carousel.scrollLeft = scrollLeft - walk;
+    };
+    
+    carousel.addEventListener('mousedown', handleMouseDown);
+    carousel.addEventListener('mouseleave', handleMouseLeave);
+    carousel.addEventListener('mouseup', handleMouseUp);
+    carousel.addEventListener('mousemove', handleMouseMove);
+    
+    return () => {
+      carousel.removeEventListener('mousedown', handleMouseDown);
+      carousel.removeEventListener('mouseleave', handleMouseLeave);
+      carousel.removeEventListener('mouseup', handleMouseUp);
+      carousel.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, [successStories]);
 
   const getVerificationBadge = (type: string) => {
     switch (type) {
@@ -84,6 +132,17 @@ const SuccessStoriesSection = () => {
 
         {/* Horizontal scrolling carousel for success stories */}
         <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-neutral-900">Featured Success Stories</h3>
+            <Link 
+              href="/success-stories" 
+              className="text-primary-500 hover:text-primary-600 text-sm font-medium flex items-center"
+            >
+              {t('successStories.viewAll')}
+              <ChevronRight className="h-4 w-4 ml-1" />
+            </Link>
+          </div>
+          
           <Carousel
             opts={{
               align: "start",
@@ -91,21 +150,12 @@ const SuccessStoriesSection = () => {
             }}
             className="w-full"
           >
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex space-x-2">
-                <CarouselPrevious className="relative static left-0 right-auto top-0 -translate-y-0 translate-x-0 border-neutral-200" />
-                <CarouselNext className="relative static right-0 left-auto top-0 -translate-y-0 translate-x-0 border-neutral-200" />
-              </div>
-              <Link 
-                href="/success-stories" 
-                className="text-primary-500 hover:text-primary-600 text-sm font-medium flex items-center"
-              >
-                {t('successStories.viewAll')}
-                <ChevronRight className="h-4 w-4 ml-1" />
-              </Link>
+            <div className="flex space-x-2 mb-4">
+              <CarouselPrevious className="relative static left-0 right-auto top-0 -translate-y-0 translate-x-0 border-neutral-200" />
+              <CarouselNext className="relative static right-0 left-auto top-0 -translate-y-0 translate-x-0 border-neutral-200" />
             </div>
             
-            <CarouselContent>
+            <CarouselContent ref={carouselRef} className="cursor-grab">
               {successStories.map((story, index) => (
                 <CarouselItem key={story.id} className="sm:basis-full md:basis-1/2 lg:basis-1/2 xl:basis-1/3 p-2">
                   <Card 
@@ -154,13 +204,15 @@ const SuccessStoriesSection = () => {
                       <p className="text-sm text-neutral-700 line-clamp-3 mb-4">
                         {story.mission}
                       </p>
-                      <Button 
-                        variant="outline"
-                        size="sm"
-                        className="w-full text-sm"
-                      >
-                        {t('successStories.viewDetails')}
-                      </Button>
+                      <Link href={`/organization/${story.id}`}>
+                        <Button 
+                          variant="outline"
+                          size="sm"
+                          className="w-full text-sm"
+                        >
+                          {t('successStories.viewDetails')}
+                        </Button>
+                      </Link>
                     </div>
                   </Card>
                 </CarouselItem>
@@ -326,12 +378,13 @@ const SuccessStoriesSection = () => {
                 </div>
                 
                 <div className="mt-4 text-center">
-                  <Button 
-                    className="bg-primary-500 hover:bg-primary-600 text-white"
-                    onClick={() => window.location.href = `/organization/${activeStory.id}`}
-                  >
-                    {t('successStories.viewFullProfile')}
-                  </Button>
+                  <Link href={`/organization/${activeStory.id}`}>
+                    <Button 
+                      className="bg-primary-500 hover:bg-primary-600 text-white"
+                    >
+                      {t('successStories.viewFullProfile')}
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </div>

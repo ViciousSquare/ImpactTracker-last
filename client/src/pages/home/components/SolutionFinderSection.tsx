@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'wouter';
@@ -23,7 +23,14 @@ import {
 } from '@/components/ui/select';
 import BadgeWithIcon from '@/components/ui/badge-with-icon';
 import { Skeleton } from '@/components/ui/skeleton';
-import { X } from 'lucide-react';
+import { X, ChevronRight } from 'lucide-react';
+import { 
+  Carousel, 
+  CarouselContent, 
+  CarouselItem, 
+  CarouselNext, 
+  CarouselPrevious 
+} from '@/components/ui/carousel';
 
 const SolutionFinderSection = () => {
   const { t } = useLanguage();
@@ -37,6 +44,56 @@ const SolutionFinderSection = () => {
   });
   const [appliedFilters, setAppliedFilters] = useState<{ key: string; value: string }[]>([]);
   const [searchInput, setSearchInput] = useState('');
+  
+  // Carousel ref for manual scrolling
+  const carouselRef = useRef<HTMLDivElement>(null);
+  
+  // Add horizontal scrolling with mouse drag
+  useEffect(() => {
+    const carousel = carouselRef.current;
+    if (!carousel) return;
+    
+    let isDown = false;
+    let startX: number;
+    let scrollLeft: number;
+    
+    const handleMouseDown = (e: MouseEvent) => {
+      isDown = true;
+      carousel.classList.add('cursor-grabbing');
+      startX = e.pageX - carousel.offsetLeft;
+      scrollLeft = carousel.scrollLeft;
+    };
+    
+    const handleMouseLeave = () => {
+      isDown = false;
+      carousel.classList.remove('cursor-grabbing');
+    };
+    
+    const handleMouseUp = () => {
+      isDown = false;
+      carousel.classList.remove('cursor-grabbing');
+    };
+    
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - carousel.offsetLeft;
+      const walk = (x - startX) * 2; // Scroll speed
+      carousel.scrollLeft = scrollLeft - walk;
+    };
+    
+    carousel.addEventListener('mousedown', handleMouseDown);
+    carousel.addEventListener('mouseleave', handleMouseLeave);
+    carousel.addEventListener('mouseup', handleMouseUp);
+    carousel.addEventListener('mousemove', handleMouseMove);
+    
+    return () => {
+      carousel.removeEventListener('mousedown', handleMouseDown);
+      carousel.removeEventListener('mouseleave', handleMouseLeave);
+      carousel.removeEventListener('mouseup', handleMouseUp);
+      carousel.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
 
   // Fetch solution finder data with filters
   const { data: solutions, isLoading } = useQuery<SolutionItem[]>({
@@ -132,13 +189,13 @@ const SolutionFinderSection = () => {
             <p className="text-neutral-600">{t('solution.subtitle')}</p>
           </div>
           
-          <div
+          <Link
+            href="/solution-finder"
             className="mt-2 md:mt-0 inline-flex items-center text-primary-500 hover:text-primary-600 font-medium cursor-pointer"
-            onClick={() => window.location.href = "/solution-finder"}
           >
             {t('solution.advancedSearch')}
             <span className="material-icons ml-1 text-sm">tune</span>
-          </div>
+          </Link>
         </div>
         
         {/* Search and filters */}
@@ -259,96 +316,126 @@ const SolutionFinderSection = () => {
           )}
         </div>
         
-        {/* Solutions grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {isLoading ? (
-            Array(3).fill(0).map((_, i) => (
-              <SolutionCardSkeleton key={i} />
-            ))
-          ) : solutions && solutions.length > 0 ? (
-            solutions.map((solution) => {
-              const verificationDetails = getVerificationDetails(solution.verificationType);
-              
-              return (
-                <div key={solution.id} className="bg-white rounded-lg shadow-sm border border-neutral-200 overflow-hidden flex flex-col">
-                  <div className="p-4 sm:p-5 flex-1">
-                    <div className="flex justify-between items-start mb-3">
-                      <div className="h-12 w-12 bg-primary-100 rounded-md flex items-center justify-center">
-                        <span className="material-icons text-primary-500">{solution.icon}</span>
-                      </div>
-                      <BadgeWithIcon 
-                        text={solution.impactGrade}
-                        variant="success"
-                      />
-                    </div>
-                    
-                    <h4 className="font-semibold text-neutral-900 mb-1">{solution.name}</h4>
-                    <p className="text-sm text-neutral-600 mb-2">{solution.organizationName}</p>
-                    
-                    <p className="text-sm text-neutral-700 mb-4">
-                      {solution.description}
-                    </p>
-                    
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {solution.tags.map((tag, index) => (
-                        <BadgeWithIcon
-                          key={index}
-                          text={tag}
-                          className="bg-primary-100 text-primary-800"
-                        />
-                      ))}
-                    </div>
-                    
-                    <div className="flex justify-between text-sm mb-1">
-                      <span className="text-neutral-600">{t('org.stats.peopleReached')}</span>
-                      <span className="font-medium text-neutral-900">{solution.peopleReached.toLocaleString()}</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-neutral-600">{t('org.stats.socialROI')}</span>
-                      <span className="font-medium text-neutral-900">${solution.socialROI.toFixed(2)} per $1</span>
-                    </div>
-                  </div>
-                  
-                  <div className="bg-neutral-50 p-4 border-t border-neutral-200 flex justify-between items-center">
-                    <div className="flex items-center text-sm text-neutral-700">
-                      <span className="flex items-center">
-                        <span className="material-icons text-accent-orange text-sm">thumb_up</span>
-                        <span className="ml-1">{solution.effectiveness}% {t('common.effective')}</span>
-                      </span>
-                      <span className="mx-2">•</span>
-                      <span className={`flex items-center ${verificationDetails.className}`}>
-                        <span className="material-icons text-sm">{verificationDetails.icon}</span>
-                        <span className="ml-1">{verificationDetails.text}</span>
-                      </span>
-                    </div>
-                    
-                    <span 
-                      className="text-primary-500 hover:text-primary-600 font-medium text-sm cursor-pointer"
-                      onClick={() => window.location.href = `/solution/${solution.id}`}
-                    >
-                      {t('common.details')}
-                    </span>
-                  </div>
-                </div>
-              );
-            })
-          ) : (
-            <div className="col-span-3 py-8 text-center text-neutral-500">
-              No solutions found matching the selected filters.
+        {/* Solutions carousel */}
+        <div className="mb-6">
+          <div className="mb-4 flex items-center justify-between">
+            <h3 className="text-lg font-semibold text-neutral-900">Featured Solutions</h3>
+          </div>
+          
+          <Carousel
+            opts={{
+              align: "start",
+              loop: false,
+            }}
+            className="w-full"
+          >
+            <div className="flex space-x-2 mb-4">
+              <CarouselPrevious className="relative static left-0 right-auto top-0 -translate-y-0 translate-x-0 border-neutral-200" />
+              <CarouselNext className="relative static right-0 left-auto top-0 -translate-y-0 translate-x-0 border-neutral-200" />
             </div>
-          )}
+            <CarouselContent ref={carouselRef} className="cursor-grab">
+              {isLoading ? (
+                Array(3).fill(0).map((_, i) => (
+                  <CarouselItem key={i} className="pl-4 md:basis-1/2 lg:basis-1/3">
+                    <SolutionCardSkeleton />
+                  </CarouselItem>
+                ))
+              ) : solutions && solutions.length > 0 ? (
+                solutions.map((solution) => {
+                  const verificationDetails = getVerificationDetails(solution.verificationType);
+                  
+                  return (
+                    <CarouselItem key={solution.id} className="pl-4 md:basis-1/2 lg:basis-1/3">
+                      <div className="h-full bg-white rounded-lg shadow-sm border border-neutral-200 overflow-hidden flex flex-col">
+                        <div className="p-4 sm:p-5 flex-1">
+                          <div className="flex justify-between items-start mb-3">
+                            <div className="h-12 w-12 bg-primary-100 rounded-md flex items-center justify-center">
+                              <span className="material-icons text-primary-500">{solution.icon}</span>
+                            </div>
+                            <BadgeWithIcon 
+                              text={solution.impactGrade}
+                              variant="success"
+                            />
+                          </div>
+                          
+                          <h4 className="font-semibold text-neutral-900 mb-1">{solution.name}</h4>
+                          <p className="text-sm text-neutral-600 mb-2">{solution.organizationName}</p>
+                          
+                          <p className="text-sm text-neutral-700 mb-4 line-clamp-3">
+                            {solution.description}
+                          </p>
+                          
+                          <div className="flex flex-wrap gap-2 mb-4">
+                            {solution.tags.slice(0, 3).map((tag, index) => (
+                              <BadgeWithIcon
+                                key={index}
+                                text={tag}
+                                className="bg-primary-100 text-primary-800"
+                              />
+                            ))}
+                            {solution.tags.length > 3 && (
+                              <span className="text-xs text-neutral-500 flex items-center">
+                                +{solution.tags.length - 3} more
+                              </span>
+                            )}
+                          </div>
+                          
+                          <div className="flex justify-between text-sm mb-1">
+                            <span className="text-neutral-600">{t('org.stats.peopleReached')}</span>
+                            <span className="font-medium text-neutral-900">{solution.peopleReached.toLocaleString()}</span>
+                          </div>
+                          <div className="flex justify-between text-sm">
+                            <span className="text-neutral-600">{t('org.stats.socialROI')}</span>
+                            <span className="font-medium text-neutral-900">${solution.socialROI.toFixed(2)} per $1</span>
+                          </div>
+                        </div>
+                        
+                        <div className="bg-neutral-50 p-4 border-t border-neutral-200 flex justify-between items-center">
+                          <div className="flex items-center text-sm text-neutral-700">
+                            <span className="flex items-center">
+                              <span className="material-icons text-accent-orange text-sm">thumb_up</span>
+                              <span className="ml-1">{solution.effectiveness}% {t('common.effective')}</span>
+                            </span>
+                            <span className="mx-2">•</span>
+                            <span className={`flex items-center ${verificationDetails.className}`}>
+                              <span className="material-icons text-sm">{verificationDetails.icon}</span>
+                              <span className="ml-1">{verificationDetails.text}</span>
+                            </span>
+                          </div>
+                          
+                          <Link 
+                            href={`/solution/${solution.id}`}
+                            className="text-primary-500 hover:text-primary-600 font-medium text-sm"
+                          >
+                            {t('common.details')}
+                          </Link>
+                        </div>
+                      </div>
+                    </CarouselItem>
+                  );
+                })
+              ) : (
+                <CarouselItem className="pl-4 basis-full">
+                  <div className="py-8 text-center text-neutral-500">
+                    No solutions found matching the selected filters.
+                  </div>
+                </CarouselItem>
+              )}
+            </CarouselContent>
+          </Carousel>
         </div>
         
         {/* View more button */}
         {solutions && solutions.length > 0 && (
           <div className="mt-8 text-center">
-            <Button 
-              variant="outline" 
-              className="text-primary-500 border-primary-500"
-              onClick={() => window.location.href = "/solution-finder"}
-            >
-              {t('solution.viewMore')}
-            </Button>
+            <Link href="/solution-finder">
+              <Button 
+                variant="outline" 
+                className="text-primary-500 border-primary-500"
+              >
+                {t('solution.viewMore')}
+              </Button>
+            </Link>
           </div>
         )}
       </div>

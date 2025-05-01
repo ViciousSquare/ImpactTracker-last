@@ -7,7 +7,9 @@ import {
   TrendingItem, 
   SECTOR_OPTIONS, 
   REGION_OPTIONS, 
-  SDG_OPTIONS 
+  SDG_OPTIONS,
+  Sector,
+  ImpactGrade
 } from '@/lib/types';
 import TrendingTicker from '@/components/ui/trending-ticker';
 import BadgeWithIcon from '@/components/ui/badge-with-icon';
