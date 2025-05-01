@@ -533,18 +533,25 @@ export class MemStorage implements IStorage {
       );
     }
     
-    if (filters.region) {
-      // In a real implementation, we would filter by region
-      // For this demo we're keeping all items
+    if (filters.sector && filters.sector !== 'All Sectors') {
+      filtered = filtered.filter(item => item.sector === filters.sector);
     }
     
-    if (filters.sdg) {
+    if (filters.businessType && filters.businessType !== 'All Business Types') {
+      filtered = filtered.filter(item => item.businessType === filters.businessType);
+    }
+    
+    if (filters.region && filters.region !== 'All Regions') {
+      filtered = filtered.filter(item => item.region === filters.region);
+    }
+    
+    if (filters.sdg && filters.sdg !== 'All SDGs') {
       filtered = filtered.filter(item => 
         item.tags.some(tag => tag.includes(filters.sdg))
       );
     }
     
-    if (filters.demographic) {
+    if (filters.demographic && filters.demographic !== 'All Demographics') {
       filtered = filtered.filter(item => 
         item.tags.some(tag => tag.includes(filters.demographic))
       );

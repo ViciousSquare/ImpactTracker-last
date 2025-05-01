@@ -40,7 +40,15 @@ const SolutionFinderSection = () => {
 
   // Fetch solution finder data with filters
   const { data: solutions, isLoading } = useQuery<SolutionItem[]>({
-    queryKey: ['/api/solutions', ...appliedFilters.map(f => f.value)],
+    queryKey: [
+      '/api/solutions', 
+      searchValues.query,
+      searchValues.sector,
+      searchValues.region,
+      searchValues.businessType,
+      searchValues.sdg,
+      searchValues.demographic
+    ],
   });
 
   const handleFilterChange = (key: keyof SolutionSearchValues, value: string) => {

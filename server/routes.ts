@@ -89,11 +89,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get solutions with filters
   app.get('/api/solutions', async (req, res) => {
     try {
-      const { query, region, sdg, demographic, page = '1' } = req.query;
+      const { query, sector, region, businessType, sdg, demographic, page = '1' } = req.query;
       
       const filters = {
         query: query as string || '',
+        sector: sector as string || '',
         region: region as string || '',
+        businessType: businessType as string || '',
         sdg: sdg as string || '',
         demographic: demographic as string || '',
         page: parseInt(page as string, 10)
