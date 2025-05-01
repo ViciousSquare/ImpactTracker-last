@@ -5,17 +5,67 @@ import { OrganizationProfile } from '@/lib/types';
 import BadgeWithIcon from '@/components/ui/badge-with-icon';
 import ProgressWithLabel from '@/components/ui/progress-with-label';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { MetricTooltip } from '@/components/ui/metric-tooltip';
 
 const OrganizationProfileSection = () => {
   const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedOrgId, setSelectedOrgId] = useState<number | null>(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
   
   const { data: organizations, isLoading } = useQuery<OrganizationProfile[]>({
     queryKey: ['/api/organizations/featured'],
   });
+  
+  // Add horizontal scrolling with mouse drag
+  useEffect(() => {
+    const carousel = carouselRef.current;
+    if (!carousel) return;
+    
+    let isDown = false;
+    let startX: number;
+    let scrollLeft: number;
+    
+    const handleMouseDown = (e: MouseEvent) => {
+      isDown = true;
+      carousel.classList.add('cursor-grabbing');
+      startX = e.pageX - carousel.offsetLeft;
+      scrollLeft = carousel.scrollLeft;
+    };
+    
+    const handleMouseLeave = () => {
+      isDown = false;
+      carousel.classList.remove('cursor-grabbing');
+    };
+    
+    const handleMouseUp = () => {
+      isDown = false;
+      carousel.classList.remove('cursor-grabbing');
+    };
+    
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - carousel.offsetLeft;
+      const walk = (x - startX) * 2; // Scroll speed
+      carousel.scrollLeft = scrollLeft - walk;
+    };
+    
+    carousel.addEventListener('mousedown', handleMouseDown);
+    carousel.addEventListener('mouseleave', handleMouseLeave);
+    carousel.addEventListener('mouseup', handleMouseUp);
+    carousel.addEventListener('mousemove', handleMouseMove);
+    
+    return () => {
+      if (carousel) {
+        carousel.removeEventListener('mousedown', handleMouseDown);
+        carousel.removeEventListener('mouseleave', handleMouseLeave);
+        carousel.removeEventListener('mouseup', handleMouseUp);
+        carousel.removeEventListener('mousemove', handleMouseMove);
+      }
+    };
+  }, []);
   
   // Determine which organization to display
   const organization = useMemo(() => {
