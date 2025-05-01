@@ -46,57 +46,8 @@ const SolutionFinderSection = () => {
   const [appliedFilters, setAppliedFilters] = useState<{ key: string; value: string }[]>([]);
   const [searchInput, setSearchInput] = useState('');
   
-  // Carousel ref for manual scrolling
+  // Carousel ref for scrolling
   const carouselRef = useRef<HTMLDivElement>(null);
-  
-  // Add horizontal scrolling with mouse drag
-  useEffect(() => {
-    const carousel = carouselRef.current;
-    if (!carousel) return;
-    
-    let isDown = false;
-    let startX: number;
-    let scrollLeft: number;
-    
-    const handleMouseDown = (e: MouseEvent) => {
-      isDown = true;
-      carousel.classList.add('cursor-grabbing');
-      startX = e.pageX - carousel.offsetLeft;
-      scrollLeft = carousel.scrollLeft;
-    };
-    
-    const handleMouseLeave = () => {
-      isDown = false;
-      carousel.classList.remove('cursor-grabbing');
-    };
-    
-    const handleMouseUp = () => {
-      isDown = false;
-      carousel.classList.remove('cursor-grabbing');
-    };
-    
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - carousel.offsetLeft;
-      const walk = (x - startX) * 2; // Scroll speed
-      carousel.scrollLeft = scrollLeft - walk;
-    };
-    
-    carousel.addEventListener('mousedown', handleMouseDown);
-    carousel.addEventListener('mouseleave', handleMouseLeave);
-    carousel.addEventListener('mouseup', handleMouseUp);
-    carousel.addEventListener('mousemove', handleMouseMove);
-    
-    return () => {
-      if (carousel) {
-        carousel.removeEventListener('mousedown', handleMouseDown);
-        carousel.removeEventListener('mouseleave', handleMouseLeave);
-        carousel.removeEventListener('mouseup', handleMouseUp);
-        carousel.removeEventListener('mousemove', handleMouseMove);
-      }
-    };
-  }, []);
 
   // Fetch solution finder data with filters
   const { data: solutions, isLoading } = useQuery<SolutionItem[]>({
@@ -338,7 +289,7 @@ const SolutionFinderSection = () => {
             className="w-full"
           >
             {/* Removed arrow buttons in favor of side scrolling */}
-            <CarouselContent className="cursor-grab overflow-visible" ref={carouselRef}>
+            <CarouselContent className="overflow-x-auto" style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
               {isLoading ? (
                 Array(3).fill(0).map((_, i) => (
                   <CarouselItem key={i} className="pl-4 md:basis-1/2 lg:basis-1/3">
