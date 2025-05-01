@@ -286,47 +286,39 @@ const OrganizationProfileSection = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {/* Impact IQ Breakdown */}
                       <div className="bg-neutral-50 p-4 rounded-lg border border-neutral-200">
-                        <h4 className="font-medium text-neutral-900 mb-3">{t('org.impactBreakdown')}</h4>
+                        <h4 className="font-medium text-neutral-900 mb-3">
+                          <MetricTooltip metric="impactScore">{t('org.impactBreakdown')}</MetricTooltip>
+                        </h4>
                         <div className="space-y-3">
-                          <MetricTooltip metric="reportingQuality">
-                            <ProgressWithLabel
-                              label={t('org.metrics.reportingQuality')}
-                              value={organization.metrics.reportingQuality}
-                              max={20}
-                            />
-                          </MetricTooltip>
+                          <ProgressWithLabel
+                            label={t('org.metrics.reportingQuality')}
+                            value={organization.metrics.reportingQuality}
+                            max={20}
+                          />
                           
-                          <MetricTooltip metric="reach">
-                            <ProgressWithLabel
-                              label={t('org.metrics.reach')}
-                              value={organization.metrics.reach}
-                              max={20}
-                            />
-                          </MetricTooltip>
+                          <ProgressWithLabel
+                            label={t('org.metrics.reach')}
+                            value={organization.metrics.reach}
+                            max={20}
+                          />
                           
-                          <MetricTooltip metric="socialROI">
-                            <ProgressWithLabel
-                              label={t('org.metrics.socialROI')}
-                              value={organization.metrics.socialROI}
-                              max={20}
-                            />
-                          </MetricTooltip>
+                          <ProgressWithLabel
+                            label={t('org.metrics.socialROI')}
+                            value={organization.metrics.socialROI}
+                            max={20}
+                          />
                           
-                          <MetricTooltip metric="outcomeEffectiveness">
-                            <ProgressWithLabel
-                              label={t('org.metrics.outcomeEffectiveness')}
-                              value={organization.metrics.outcomeEffectiveness}
-                              max={20}
-                            />
-                          </MetricTooltip>
+                          <ProgressWithLabel
+                            label={t('org.metrics.outcomeEffectiveness')}
+                            value={organization.metrics.outcomeEffectiveness}
+                            max={20}
+                          />
                           
-                          <MetricTooltip metric="transparencyGovernance">
-                            <ProgressWithLabel
-                              label={t('org.metrics.transparencyGovernance')}
-                              value={organization.metrics.transparencyGovernance}
-                              max={20}
-                            />
-                          </MetricTooltip>
+                          <ProgressWithLabel
+                            label={t('org.metrics.transparencyGovernance')}
+                            value={organization.metrics.transparencyGovernance}
+                            max={20}
+                          />
                         </div>
                       </div>
                       

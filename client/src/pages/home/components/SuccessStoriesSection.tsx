@@ -7,6 +7,7 @@ import BadgeWithIcon from '@/components/ui/badge-with-icon';
 import ProgressWithLabel from '@/components/ui/progress-with-label';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
+import { MetricTooltip } from '@/components/ui/metric-tooltip';
 import { Link } from 'wouter';
 import { 
   Carousel, 
@@ -317,7 +318,9 @@ const SuccessStoriesSection = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {/* Impact IQ Breakdown */}
                   <div className="bg-neutral-50 p-4 rounded-lg border border-neutral-200">
-                    <h4 className="font-medium text-neutral-900 mb-3">{t('org.impactBreakdown')}</h4>
+                    <h4 className="font-medium text-neutral-900 mb-3">
+                      <MetricTooltip metric="impactScore">{t('org.impactBreakdown')}</MetricTooltip>
+                    </h4>
                     <div className="space-y-3">
                       <ProgressWithLabel
                         label={t('org.metrics.reportingQuality')}

@@ -291,10 +291,14 @@ const LeaderboardSection = () => {
                                   {t('leaderboard.table.organization')}
                                 </th>
                                 <th className="px-4 py-2 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
-                                  {t('leaderboard.table.impactIQ')}
+                                  <MetricTooltip metric="impactScore">
+                                    {t('leaderboard.table.impactIQ')}
+                                  </MetricTooltip>
                                 </th>
                                 <th className="px-4 py-2 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
-                                  {t('leaderboard.table.grade')}
+                                  <MetricTooltip metric="impactGrade">
+                                    {t('leaderboard.table.grade')}
+                                  </MetricTooltip>
                                 </th>
                               </tr>
                             </thead>
@@ -316,23 +320,19 @@ const LeaderboardSection = () => {
                                     </td>
                                     <td className="px-4 py-3 whitespace-nowrap">
                                       <div className="text-sm font-medium text-neutral-900">
-                                        <MetricTooltip metric="impactScore">
-                                          {item.impactScore}
-                                          {item.yearlyChange !== 0 && (
-                                            <span className={`ml-1 text-xs ${item.yearlyChange > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                              {item.yearlyChange > 0 ? '▲' : '▼'}{Math.abs(item.yearlyChange)}%
-                                            </span>
-                                          )}
-                                        </MetricTooltip>
+                                        {item.impactScore}
+                                        {item.yearlyChange !== 0 && (
+                                          <span className={`ml-1 text-xs ${item.yearlyChange > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                            {item.yearlyChange > 0 ? '▲' : '▼'}{Math.abs(item.yearlyChange)}%
+                                          </span>
+                                        )}
                                       </div>
                                     </td>
                                     <td className="px-4 py-3 whitespace-nowrap">
-                                      <MetricTooltip metric="impactGrade">
-                                        <BadgeWithIcon 
-                                          text={item.impactGrade} 
-                                          variant="success"
-                                        />
-                                      </MetricTooltip>
+                                      <BadgeWithIcon 
+                                        text={item.impactGrade} 
+                                        variant="success"
+                                      />
                                     </td>
                                   </tr>
                                 ))
