@@ -36,12 +36,12 @@ const HeroSection = ({ stats, loading }: HeroSectionProps) => {
   };
 
   return (
-    <section className="bg-primary-600 text-white py-8 md:py-12">
+    <section className="bg-black text-white py-8 md:py-12">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-center justify-between">
           <div className="mb-6 md:mb-0 md:w-1/2">
             <h2 className="text-2xl md:text-3xl font-bold mb-2 text-white">{t('hero.title')}</h2>
-            <p className="text-white mb-4">{t('hero.subtitle')}</p>
+            <p className="text-white text-lg mb-4">{t('hero.subtitle')}</p>
             <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-4">
               <div className="relative">
                 <span className="material-icons absolute left-3 top-3 text-neutral-500">search</span>
@@ -59,7 +59,7 @@ const HeroSection = ({ stats, loading }: HeroSectionProps) => {
             </form>
           </div>
           <div className="md:w-5/12">
-            <div className="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-4 flex justify-between">
+            <div className="bg-neutral-800 border border-neutral-700 rounded-lg p-4 flex justify-between">
               {loading ? (
                 <>
                   <StatSkeleton />
@@ -69,24 +69,24 @@ const HeroSection = ({ stats, loading }: HeroSectionProps) => {
               ) : (
                 <>
                   <div className="text-center px-4">
-                    <p className="text-2xl md:text-3xl font-bold font-serif mb-1">
+                    <p className="text-2xl md:text-3xl font-bold mb-1 text-white">
                       {stats.organizationCount.toLocaleString()}
                     </p>
-                    <p className="text-xs text-white">{t('hero.stats.organizations')}</p>
+                    <p className="text-sm font-medium text-white/90">{t('hero.stats.organizations')}</p>
                   </div>
                   
                   <div className="text-center px-4">
-                    <p className="text-2xl md:text-3xl font-bold font-serif mb-1">
+                    <p className="text-2xl md:text-3xl font-bold mb-1 text-white">
                       {stats.programCount.toLocaleString()}
                     </p>
-                    <p className="text-xs text-white">{t('hero.stats.programs')}</p>
+                    <p className="text-sm font-medium text-white/90">{t('hero.stats.programs')}</p>
                   </div>
                   
                   <div className="text-center px-4">
-                    <p className="text-2xl md:text-3xl font-bold font-serif mb-1">
+                    <p className="text-2xl md:text-3xl font-bold mb-1 text-white">
                       {formatImpactValue(stats.impactValue)}
                     </p>
-                    <p className="text-xs text-white">{t('hero.stats.impactValue')}</p>
+                    <p className="text-sm font-medium text-white/90">{t('hero.stats.impactValue')}</p>
                   </div>
                 </>
               )}
@@ -100,8 +100,8 @@ const HeroSection = ({ stats, loading }: HeroSectionProps) => {
 
 const StatSkeleton = () => (
   <div className="text-center px-4 flex-1">
-    <Skeleton className="h-8 w-16 mb-1 mx-auto bg-white/20" />
-    <Skeleton className="h-4 w-20 mx-auto bg-white/20" />
+    <Skeleton className="h-8 w-20 mb-1 mx-auto bg-white/40" />
+    <Skeleton className="h-4 w-24 mx-auto bg-white/30" />
   </div>
 );
 
