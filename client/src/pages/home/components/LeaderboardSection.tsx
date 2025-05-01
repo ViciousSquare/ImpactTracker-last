@@ -207,23 +207,24 @@ const LeaderboardSection = () => {
                           {item.rank}
                         </td>
                         <td className="px-4 py-4 whitespace-nowrap">
-                          <Link href={`/organization/${item.id}`}>
-                            <a className="flex items-center">
-                              <div className="h-10 w-10 flex-shrink-0 rounded-full bg-primary-100 flex items-center justify-center text-primary-500">
-                                <span className="material-icons">
-                                  {item.sector === 'Food Security' ? 'volunteer_activism' : 
-                                   item.sector === 'Housing' ? 'house' :
-                                   item.sector === 'Education' ? 'school' :
-                                   item.sector === 'Environment' ? 'eco' :
-                                   'healing'}
-                                </span>
-                              </div>
-                              <div className="ml-3">
-                                <div className="text-sm font-medium text-neutral-900">{item.name}</div>
-                                <div className="text-xs text-neutral-500">{item.sector}</div>
-                              </div>
-                            </a>
-                          </Link>
+                          <div 
+                            className="flex items-center cursor-pointer"
+                            onClick={() => window.location.href = `/organization/${item.id}`}
+                          >
+                            <div className="h-10 w-10 flex-shrink-0 rounded-full bg-primary-100 flex items-center justify-center text-primary-500">
+                              <span className="material-icons">
+                                {item.sector === 'Food Security' ? 'volunteer_activism' : 
+                                 item.sector === 'Housing' ? 'house' :
+                                 item.sector === 'Education' ? 'school' :
+                                 item.sector === 'Environment' ? 'eco' :
+                                 'healing'}
+                              </span>
+                            </div>
+                            <div className="ml-3">
+                              <div className="text-sm font-medium text-neutral-900">{item.name}</div>
+                              <div className="text-xs text-neutral-500">{item.sector}</div>
+                            </div>
+                          </div>
                         </td>
                         <td className="px-4 py-4 whitespace-nowrap">
                           <div className="text-sm font-medium text-neutral-900">{item.impactScore}</div>
@@ -361,12 +362,13 @@ const LeaderboardSection = () => {
         
         {/* View more link */}
         <div className="mt-6 text-center">
-          <Link href="/leaderboard">
-            <a className="inline-flex items-center text-primary-500 hover:text-primary-600 font-medium">
-              View full leaderboard
-              <span className="material-icons ml-1 text-sm">arrow_forward</span>
-            </a>
-          </Link>
+          <div 
+            className="inline-flex items-center text-primary-500 hover:text-primary-600 font-medium cursor-pointer"
+            onClick={() => window.location.href = "/leaderboard"}
+          >
+            View full leaderboard
+            <span className="material-icons ml-1 text-sm">arrow_forward</span>
+          </div>
         </div>
       </div>
     </section>

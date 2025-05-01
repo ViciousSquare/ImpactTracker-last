@@ -292,11 +292,13 @@ const SolutionFinderSection = () => {
         {/* View more button */}
         {solutions && solutions.length > 0 && (
           <div className="mt-8 text-center">
-            <Link href="/solution-finder">
-              <Button variant="outline" className="text-primary-500 border-primary-500">
-                {t('solution.viewMore')}
-              </Button>
-            </Link>
+            <Button 
+              variant="outline" 
+              className="text-primary-500 border-primary-500"
+              onClick={() => window.location.href = "/solution-finder"}
+            >
+              {t('solution.viewMore')}
+            </Button>
           </div>
         )}
       </div>
