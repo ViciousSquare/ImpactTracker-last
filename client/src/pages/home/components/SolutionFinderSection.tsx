@@ -80,8 +80,14 @@ const SolutionFinderSection = () => {
     
     let options;
     switch (key) {
+      case 'sector':
+        options = SECTOR_OPTIONS;
+        break;
       case 'region':
         options = REGION_OPTIONS;
+        break;
+      case 'businessType':
+        options = BUSINESS_TYPE_OPTIONS;
         break;
       case 'sdg':
         options = SDG_OPTIONS;
@@ -143,6 +149,22 @@ const SolutionFinderSection = () => {
             
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:col-span-2">
               <Select 
+                value={searchValues.sector} 
+                onValueChange={(value) => handleFilterChange('sector', value)}
+              >
+                <SelectTrigger className="bg-white border border-neutral-300 rounded-md px-3 py-2 text-neutral-700 w-full h-auto">
+                  <SelectValue placeholder={t('solution.allSectors')} />
+                </SelectTrigger>
+                <SelectContent>
+                  {SECTOR_OPTIONS.map(option => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <Select 
                 value={searchValues.region} 
                 onValueChange={(value) => handleFilterChange('region', value)}
               >
@@ -151,6 +173,22 @@ const SolutionFinderSection = () => {
                 </SelectTrigger>
                 <SelectContent>
                   {REGION_OPTIONS.map(option => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <Select 
+                value={searchValues.businessType} 
+                onValueChange={(value) => handleFilterChange('businessType', value)}
+              >
+                <SelectTrigger className="bg-white border border-neutral-300 rounded-md px-3 py-2 text-neutral-700 w-full h-auto">
+                  <SelectValue placeholder={t('solution.allBusinessTypes')} />
+                </SelectTrigger>
+                <SelectContent>
+                  {BUSINESS_TYPE_OPTIONS.map(option => (
                     <SelectItem key={option.value} value={option.value}>
                       {option.label}
                     </SelectItem>
