@@ -78,6 +78,12 @@ const translations: Record<Language, Record<string, string>> = {
     'org.program.score': 'Score',
     'org.viewAllPrograms': 'View all {count} programs',
     
+    // Success Stories
+    'successStories.title': 'Impact Success Stories',
+    'successStories.subtitle': 'Learn how organizations are making measurable impacts across Canada',
+    'successStories.viewAll': 'View All Stories',
+    'successStories.viewFullProfile': 'View Full Organization Profile',
+    
     // Solution Finder
     'solution.title': 'Solution Finder',
     'solution.subtitle': 'Find effective programs addressing specific social needs',
@@ -193,6 +199,12 @@ const translations: Record<Language, Record<string, string>> = {
     'org.program.socialROI': 'RSI social',
     'org.program.score': 'Score',
     'org.viewAllPrograms': 'Voir tous les {count} programmes',
+    
+    // Success Stories
+    'successStories.title': 'Histoires de réussite d\'impact',
+    'successStories.subtitle': 'Découvrez comment les organisations créent des impacts mesurables au Canada',
+    'successStories.viewAll': 'Voir toutes les histoires',
+    'successStories.viewFullProfile': 'Voir le profil complet de l\'organisation',
     
     // Solution Finder
     'solution.title': 'Chercheur de solutions',
