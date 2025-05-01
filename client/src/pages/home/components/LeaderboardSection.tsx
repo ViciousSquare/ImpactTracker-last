@@ -82,7 +82,7 @@ const LeaderboardSection = () => {
           const baseItem = sourceItems[i % sourceItems.length];
           if (baseItem) {
             // Get valid ImpactGrade and ensure type safety
-            const gradeOptions: ImpactGrade[] = ['A+', 'A', 'A-', 'B+', 'B'];
+            const gradeOptions: ImpactGrade[] = [ImpactGrade.APlus, ImpactGrade.A, ImpactGrade.AMinus, ImpactGrade.BPlus, ImpactGrade.B];
             const randomGrade = gradeOptions[Math.floor(Math.random() * gradeOptions.length)];
             
             sectorData[sector].push({
@@ -298,9 +298,8 @@ const LeaderboardSection = () => {
                               </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-neutral-200">
-                              {leaderboardData.items
-                                .filter(item => item.sector === sectorOption.value)
-                                .slice(0, 5)
+                              {sectorData[sectorOption.value as Sector]
+                                ?.slice(0, 5)
                                 .map((item) => (
                                   <tr key={item.id} className="hover:bg-neutral-50">
                                     <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-neutral-900">
@@ -334,7 +333,7 @@ const LeaderboardSection = () => {
                                 ))
                               }
                               {/* No results message */}
-                              {leaderboardData.items.filter(item => item.sector === sectorOption.value).length === 0 && (
+                              {(!sectorData[sectorOption.value as Sector] || sectorData[sectorOption.value as Sector].length === 0) && (
                                 <tr>
                                   <td colSpan={4} className="px-4 py-4 text-center text-neutral-500">
                                     No organizations in this sector.

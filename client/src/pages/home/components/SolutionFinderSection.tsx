@@ -29,7 +29,7 @@ import {
   CarouselContent, 
   CarouselItem, 
   CarouselNext, 
-  CarouselPrevious 
+  CarouselPrevious
 } from '@/components/ui/carousel';
 
 const SolutionFinderSection = () => {
