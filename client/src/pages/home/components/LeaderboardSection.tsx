@@ -91,6 +91,7 @@ const LeaderboardSection = () => {
               id: baseItem.id + 1000 + i, // Create a unique ID
               name: `${sector} Organization ${i+1}`,
               sector: sector,
+              rank: i + 1, // Assign sequential ranks
               impactScore: Math.floor(70 + Math.random() * 30),
               impactGrade: randomGrade,
               yearlyChange: Math.floor(Math.random() * 20) - 5,
@@ -98,6 +99,15 @@ const LeaderboardSection = () => {
           }
         }
       }
+    });
+    
+    // Sort organizations within each sector by impact score in descending order and update ranks
+    Object.keys(sectorData).forEach(sector => {
+      sectorData[sector].sort((a, b) => b.impactScore - a.impactScore);
+      // Update ranks based on sorted order
+      sectorData[sector].forEach((org, index) => {
+        org.rank = index + 1;
+      });
     });
     
     return sectorData;
