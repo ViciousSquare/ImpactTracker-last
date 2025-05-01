@@ -8,6 +8,7 @@ import Leaderboard from "@/pages/leaderboard";
 import SolutionFinder from "@/pages/solution-finder";
 import OrganizationProfilePage from "@/pages/organization/[id]";
 import MethodologyPage from "@/pages/methodology";
+import AboutPage from "@/pages/about";
 
 function Router() {
   return (
@@ -16,6 +17,7 @@ function Router() {
       <Route path="/leaderboard" component={Leaderboard} />
       <Route path="/solution-finder" component={SolutionFinder} />
       <Route path="/methodology" component={MethodologyPage} />
+      <Route path="/about" component={AboutPage} />
       <Route path="/organization/:id" component={OrganizationProfilePage} />
       <Route component={NotFound} />
     </Switch>

@@ -132,6 +132,24 @@ const translations: Record<Language, Record<string, string>> = {
     'verification.verified': 'Verified',
     'verification.selfReported': 'Self-Reported',
     
+    // About page
+    'about.title': 'Why Basic Impacts Exists',
+    'about.subtitle': 'We\'re building a future where social impact is transparent, measurable, and accountable — addressing the critical gaps in Canada\'s social sector.',
+    'about.problem.title': 'The Problem',
+    'about.problem.description': 'Canada\'s social sector lacks standardized impact measurement, leading to inefficient resource allocation, duplicated efforts, and an inability to identify truly effective approaches to our most pressing social challenges.',
+    'about.solution.title': 'Our Solution',
+    'about.solution.description': 'Basic Impacts provides a comprehensive platform that standardizes impact measurement, creates transparency, and enables data-driven decision making across the social sector.',
+    'about.stats.title': 'The Urgent Need for Impact Accountability',
+    'about.stats.subtitle': 'Real-world statistics show the critical gaps in Canada\'s social impact ecosystem',
+    'about.wastage.title': 'The Cost of Inaction',
+    'about.wastage.subtitle': 'Ineffective impact measurement leads to significant resource wastage',
+    'about.approach.title': 'Our Approach',
+    'about.approach.subtitle': 'Basic Impacts combines robust methodology with user-friendly tools',
+    'about.cta.title': 'Join the Impact Accountability Movement',
+    'about.cta.subtitle': 'Together, we can transform how social impact is measured, reported, and improved across Canada.',
+    'about.cta.register': 'Register Your Organization',
+    'about.cta.learnMore': 'Learn More About Our Methodology',
+    
     // Common terms
     'common.fromLastYear': 'from last year',
     'common.annually': 'annually',
@@ -260,6 +278,24 @@ const translations: Record<Language, Record<string, string>> = {
     'verification.audited': 'Audité',
     'verification.verified': 'Vérifié',
     'verification.selfReported': 'Auto-déclaré',
+    
+    // About page
+    'about.title': 'Pourquoi Basic Impacts Existe',
+    'about.subtitle': 'Nous construisons un avenir où l\'impact social est transparent, mesurable et responsable — en comblant les lacunes critiques du secteur social canadien.',
+    'about.problem.title': 'Le Problème',
+    'about.problem.description': 'Le secteur social canadien manque de mesures d\'impact standardisées, ce qui entraîne une allocation inefficace des ressources, des efforts dupliqués et une incapacité à identifier des approches véritablement efficaces pour nos défis sociaux les plus pressants.',
+    'about.solution.title': 'Notre Solution',
+    'about.solution.description': 'Basic Impacts fournit une plateforme complète qui standardise la mesure d\'impact, crée de la transparence et permet une prise de décision basée sur les données dans tout le secteur social.',
+    'about.stats.title': 'Le Besoin Urgent de Responsabilité d\'Impact',
+    'about.stats.subtitle': 'Des statistiques réelles montrent les lacunes critiques dans l\'écosystème d\'impact social du Canada',
+    'about.wastage.title': 'Le Coût de l\'Inaction',
+    'about.wastage.subtitle': 'Des mesures d\'impact inefficaces entraînent un gaspillage important de ressources',
+    'about.approach.title': 'Notre Approche',
+    'about.approach.subtitle': 'Basic Impacts combine une méthodologie robuste avec des outils conviviaux',
+    'about.cta.title': 'Rejoignez le Mouvement de Responsabilité d\'Impact',
+    'about.cta.subtitle': 'Ensemble, nous pouvons transformer la façon dont l\'impact social est mesuré, rapporté et amélioré à travers le Canada.',
+    'about.cta.register': 'Enregistrez Votre Organisation',
+    'about.cta.learnMore': 'En Savoir Plus Sur Notre Méthodologie',
     
     // Common terms
     'common.fromLastYear': 'par rapport à l\'année dernière',
