@@ -157,12 +157,14 @@ const LeaderboardSection = () => {
     carousel.addEventListener('mousemove', handleMouseMove);
     
     return () => {
-      carousel.removeEventListener('mousedown', handleMouseDown);
-      carousel.removeEventListener('mouseleave', handleMouseLeave);
-      carousel.removeEventListener('mouseup', handleMouseUp);
-      carousel.removeEventListener('mousemove', handleMouseMove);
+      if (carousel) {
+        carousel.removeEventListener('mousedown', handleMouseDown);
+        carousel.removeEventListener('mouseleave', handleMouseLeave);
+        carousel.removeEventListener('mouseup', handleMouseUp);
+        carousel.removeEventListener('mousemove', handleMouseMove);
+      }
     };
-  }, []);
+  }, [carouselRef]);
 
   return (
     <section className="py-6 md:py-10 bg-gradient-to-b from-white to-primary-50">

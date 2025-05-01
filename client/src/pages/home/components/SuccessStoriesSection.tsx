@@ -67,12 +67,14 @@ const SuccessStoriesSection = () => {
     carousel.addEventListener('mousemove', handleMouseMove);
     
     return () => {
-      carousel.removeEventListener('mousedown', handleMouseDown);
-      carousel.removeEventListener('mouseleave', handleMouseLeave);
-      carousel.removeEventListener('mouseup', handleMouseUp);
-      carousel.removeEventListener('mousemove', handleMouseMove);
+      if (carousel) {
+        carousel.removeEventListener('mousedown', handleMouseDown);
+        carousel.removeEventListener('mouseleave', handleMouseLeave);
+        carousel.removeEventListener('mouseup', handleMouseUp);
+        carousel.removeEventListener('mousemove', handleMouseMove);
+      }
     };
-  }, [successStories]);
+  }, [carouselRef, successStories]);
 
   const getVerificationBadge = (type: string) => {
     switch (type) {

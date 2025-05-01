@@ -89,12 +89,14 @@ const SolutionFinderSection = () => {
     carousel.addEventListener('mousemove', handleMouseMove);
     
     return () => {
-      carousel.removeEventListener('mousedown', handleMouseDown);
-      carousel.removeEventListener('mouseleave', handleMouseLeave);
-      carousel.removeEventListener('mouseup', handleMouseUp);
-      carousel.removeEventListener('mousemove', handleMouseMove);
+      if (carousel) {
+        carousel.removeEventListener('mousedown', handleMouseDown);
+        carousel.removeEventListener('mouseleave', handleMouseLeave);
+        carousel.removeEventListener('mouseup', handleMouseUp);
+        carousel.removeEventListener('mousemove', handleMouseMove);
+      }
     };
-  }, []);
+  }, [carouselRef]);
 
   // Fetch solution finder data with filters
   const { data: solutions, isLoading } = useQuery<SolutionItem[]>({
