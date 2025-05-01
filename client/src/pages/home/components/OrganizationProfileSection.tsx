@@ -63,12 +63,13 @@ const OrganizationProfileSection = () => {
             <p className="text-neutral-600">{t('org.featuredSubtitle')}</p>
           </div>
           
-          <Link href="/organizations">
-            <a className="mt-2 md:mt-0 inline-flex items-center text-primary-500 hover:text-primary-600 font-medium">
-              {t('org.viewAll')}
-              <span className="material-icons ml-1 text-sm">arrow_forward</span>
-            </a>
-          </Link>
+          <div 
+            className="mt-2 md:mt-0 inline-flex items-center text-primary-500 hover:text-primary-600 font-medium cursor-pointer"
+            onClick={() => window.location.href = "/organizations"}
+          >
+            {t('org.viewAll')}
+            <span className="material-icons ml-1 text-sm">arrow_forward</span>
+          </div>
         </div>
         
         <div className="bg-white rounded-lg shadow-sm border border-neutral-200 overflow-hidden">
@@ -301,11 +302,12 @@ const OrganizationProfileSection = () => {
                           </table>
                         </div>
                         <div className="mt-3 text-center">
-                          <Link href={`/organization/${organization.id}/programs`}>
-                            <a className="text-sm text-primary-500 hover:text-primary-600 font-medium">
-                              {t('org.viewAllPrograms').replace('{count}', organization.stats.programs.toString())}
-                            </a>
-                          </Link>
+                          <span 
+                            className="text-sm text-primary-500 hover:text-primary-600 font-medium cursor-pointer"
+                            onClick={() => window.location.href = `/organization/${organization.id}/programs`}
+                          >
+                            {t('org.viewAllPrograms').replace('{count}', organization.stats.programs.toString())}
+                          </span>
                         </div>
                       </div>
                     </div>
