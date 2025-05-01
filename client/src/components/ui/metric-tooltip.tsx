@@ -8,8 +8,14 @@ import {
 import { Info } from "lucide-react";
 import { cn } from '@/lib/utils';
 
+// Type definition for breakdown tooltip
+type BreakdownTooltip = {
+  title: string;
+  [key: string]: string;
+};
+
 // Dictionary of metric explanations
-export const metricExplanations: Record<string, string> = {
+export const metricExplanations: Record<string, string | BreakdownTooltip> = {
   // Impact metrics
   impactScore: "A comprehensive score (0-100) that combines all impact dimensions including reach, effectiveness, social ROI, governance, and reporting quality.",
   impactGrade: "Letter grade representing impact quality from F (lowest) to A+ (highest), derived from the Impact Score.",
@@ -27,6 +33,16 @@ export const metricExplanations: Record<string, string> = {
   // Solution metrics  
   effectiveness: "A score (0-100) indicating how effectively the solution achieves its intended outcomes based on evidence.",
   peopleReached: "The number of individuals directly benefiting from the program or initiative.",
+  
+  // Combined impact breakdown tooltip
+  impactBreakdown: {
+    title: "Impact IQ Score Breakdown",
+    reportingQuality: "Reporting Quality (0-20): Assesses the completeness, transparency and quality of the organization's impact reporting.",
+    reach: "Reach (0-20): Evaluates the organization's scale and breadth of impact relative to its sector.",
+    socialROI: "Social ROI (0-20): Measures the social return on investment and financial efficiency.",
+    outcomeEffectiveness: "Outcome Effectiveness (0-20): Measures the organization's success in achieving its stated goals and outcomes.",
+    transparencyGovernance: "Transparency & Governance (0-20): Rates the organization's operational transparency and governance practices."
+  }
 };
 
 interface MetricTooltipProps {
@@ -54,7 +70,23 @@ export function MetricTooltip({
           </span>
         </TooltipTrigger>
         <TooltipContent className="max-w-xs p-3">
-          <p className="text-sm">{explanation}</p>
+          {typeof explanation === 'string' ? (
+            <p className="text-sm">{explanation}</p>
+          ) : (
+            <div className="space-y-3">
+              <h5 className="font-medium text-sm">{explanation.title}</h5>
+              <ul className="space-y-2 text-sm list-none">
+                {Object.entries(explanation)
+                  .filter(([key]) => key !== 'title')
+                  .map(([key, text]) => (
+                    <li key={key} className="text-xs">
+                      <p><strong>{text.split(':')[0]}:</strong> {text.split(':')[1]}</p>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+          )}
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
