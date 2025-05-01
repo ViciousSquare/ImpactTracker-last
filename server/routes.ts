@@ -47,16 +47,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get featured organization
+  // Get featured organizations
   app.get('/api/organizations/featured', async (req, res) => {
     try {
-      const organization = await storage.getFeaturedOrganization();
-      if (!organization) {
-        return res.status(404).json({ message: 'No featured organization found' });
+      const organizations = await storage.getFeaturedOrganization();
+      if (!organizations || organizations.length === 0) {
+        return res.status(404).json({ message: 'No featured organizations found' });
       }
-      res.json(organization);
+      res.json(organizations);
     } catch (error) {
-      res.status(500).json({ message: 'Failed to fetch featured organization' });
+      res.status(500).json({ message: 'Failed to fetch featured organizations' });
     }
   });
 

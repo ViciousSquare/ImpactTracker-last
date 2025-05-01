@@ -5,15 +5,30 @@ import { OrganizationProfile } from '@/lib/types';
 import BadgeWithIcon from '@/components/ui/badge-with-icon';
 import ProgressWithLabel from '@/components/ui/progress-with-label';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
 const OrganizationProfileSection = () => {
   const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState('overview');
+  const [selectedOrgId, setSelectedOrgId] = useState<number | null>(null);
   
-  const { data: organization, isLoading } = useQuery<OrganizationProfile>({
+  const { data: organizations, isLoading } = useQuery<OrganizationProfile[]>({
     queryKey: ['/api/organizations/featured'],
   });
+  
+  // Determine which organization to display
+  const organization = useMemo(() => {
+    if (!organizations || organizations.length === 0) return undefined;
+    
+    // If we have a selected org ID, find that org
+    if (selectedOrgId) {
+      const selected = organizations.find(org => org.id === selectedOrgId);
+      if (selected) return selected;
+    }
+    
+    // Default to the first one
+    return organizations[0];
+  }, [organizations, selectedOrgId]);
 
   const getVerificationBadge = (type: string) => {
     switch (type) {
@@ -71,6 +86,40 @@ const OrganizationProfileSection = () => {
             <span className="material-icons ml-1 text-sm">arrow_forward</span>
           </div>
         </div>
+        
+        {/* Organization Selection Carousel */}
+        {!isLoading && organizations && organizations.length > 1 && (
+          <div className="mb-6 overflow-x-auto scrollbar-hide">
+            <div className="flex space-x-4 pb-4" style={{ minWidth: 'max-content' }}>
+              {organizations.map((org, index) => (
+                <div 
+                  key={org.id}
+                  className={`flex-none cursor-pointer transition-all duration-300 rounded-lg p-4 border-2 ${
+                    organization?.id === org.id 
+                      ? 'border-primary-500 bg-primary-50' 
+                      : 'border-transparent hover:bg-neutral-50'
+                  }`}
+                  onClick={() => {
+                    setSelectedOrgId(org.id);
+                  }}
+                  style={{ width: '200px' }}
+                >
+                  <div className="flex items-center">
+                    <div className="bg-primary-100 rounded-md w-10 h-10 flex items-center justify-center">
+                      <span className="material-icons text-primary-500">
+                        {getSectorIcon(org.sector)}
+                      </span>
+                    </div>
+                    <div className="ml-3 truncate">
+                      <div className="font-medium text-sm text-neutral-900 truncate">{org.name}</div>
+                      <div className="text-xs text-neutral-500 truncate">{org.sector}</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
         
         <div className="bg-white rounded-lg shadow-sm border border-neutral-200 overflow-hidden">
           {isLoading ? (

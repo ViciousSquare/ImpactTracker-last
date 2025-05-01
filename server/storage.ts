@@ -58,7 +58,7 @@ export interface IStorage {
   }>;
   
   // Organizations
-  getFeaturedOrganization(): Promise<OrganizationProfile | undefined>;
+  getFeaturedOrganization(): Promise<OrganizationProfile[]>;
   getOrganizationById(id: number): Promise<OrganizationProfile | undefined>;
   getSuccessStories(): Promise<OrganizationProfile[]>;
   
@@ -285,65 +285,332 @@ export class MemStorage implements IStorage {
   }
   
   // Organization operations
-  async getFeaturedOrganization(): Promise<OrganizationProfile | undefined> {
-    return {
-      id: 1,
-      name: 'Canadian Food Bank Network',
-      logo: undefined,
-      mission: 'The Canadian Food Bank Network is dedicated to providing food security to vulnerable communities across Canada through an integrated network of local food banks, community programs, and partnerships with food producers.',
-      sector: 'Food Security',
-      region: 'National',
-      established: 2002,
-      impactScore: 95,
-      impactGrade: ImpactGrade.APlus,
-      verificationType: VerificationType.Audited,
-      yearlyChange: 3.2,
-      sdgAlignment: [
-        'SDG 2: Zero Hunger',
-        'SDG 3: Good Health',
-        'SDG 12: Responsible Consumption'
-      ],
-      metrics: {
-        reportingQuality: 19,
-        reach: 18,
-        socialROI: 20,
-        outcomeEffectiveness: 19,
-        transparencyGovernance: 19
-      },
-      stats: {
-        peopleReached: '1.2M annually',
-        socialROI: 9.35,
-        programs: 14,
-        funding: '$24.5M',
-        programAllocation: 87
-      },
-      yearlyTrend: [82, 85, 89, 92, 95],
-      topPrograms: [
-        {
-          name: 'Emergency Food Relief',
-          peopleReached: 425000,
-          socialROI: 12.45,
-          impactGrade: ImpactGrade.APlus
+  async getFeaturedOrganization(): Promise<OrganizationProfile[]> {
+    return [
+      {
+        id: 1,
+        name: 'Canadian Food Bank Network',
+        logo: undefined,
+        mission: 'The Canadian Food Bank Network is dedicated to providing food security to vulnerable communities across Canada through an integrated network of local food banks, community programs, and partnerships with food producers.',
+        sector: 'Food Security',
+        region: 'National',
+        established: 2002,
+        impactScore: 95,
+        impactGrade: ImpactGrade.APlus,
+        verificationType: VerificationType.Audited,
+        yearlyChange: 3.2,
+        sdgAlignment: [
+          'SDG 2: Zero Hunger',
+          'SDG 3: Good Health',
+          'SDG 12: Responsible Consumption'
+        ],
+        metrics: {
+          reportingQuality: 19,
+          reach: 18,
+          socialROI: 20,
+          outcomeEffectiveness: 19,
+          transparencyGovernance: 19
         },
-        {
-          name: 'Community Kitchen Network',
-          peopleReached: 312000,
-          socialROI: 8.76,
-          impactGrade: ImpactGrade.A
+        stats: {
+          peopleReached: '1.2M annually',
+          socialROI: 9.35,
+          programs: 14,
+          funding: '$24.5M',
+          programAllocation: 87
         },
-        {
-          name: 'Food Waste Reduction',
-          peopleReached: 275000,
-          socialROI: 7.92,
-          impactGrade: ImpactGrade.AMinus
-        }
-      ]
-    };
+        yearlyTrend: [82, 85, 89, 92, 95],
+        topPrograms: [
+          {
+            name: 'Emergency Food Relief',
+            peopleReached: 425000,
+            socialROI: 12.45,
+            impactGrade: ImpactGrade.APlus
+          },
+          {
+            name: 'Community Kitchen Network',
+            peopleReached: 312000,
+            socialROI: 8.76,
+            impactGrade: ImpactGrade.A
+          },
+          {
+            name: 'Food Waste Reduction',
+            peopleReached: 275000,
+            socialROI: 7.92,
+            impactGrade: ImpactGrade.AMinus
+          }
+        ]
+      },
+      {
+        id: 7,
+        name: 'Clean Energy Coalition',
+        logo: undefined,
+        mission: 'The Clean Energy Coalition advances sustainable energy solutions through innovative projects, policy advocacy, and community engagement to accelerate Canada\'s transition to a low-carbon future.',
+        sector: 'Environment',
+        region: 'British Columbia',
+        established: 2008,
+        impactScore: 93,
+        impactGrade: ImpactGrade.APlus,
+        verificationType: VerificationType.Audited,
+        yearlyChange: 4.5,
+        sdgAlignment: [
+          'SDG 7: Affordable and Clean Energy',
+          'SDG 13: Climate Action',
+          'SDG 11: Sustainable Cities and Communities'
+        ],
+        metrics: {
+          reportingQuality: 19,
+          reach: 18,
+          socialROI: 19,
+          outcomeEffectiveness: 19,
+          transparencyGovernance: 18
+        },
+        stats: {
+          peopleReached: '850,000 annually',
+          socialROI: 10.25,
+          programs: 11,
+          funding: '$22.8M',
+          programAllocation: 86
+        },
+        yearlyTrend: [80, 84, 88, 91, 93],
+        topPrograms: [
+          {
+            name: 'Community Solar Initiative',
+            peopleReached: 325000,
+            socialROI: 11.85,
+            impactGrade: ImpactGrade.APlus
+          },
+          {
+            name: 'Building Retrofit Program',
+            peopleReached: 285000,
+            socialROI: 9.45,
+            impactGrade: ImpactGrade.A
+          },
+          {
+            name: 'Clean Transport Network',
+            peopleReached: 215000,
+            socialROI: 8.95,
+            impactGrade: ImpactGrade.A
+          }
+        ]
+      },
+      {
+        id: 8,
+        name: 'National Education Access',
+        logo: undefined,
+        mission: 'National Education Access works to eliminate barriers to education through scholarships, mentoring programs, and digital learning tools that create pathways to success for underserved students.',
+        sector: 'Education',
+        region: 'National',
+        established: 2005,
+        impactScore: 90,
+        impactGrade: ImpactGrade.A,
+        verificationType: VerificationType.Verified,
+        yearlyChange: 3.8,
+        sdgAlignment: [
+          'SDG 4: Quality Education',
+          'SDG 10: Reduced Inequalities',
+          'SDG 8: Decent Work and Economic Growth'
+        ],
+        metrics: {
+          reportingQuality: 18,
+          reach: 18,
+          socialROI: 18,
+          outcomeEffectiveness: 19,
+          transparencyGovernance: 17
+        },
+        stats: {
+          peopleReached: '625,000 annually',
+          socialROI: 8.75,
+          programs: 9,
+          funding: '$19.5M',
+          programAllocation: 85
+        },
+        yearlyTrend: [78, 82, 85, 88, 90],
+        topPrograms: [
+          {
+            name: 'First Generation Scholarship',
+            peopleReached: 245000,
+            socialROI: 9.85,
+            impactGrade: ImpactGrade.APlus
+          },
+          {
+            name: 'Digital Learning Initiative',
+            peopleReached: 215000,
+            socialROI: 8.45,
+            impactGrade: ImpactGrade.A
+          },
+          {
+            name: 'Career Pathways Mentoring',
+            peopleReached: 165000,
+            socialROI: 7.95,
+            impactGrade: ImpactGrade.A
+          }
+        ]
+      },
+      {
+        id: 9,
+        name: 'Urban Housing Solutions',
+        logo: undefined,
+        mission: 'Urban Housing Solutions creates affordable, sustainable housing in urban centers through innovative development models, tenant support services, and advocacy for inclusive housing policies.',
+        sector: 'Housing',
+        region: 'Ontario',
+        established: 2003,
+        impactScore: 88,
+        impactGrade: ImpactGrade.AMinus,
+        verificationType: VerificationType.Verified,
+        yearlyChange: 5.2,
+        sdgAlignment: [
+          'SDG 11: Sustainable Cities and Communities',
+          'SDG 1: No Poverty',
+          'SDG 10: Reduced Inequalities'
+        ],
+        metrics: {
+          reportingQuality: 17,
+          reach: 17,
+          socialROI: 18,
+          outcomeEffectiveness: 18,
+          transparencyGovernance: 18
+        },
+        stats: {
+          peopleReached: '58,000 annually',
+          socialROI: 8.15,
+          programs: 7,
+          funding: '$16.2M',
+          programAllocation: 83
+        },
+        yearlyTrend: [76, 79, 83, 86, 88],
+        topPrograms: [
+          {
+            name: 'Affordable Housing Development',
+            peopleReached: 28000,
+            socialROI: 9.25,
+            impactGrade: ImpactGrade.A
+          },
+          {
+            name: 'Community Integration Services',
+            peopleReached: 18000,
+            socialROI: 7.85,
+            impactGrade: ImpactGrade.A
+          },
+          {
+            name: 'Housing Stability Program',
+            peopleReached: 12000,
+            socialROI: 7.25,
+            impactGrade: ImpactGrade.AMinus
+          }
+        ]
+      },
+      {
+        id: 10,
+        name: 'Health Access Network',
+        logo: undefined,
+        mission: 'Health Access Network improves healthcare accessibility for underserved communities through mobile clinics, telemedicine services, and preventive health education programs.',
+        sector: 'Health',
+        region: 'Quebec',
+        established: 2007,
+        impactScore: 87,
+        impactGrade: ImpactGrade.A,
+        verificationType: VerificationType.Verified,
+        yearlyChange: 2.8,
+        sdgAlignment: [
+          'SDG 3: Good Health',
+          'SDG 10: Reduced Inequalities'
+        ],
+        metrics: {
+          reportingQuality: 17,
+          reach: 18,
+          socialROI: 18,
+          outcomeEffectiveness: 17,
+          transparencyGovernance: 17
+        },
+        stats: {
+          peopleReached: '165,000 annually',
+          socialROI: 7.85,
+          programs: 8,
+          funding: '$14.5M',
+          programAllocation: 84
+        },
+        yearlyTrend: [77, 80, 83, 85, 87],
+        topPrograms: [
+          {
+            name: 'Mobile Health Clinics',
+            peopleReached: 75000,
+            socialROI: 8.65,
+            impactGrade: ImpactGrade.A
+          },
+          {
+            name: 'Preventive Health Education',
+            peopleReached: 52000,
+            socialROI: 7.45,
+            impactGrade: ImpactGrade.AMinus
+          },
+          {
+            name: 'Telemedicine for Rural Areas',
+            peopleReached: 38000,
+            socialROI: 7.25,
+            impactGrade: ImpactGrade.AMinus
+          }
+        ]
+      },
+      {
+        id: 11,
+        name: 'Regional Economic Development',
+        logo: undefined,
+        mission: 'Regional Economic Development fosters sustainable economic growth in rural and underserved regions through small business development, skills training, and infrastructure investment.',
+        sector: 'Economic Development',
+        region: 'Atlantic',
+        established: 2009,
+        impactScore: 85,
+        impactGrade: ImpactGrade.A,
+        verificationType: VerificationType.Verified,
+        yearlyChange: 4.7,
+        sdgAlignment: [
+          'SDG 8: Decent Work and Economic Growth',
+          'SDG 9: Industry, Innovation and Infrastructure',
+          'SDG 11: Sustainable Cities and Communities'
+        ],
+        metrics: {
+          reportingQuality: 16,
+          reach: 17,
+          socialROI: 17,
+          outcomeEffectiveness: 18,
+          transparencyGovernance: 17
+        },
+        stats: {
+          peopleReached: '48,000 annually',
+          socialROI: 7.65,
+          programs: 9,
+          funding: '$11.8M',
+          programAllocation: 82
+        },
+        yearlyTrend: [73, 77, 81, 83, 85],
+        topPrograms: [
+          {
+            name: 'Small Business Development',
+            peopleReached: 22000,
+            socialROI: 8.25,
+            impactGrade: ImpactGrade.A
+          },
+          {
+            name: 'Workforce Skills Training',
+            peopleReached: 15000,
+            socialROI: 7.45,
+            impactGrade: ImpactGrade.AMinus
+          },
+          {
+            name: 'Community Infrastructure Projects',
+            peopleReached: 11000,
+            socialROI: 7.15,
+            impactGrade: ImpactGrade.AMinus
+          }
+        ]
+      }
+    ];
   }
   
   async getOrganizationById(id: number): Promise<OrganizationProfile | undefined> {
-    // For demo, return the featured organization for any ID
-    return this.getFeaturedOrganization();
+    // Return the specific organization by ID
+    const organizations = await this.getFeaturedOrganization();
+    return organizations.find(org => org.id === id);
   }
   
   async getSuccessStories(): Promise<OrganizationProfile[]> {
@@ -675,6 +942,86 @@ export class MemStorage implements IStorage {
         verificationType: VerificationType.Verified,
         effectiveness: 85,
         tags: ['Food Security', 'Indigenous', 'SDG 2']
+      },
+      {
+        id: 4,
+        name: 'Affordable Housing Network',
+        organizationName: 'Housing First Initiative',
+        icon: 'house',
+        sector: 'Housing',
+        businessType: 'Non-Profit',
+        region: 'Ontario',
+        description: 'Develops and manages affordable housing units along with supportive services for vulnerable populations, focusing on the Housing First model.',
+        peopleReached: 65000,
+        socialROI: 9.45,
+        impactGrade: ImpactGrade.A,
+        verificationType: VerificationType.Audited,
+        effectiveness: 89,
+        tags: ['Housing', 'Urban', 'SDG 11']
+      },
+      {
+        id: 5,
+        name: 'Digital Literacy for Seniors',
+        organizationName: 'Youth STEM Foundation',
+        icon: 'computer',
+        sector: 'Education',
+        businessType: 'Non-Profit',
+        region: 'Quebec',
+        description: 'Pairs seniors with youth volunteers for technology training, helping older adults gain digital skills while fostering intergenerational connections.',
+        peopleReached: 42000,
+        socialROI: 7.85,
+        impactGrade: ImpactGrade.AMinus,
+        verificationType: VerificationType.Verified,
+        effectiveness: 84,
+        tags: ['Education', 'Seniors', 'SDG 4', 'Technology']
+      },
+      {
+        id: 6,
+        name: 'Clean Energy Community Co-op',
+        organizationName: 'Clean Energy Alliance',
+        icon: 'wb_sunny',
+        sector: 'Environment',
+        businessType: 'Social Enterprise',
+        region: 'British Columbia',
+        description: 'Establishes community-owned renewable energy projects, allowing local residents to invest in and benefit from clean energy generation in their neighborhoods.',
+        peopleReached: 58000,
+        socialROI: 10.25,
+        impactGrade: ImpactGrade.APlus,
+        verificationType: VerificationType.Audited,
+        effectiveness: 91,
+        tags: ['Environment', 'Energy', 'SDG 7', 'SDG 13']
+      },
+      {
+        id: 7,
+        name: 'Remote Indigenous Healthcare',
+        organizationName: 'Indigenous Health Network',
+        icon: 'healing',
+        sector: 'Health',
+        businessType: 'Non-Profit',
+        region: 'Northern',
+        description: 'Provides healthcare access to remote Indigenous communities through telemedicine, mobile clinics, and traditional healing integration.',
+        peopleReached: 32000,
+        socialROI: 8.75,
+        impactGrade: ImpactGrade.A,
+        verificationType: VerificationType.Verified,
+        effectiveness: 86,
+        tags: ['Health', 'Indigenous', 'SDG 3', 'Rural']
+      },
+      {
+        id: 8,
+        name: 'Rural Business Incubator',
+        organizationName: 'Rural Economic Innovation',
+        icon: 'trending_up',
+        sector: 'Economic Development',
+        businessType: 'Social Enterprise',
+        region: 'Prairies',
+        description: 'Supports rural entrepreneurs with business development resources, mentorship, and capital access to create sustainable local economies.',
+        peopleReached: 25000,
+        socialROI: 7.65,
+        impactGrade: ImpactGrade.A,
+        verificationType: VerificationType.Verified,
+        effectiveness: 83,
+        tags: ['Economic Development', 'Rural', 'SDG 8', 'Entrepreneurship']
       }
     ];
     
