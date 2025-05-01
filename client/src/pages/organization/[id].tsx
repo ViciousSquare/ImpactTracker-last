@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import BadgeWithIcon from '@/components/ui/badge-with-icon';
 import ProgressWithLabel from '@/components/ui/progress-with-label';
 import { Skeleton } from '@/components/ui/skeleton';
+import { MetricTooltip } from '@/components/ui/metric-tooltip';
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
 const OrganizationProfilePage = () => {
@@ -232,41 +233,38 @@ const OrganizationProfilePage = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {/* Impact IQ Breakdown */}
                       <div className="bg-neutral-50 p-4 rounded-lg border border-neutral-200">
-                        <h4 className="font-medium text-neutral-900 mb-3">{t('org.impactBreakdown')}</h4>
+                        <h4 className="font-medium text-neutral-900 mb-3">
+                          <MetricTooltip metric="impactBreakdown">{t('org.impactBreakdown')}</MetricTooltip>
+                        </h4>
                         <div className="space-y-3">
                           <ProgressWithLabel
                             label={t('org.metrics.reportingQuality')}
                             value={organization.metrics.reportingQuality}
                             max={20}
-                            metric="reportingQuality"
                           />
                           
                           <ProgressWithLabel
                             label={t('org.metrics.reach')}
                             value={organization.metrics.reach}
                             max={20}
-                            metric="reach"
                           />
                           
                           <ProgressWithLabel
                             label={t('org.metrics.socialROI')}
                             value={organization.metrics.socialROI}
                             max={20}
-                            metric="socialROI"
                           />
                           
                           <ProgressWithLabel
                             label={t('org.metrics.outcomeEffectiveness')}
                             value={organization.metrics.outcomeEffectiveness}
                             max={20}
-                            metric="outcomeEffectiveness"
                           />
                           
                           <ProgressWithLabel
                             label={t('org.metrics.transparencyGovernance')}
                             value={organization.metrics.transparencyGovernance}
                             max={20}
-                            metric="transparencyGovernance"
                           />
                         </div>
                       </div>
@@ -359,41 +357,38 @@ const OrganizationProfilePage = () => {
               <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="bg-neutral-50 p-6 rounded-lg border border-neutral-200">
-                    <h3 className="text-lg font-semibold mb-4">Impact Score Breakdown</h3>
+                    <h3 className="text-lg font-semibold mb-4">
+                      <MetricTooltip metric="impactBreakdown">Impact Score Breakdown</MetricTooltip>
+                    </h3>
                     <div className="space-y-5">
                       <ProgressWithLabel
                         label={t('org.metrics.reportingQuality')}
                         value={organization.metrics.reportingQuality}
                         max={20}
-                        metric="reportingQuality"
                       />
                       
                       <ProgressWithLabel
                         label={t('org.metrics.reach')}
                         value={organization.metrics.reach}
                         max={20}
-                        metric="reach"
                       />
                       
                       <ProgressWithLabel
                         label={t('org.metrics.socialROI')}
                         value={organization.metrics.socialROI}
                         max={20}
-                        metric="socialROI"
                       />
                       
                       <ProgressWithLabel
                         label={t('org.metrics.outcomeEffectiveness')}
                         value={organization.metrics.outcomeEffectiveness}
                         max={20}
-                        metric="outcomeEffectiveness"
                       />
                       
                       <ProgressWithLabel
                         label={t('org.metrics.transparencyGovernance')}
                         value={organization.metrics.transparencyGovernance}
                         max={20}
-                        metric="transparencyGovernance"
                       />
                     </div>
                     
