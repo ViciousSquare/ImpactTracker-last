@@ -89,14 +89,7 @@ const SuccessStoriesSection = () => {
         {/* Horizontal scrolling carousel for success stories */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-neutral-900">Featured Success Stories</h3>
-            <Link 
-              href="/success-stories" 
-              className="text-primary-500 hover:text-primary-600 text-sm font-medium flex items-center"
-            >
-              {t('successStories.viewAll')}
-              <ChevronRight className="h-4 w-4 ml-1" />
-            </Link>
+            <h3 className="text-lg font-semibold text-neutral-900">{t('successStories.title')}</h3>
           </div>
           
           <Carousel
@@ -162,7 +155,7 @@ const SuccessStoriesSection = () => {
                           size="sm"
                           className="w-full text-sm"
                         >
-                          {t('successStories.viewDetails')}
+                          {t('common.details')}
                         </Button>
                       </Link>
                     </div>
