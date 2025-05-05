@@ -14,15 +14,14 @@ import { useToast } from "@/hooks/use-toast";
 import { getQueryFn, queryClient } from "@/lib/queryClient";
 import { useQuery } from "@tanstack/react-query";
 
-// Import the actual DashboardStats component
+// Import actual components
 import { DashboardStats } from "./components/DashboardStats";
+import { OrganizationManager } from "./components/OrganizationManager";
+import { InvitationManager } from "./components/InvitationManager";
+import { VerificationManager } from "./components/VerificationManager";
 
-// Member dashboard components - using placeholder while developing
+// Import remaining placeholder components
 import {
-  OrganizationManager,
-  ReportManager,
-  VerificationManager,
-  InvitationManager,
   WorkflowBuilder,
   DataParser,
   ActivityLog
