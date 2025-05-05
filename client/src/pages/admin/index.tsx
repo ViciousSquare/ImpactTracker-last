@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+
+import { useState } from "react";
 import { Link } from "wouter";
 import { 
   Card, 
@@ -13,15 +14,18 @@ import { useToast } from "@/hooks/use-toast";
 import { getQueryFn, queryClient } from "@/lib/queryClient";
 import { useQuery } from "@tanstack/react-query";
 
-// Admin dashboard components - importing from placeholder while developing
+// Import the actual DashboardStats component
+import { DashboardStats } from "./components/DashboardStats";
+
+// Member dashboard components - using placeholder while developing
 import {
   OrganizationManager,
-  DashboardStats,
-  ActivityLog,
+  ReportManager,
+  VerificationManager,
+  InvitationManager,
   WorkflowBuilder,
   DataParser,
-  VerificationManager,
-  InvitationManager
+  ActivityLog
 } from "./components/placeholder";
 
 const AdminDashboard = () => {

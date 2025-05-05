@@ -1,3 +1,4 @@
+
 // This file is a placeholder for import resolution
 // It exports dummy components that will be implemented later
 // This helps prevent import errors while developing
@@ -20,10 +21,6 @@ export const ActivityLog = () => {
   return React.createElement('div', null, 'ActivityLog Placeholder');
 };
 
-export const DashboardStats = () => {
-  return React.createElement('div', null, 'DashboardStats Placeholder');
-};
-
 export const OrganizationManager = () => {
   return React.createElement('div', null, 'OrganizationManager Placeholder');
 };
@@ -37,7 +34,6 @@ export default {
   VerificationManager,
   WorkflowBuilder,
   ActivityLog,
-  DashboardStats,
   OrganizationManager,
   DataParser
 };
