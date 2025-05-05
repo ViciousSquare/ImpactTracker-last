@@ -19,7 +19,7 @@ interface DashboardStatsProps {
   isLoading: boolean;
 }
 
-const DashboardStats = ({ stats, isLoading }: DashboardStatsProps) => {
+export const DashboardStats = ({ stats, isLoading }: DashboardStatsProps) => {
   // Function to format the impact value (in billions/millions)
   const formatImpactValue = (value: number) => {
     if (value >= 1000000000) {
@@ -148,4 +148,3 @@ const DashboardStats = ({ stats, isLoading }: DashboardStatsProps) => {
   );
 };
 
-export default DashboardStats;
