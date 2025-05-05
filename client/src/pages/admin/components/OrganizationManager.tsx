@@ -449,4 +449,4 @@ const OrganizationManager = () => {
   );
 };
 
-export default OrganizationManager;
+export { OrganizationManager };
