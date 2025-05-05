@@ -243,7 +243,7 @@ const OrganizationManager = () => {
                   <SelectValue placeholder="Verification" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Types</SelectItem>
+                  <SelectItem value="all">All Types</SelectItem>
                   <SelectItem value="self-reported">Self-Reported</SelectItem>
                   <SelectItem value="verified">Verified</SelectItem>
                   <SelectItem value="audited">Audited</SelectItem>
