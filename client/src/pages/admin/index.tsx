@@ -15,7 +15,7 @@ import { getQueryFn, queryClient } from "@/lib/queryClient";
 import { useQuery } from "@tanstack/react-query";
 
 // Import the actual DashboardStats component
-import DashboardStats from "./components/DashboardStats";
+import { DashboardStats } from "./components/DashboardStats";
 
 // Member dashboard components - using placeholder while developing
 import {
