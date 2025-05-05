@@ -51,7 +51,7 @@ import { Table as EditedTable, TableHeader as EditedTableHeader, TableRow as Edi
 import { Button as EditedButton } from "@/components/ui/button";
 import { Badge as EditedBadge } from "@/components/ui/badge";
 
-const VerificationManager = () => {
+export const VerificationManager = () => {
   // Placeholder data - would be fetched from API in real implementation
   const verificationRequests = [
     { id: 1, organization: "Food Bank Network", type: "Initial", submitted: "2024-01-15", status: "pending" },
