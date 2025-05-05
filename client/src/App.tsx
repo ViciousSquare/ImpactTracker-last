@@ -1,4 +1,4 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, useLocation } from "wouter";
 import { Toaster } from "@/components/ui/toaster";
 import NotFound from "@/pages/not-found";
 import Header from "@/components/Header";
@@ -9,6 +9,8 @@ import SolutionFinder from "@/pages/solution-finder";
 import OrganizationProfilePage from "@/pages/organization/[id]";
 import MethodologyPage from "@/pages/methodology";
 import AboutPage from "@/pages/about";
+import AdminDashboard from "@/pages/admin";
+import MemberDashboard from "@/pages/member";
 
 function Router() {
   return (
@@ -19,19 +21,33 @@ function Router() {
       <Route path="/methodology" component={MethodologyPage} />
       <Route path="/about" component={AboutPage} />
       <Route path="/organization/:id" component={OrganizationProfilePage} />
+      
+      {/* Admin Dashboard Routes */}
+      <Route path="/admin" component={AdminDashboard} />
+      
+      {/* Member Dashboard Routes */}
+      <Route path="/member" component={MemberDashboard} />
+      
       <Route component={NotFound} />
     </Switch>
   );
 }
 
 function App() {
+  const [location] = useLocation();
+  const isAdminPage = location.startsWith('/admin');
+  const isMemberPage = location.startsWith('/member');
+
+  // Don't show header/footer on admin or member dashboard pages
+  const showHeaderFooter = !isAdminPage && !isMemberPage;
+
   return (
     <div className="flex flex-col min-h-screen">
-      <Header />
-      <main className="flex-grow">
+      {showHeaderFooter && <Header />}
+      <main className={`flex-grow ${!showHeaderFooter ? 'bg-gray-50' : ''}`}>
         <Router />
       </main>
-      <Footer />
+      {showHeaderFooter && <Footer />}
       <Toaster />
     </div>
   );

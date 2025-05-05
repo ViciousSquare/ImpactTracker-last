@@ -13,13 +13,15 @@ import { useToast } from "@/hooks/use-toast";
 import { getQueryFn, queryClient } from "@/lib/queryClient";
 import { useQuery } from "@tanstack/react-query";
 
-// Member dashboard components
-import OrganizationProfile from "./components/OrganizationProfile";
-import ReportManager from "./components/ReportManager";
-import Recommendations from "./components/Recommendations";
-import Notifications from "./components/Notifications";
-import Rankings from "./components/Rankings";
-import Resources from "./components/Resources";
+// Member dashboard components - using placeholder while developing
+import {
+  OrganizationProfile,
+  ReportManager,
+  Recommendations,
+  Notifications,
+  Rankings,
+  Resources
+} from "./components/placeholder";
 
 const MemberDashboard = () => {
   const [activeTab, setActiveTab] = useState("profile");

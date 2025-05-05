@@ -13,14 +13,16 @@ import { useToast } from "@/hooks/use-toast";
 import { getQueryFn, queryClient } from "@/lib/queryClient";
 import { useQuery } from "@tanstack/react-query";
 
-// Admin dashboard components
-import OrganizationManager from "./components/OrganizationManager";
-import DashboardStats from "./components/DashboardStats";
-import ActivityLog from "./components/ActivityLog";
-import WorkflowBuilder from "./components/WorkflowBuilder";
-import DataParser from "./components/DataParser";
-import VerificationManager from "./components/VerificationManager";
-import InvitationManager from "./components/InvitationManager";
+// Admin dashboard components - importing from placeholder while developing
+import {
+  OrganizationManager,
+  DashboardStats,
+  ActivityLog,
+  WorkflowBuilder,
+  DataParser,
+  VerificationManager,
+  InvitationManager
+} from "./components/placeholder";
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
