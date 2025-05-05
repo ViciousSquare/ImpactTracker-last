@@ -209,7 +209,7 @@ const OrganizationManager = () => {
                   <SelectValue placeholder="Sector" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Sectors</SelectItem>
+                  <SelectItem value="all">All Sectors</SelectItem>
                   {SECTOR_OPTIONS.map((sector) => (
                     <SelectItem key={sector} value={sector}>
                       {sector}
@@ -226,7 +226,7 @@ const OrganizationManager = () => {
                   <SelectValue placeholder="Region" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Regions</SelectItem>
+                  <SelectItem value="all">All Regions</SelectItem>
                   {REGION_OPTIONS.map((region) => (
                     <SelectItem key={region} value={region}>
                       {region}

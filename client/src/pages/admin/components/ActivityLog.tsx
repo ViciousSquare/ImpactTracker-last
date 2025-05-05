@@ -240,4 +240,4 @@ const ActivityLog = () => {
   );
 };
 
-export default ActivityLog;
+export { ActivityLog };

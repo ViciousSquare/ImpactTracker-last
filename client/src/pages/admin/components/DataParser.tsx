@@ -544,4 +544,4 @@ const DataParser = () => {
   );
 };
 
-export default DataParser;
+export { DataParser };
