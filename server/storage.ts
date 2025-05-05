@@ -5,12 +5,34 @@ import {
   metrics, 
   reports, 
   statistics,
+  invitations,
+  verificationRequests,
+  notifications,
+  targetPartners,
+  activityLogs,
+  workflows,
   type User, 
   type InsertUser, 
   type Organization,
+  type InsertOrganization,
   type Program,
+  type InsertProgram,
   type Metric,
+  type InsertMetric,
   type Report,
+  type InsertReport,
+  type Invitation,
+  type InsertInvitation,
+  type VerificationRequest,
+  type InsertVerificationRequest,
+  type Notification,
+  type InsertNotification,
+  type TargetPartner,
+  type InsertTargetPartner,
+  type ActivityLog,
+  type InsertActivityLog,
+  type Workflow,
+  type InsertWorkflow,
   type Statistic
 } from "@shared/schema";
 import { 
@@ -32,13 +54,19 @@ export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  updateUser(id: number, userData: Partial<InsertUser>): Promise<User | undefined>;
+  listUsers(filters?: { role?: string, query?: string, page?: number, limit?: number }): Promise<{ users: User[], total: number }>;
   
   // Statistics
   getStatistics(): Promise<{
     organizationCount: number;
     programCount: number;
     impactValue: number;
+    pendingInvites?: number;
+    pendingVerifications?: number;
+    activeUsers?: number;
   }>;
+  updateStatistics(data: Partial<Statistic>): Promise<Statistic>;
   
   // Trending
   getTrendingOrganizations(): Promise<TrendingItem[]>;
@@ -60,6 +88,23 @@ export interface IStorage {
   // Organizations
   getFeaturedOrganization(): Promise<OrganizationProfile[]>;
   getOrganizationById(id: number): Promise<OrganizationProfile | undefined>;
+  createOrganization(organization: InsertOrganization): Promise<Organization>;
+  updateOrganization(id: number, data: Partial<InsertOrganization>): Promise<Organization | undefined>;
+  deleteOrganization(id: number): Promise<boolean>;
+  listOrganizations(filters?: { 
+    sector?: string, 
+    region?: string, 
+    verificationType?: string, 
+    query?: string, 
+    page?: number, 
+    limit?: number 
+  }): Promise<{ organizations: Organization[], total: number }>;
+  importOrganizations(organizations: InsertOrganization[]): Promise<{ 
+    successful: number, 
+    failed: number, 
+    errors: Array<{ index: number, error: string }> 
+  }>;
+  generateProfileLink(organizationId: number): Promise<string>;
   getSuccessStories(): Promise<OrganizationProfile[]>;
   
   // Solutions
@@ -75,9 +120,108 @@ export interface IStorage {
   
   // Programs
   getProgramsByOrganization(organizationId: number): Promise<Program[]>;
+  createProgram(program: InsertProgram): Promise<Program>;
+  updateProgram(id: number, data: Partial<InsertProgram>): Promise<Program | undefined>;
+  deleteProgram(id: number): Promise<boolean>;
+  
+  // Metrics
+  getMetric(id: number): Promise<Metric | undefined>;
+  getMetricsByOrganization(organizationId: number): Promise<Metric[]>;
+  createMetric(metric: InsertMetric): Promise<Metric>;
+  updateMetric(id: number, data: Partial<InsertMetric>): Promise<Metric | undefined>;
   
   // Reports
   getReportsByOrganization(organizationId: number): Promise<Report[]>;
+  createReport(report: InsertReport): Promise<Report>;
+  updateReport(id: number, data: Partial<InsertReport>): Promise<Report | undefined>;
+  deleteReport(id: number): Promise<boolean>;
+  extractReportData(reportId: number): Promise<any>;
+  
+  // Invitations
+  createInvitation(invitation: InsertInvitation): Promise<Invitation>;
+  getInvitationByToken(token: string): Promise<Invitation | undefined>;
+  getInvitationsByOrganization(organizationId: number): Promise<Invitation[]>;
+  listInvitations(filters?: { 
+    status?: string, 
+    page?: number, 
+    limit?: number 
+  }): Promise<{ invitations: Invitation[], total: number }>;
+  updateInvitation(id: number, data: Partial<InsertInvitation>): Promise<Invitation | undefined>;
+  
+  // Verification Requests
+  createVerificationRequest(request: InsertVerificationRequest): Promise<VerificationRequest>;
+  getVerificationRequestsByOrganization(organizationId: number): Promise<VerificationRequest[]>;
+  listVerificationRequests(filters?: { 
+    status?: string, 
+    requestType?: string, 
+    page?: number, 
+    limit?: number 
+  }): Promise<{ requests: VerificationRequest[], total: number }>;
+  updateVerificationRequest(id: number, data: Partial<InsertVerificationRequest>): Promise<VerificationRequest | undefined>;
+  
+  // Notifications
+  createNotification(notification: InsertNotification): Promise<Notification>;
+  getNotificationsByUser(userId: number): Promise<Notification[]>;
+  markNotificationAsRead(id: number): Promise<boolean>;
+  deleteNotification(id: number): Promise<boolean>;
+  
+  // Target Partners
+  createTargetPartner(partner: InsertTargetPartner): Promise<TargetPartner>;
+  getTargetPartnersByOrganization(organizationId: number): Promise<TargetPartner[]>;
+  updateTargetPartner(id: number, data: Partial<InsertTargetPartner>): Promise<TargetPartner | undefined>;
+  deleteTargetPartner(id: number): Promise<boolean>;
+  
+  // Activity Logs
+  createActivityLog(log: InsertActivityLog): Promise<ActivityLog>;
+  getActivityLogsByUser(userId: number): Promise<ActivityLog[]>;
+  getActivityLogsByEntity(entityType: string, entityId: number): Promise<ActivityLog[]>;
+  listActivityLogs(filters?: { 
+    userId?: number, 
+    action?: string, 
+    entityType?: string, 
+    page?: number, 
+    limit?: number 
+  }): Promise<{ logs: ActivityLog[], total: number }>;
+  
+  // Workflows
+  createWorkflow(workflow: InsertWorkflow): Promise<Workflow>;
+  getWorkflowById(id: number): Promise<Workflow | undefined>;
+  updateWorkflow(id: number, data: Partial<InsertWorkflow>): Promise<Workflow | undefined>;
+  deleteWorkflow(id: number): Promise<boolean>;
+  listWorkflows(filters?: { 
+    isActive?: boolean, 
+    createdBy?: number, 
+    page?: number, 
+    limit?: number 
+  }): Promise<{ workflows: Workflow[], total: number }>;
+  
+  // AI and Data Processing
+  parseOrganizationJson(jsonData: string): Promise<{ 
+    parsed: boolean, 
+    data?: Partial<InsertOrganization>, 
+    metrics?: Partial<InsertMetric>,
+    programs?: Partial<InsertProgram>[],
+    targetPartners?: Partial<InsertTargetPartner>[],
+    error?: string 
+  }>;
+  getRecommendedOrganizationsToAdd(limit?: number): Promise<{ 
+    name: string, 
+    sector: string, 
+    region: string, 
+    potentialImpact: string 
+  }[]>;
+  getRecommendationsForOrganization(organizationId: number): Promise<{ 
+    title: string, 
+    description: string, 
+    impactPotential: string,
+    difficulty: string 
+  }[]>;
+  getPotentialPartnersForOrganization(organizationId: number): Promise<{ 
+    organizationId: number, 
+    name: string, 
+    sector: string, 
+    compatibilityScore: number 
+  }[]>;
 }
 
 export class MemStorage implements IStorage {
@@ -86,6 +230,12 @@ export class MemStorage implements IStorage {
   private programs: Map<number, Program>;
   private metrics: Map<number, Metric>;
   private reports: Map<number, Report>;
+  private invitations: Map<number, Invitation>;
+  private verificationRequests: Map<number, VerificationRequest>;
+  private notifications: Map<number, Notification>;
+  private targetPartners: Map<number, TargetPartner>;
+  private activityLogs: Map<number, ActivityLog>;
+  private workflows: Map<number, Workflow>;
   private stats: Statistic;
   
   currentId: number;
@@ -96,6 +246,12 @@ export class MemStorage implements IStorage {
     this.programs = new Map();
     this.metrics = new Map();
     this.reports = new Map();
+    this.invitations = new Map();
+    this.verificationRequests = new Map();
+    this.notifications = new Map();
+    this.targetPartners = new Map();
+    this.activityLogs = new Map();
+    this.workflows = new Map();
     this.currentId = 1;
     
     // Initialize with sample data for demo
@@ -107,6 +263,9 @@ export class MemStorage implements IStorage {
       organizationCount: 2418,
       programCount: 7142,
       impactValue: 4200000000, // $4.2B
+      pendingInvites: 32,
+      pendingVerifications: 18,
+      activeUsers: 1243,
       updatedAt: new Date()
     };
   }
@@ -124,9 +283,68 @@ export class MemStorage implements IStorage {
 
   async createUser(insertUser: InsertUser): Promise<User> {
     const id = this.currentId++;
-    const user: User = { ...insertUser, id, createdAt: new Date() };
+    const now = new Date();
+    const user: User = { 
+      ...insertUser, 
+      id, 
+      createdAt: now,
+      updatedAt: now,
+      lastLogin: null
+    };
     this.users.set(id, user);
     return user;
+  }
+  
+  async updateUser(id: number, userData: Partial<InsertUser>): Promise<User | undefined> {
+    const user = this.users.get(id);
+    if (!user) return undefined;
+    
+    const updatedUser: User = {
+      ...user,
+      ...userData,
+      updatedAt: new Date()
+    };
+    
+    this.users.set(id, updatedUser);
+    return updatedUser;
+  }
+  
+  async listUsers(filters: { 
+    role?: string; 
+    query?: string; 
+    page?: number; 
+    limit?: number; 
+  } = {}): Promise<{ users: User[]; total: number; }> {
+    let users = Array.from(this.users.values());
+    
+    // Apply filters
+    if (filters.role) {
+      users = users.filter(user => user.role === filters.role);
+    }
+    
+    if (filters.query) {
+      const query = filters.query.toLowerCase();
+      users = users.filter(user => 
+        user.username.toLowerCase().includes(query) || 
+        (user.email && user.email.toLowerCase().includes(query)) ||
+        (user.name && user.name.toLowerCase().includes(query))
+      );
+    }
+    
+    // Sort by latest created
+    users.sort((a, b) => 
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+    
+    // Pagination
+    const page = filters.page || 1;
+    const limit = filters.limit || 10;
+    const startIndex = (page - 1) * limit;
+    
+    return {
+      users: users.slice(startIndex, startIndex + limit),
+      total: users.length
+    };
   }
   
   // Statistics operations
@@ -134,12 +352,28 @@ export class MemStorage implements IStorage {
     organizationCount: number;
     programCount: number;
     impactValue: number;
+    pendingInvites?: number;
+    pendingVerifications?: number;
+    activeUsers?: number;
   }> {
     return {
-      organizationCount: this.stats.organizationCount,
-      programCount: this.stats.programCount,
-      impactValue: this.stats.impactValue
+      organizationCount: this.stats.organizationCount || 0,
+      programCount: this.stats.programCount || 0,
+      impactValue: this.stats.impactValue || 0,
+      pendingInvites: this.stats.pendingInvites || 0,
+      pendingVerifications: this.stats.pendingVerifications || 0,
+      activeUsers: this.stats.activeUsers || 0
     };
+  }
+  
+  async updateStatistics(data: Partial<Statistic>): Promise<Statistic> {
+    this.stats = {
+      ...this.stats,
+      ...data,
+      updatedAt: new Date()
+    };
+    
+    return this.stats;
   }
   
   // Trending operations
