@@ -4,7 +4,6 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -45,25 +44,20 @@ export const DataParser = () => {
       <h2 className="text-2xl font-bold">Data Parser</h2>
       <Card>
         <CardHeader>
-          <CardTitle>Parse Organization Data</CardTitle>
-          <CardDescription>
-            Paste JSON data to create or update organizations
-          </CardDescription>
+          <CardTitle>Data Parser</CardTitle>
         </CardHeader>
         <CardContent>
-          <Textarea
-            value={jsonData}
-            onChange={(e) => setJsonData(e.target.value)}
-            placeholder="Paste JSON data here..."
-            className="min-h-[300px] font-mono"
-          />
-          <Button 
-            onClick={() => parseJsonMutation.mutate(jsonData)}
-            className="mt-4"
-            disabled={!jsonData.trim() || parseJsonMutation.isPending}
-          >
-            {parseJsonMutation.isPending ? "Processing..." : "Parse Data"}
-          </Button>
+          <div className="space-y-4">
+            <Textarea
+              value={jsonData}
+              onChange={(e) => setJsonData(e.target.value)}
+              placeholder="Paste data here to parse..."
+              className="min-h-[200px]"
+            />
+            <Button className="w-full" onClick={() => parseJsonMutation.mutate(jsonData)} disabled={!jsonData.trim() || parseJsonMutation.isPending}>
+              {parseJsonMutation.isPending ? "Processing..." : "Parse Data"}
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </div>
