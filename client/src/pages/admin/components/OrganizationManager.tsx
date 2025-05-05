@@ -29,99 +29,75 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
-import { SECTOR_OPTIONS, REGION_OPTIONS } from "@/lib/types";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 
-const OrganizationManager = () => {
+// Sample data
+const sampleOrganizations = [
+  {
+    id: 1,
+    name: "Food Security Initiative",
+    sector: "Food Security",
+    region: "North America",
+    verificationType: "verified",
+    impactScore: 85,
+    isPublished: true
+  },
+  {
+    id: 2,
+    name: "Housing First",
+    sector: "Housing",
+    region: "Europe",
+    verificationType: "audited",
+    impactScore: 92,
+    isPublished: true
+  },
+  {
+    id: 3,
+    name: "Education Access",
+    sector: "Education",
+    region: "Asia",
+    verificationType: "self-reported",
+    impactScore: 78,
+    isPublished: false
+  }
+];
+
+const SECTOR_OPTIONS = [
+  { value: "Food Security", label: "Food Security" },
+  { value: "Housing", label: "Housing" },
+  { value: "Education", label: "Education" },
+  { value: "Environment", label: "Environment" }
+];
+
+const REGION_OPTIONS = [
+  { value: "North America", label: "North America" },
+  { value: "Europe", label: "Europe" },
+  { value: "Asia", label: "Asia" },
+  { value: "Africa", label: "Africa" }
+];
+
+export const OrganizationManager = () => {
   const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedSector, setSelectedSector] = useState("");
-  const [selectedRegion, setSelectedRegion] = useState("");
-  const [selectedVerificationType, setSelectedVerificationType] = useState("");
+  const [selectedSector, setSelectedSector] = useState("all");
+  const [selectedRegion, setSelectedRegion] = useState("all");
+  const [selectedVerificationType, setSelectedVerificationType] = useState("all");
   const [page, setPage] = useState(1);
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-  const [isImportDialogOpen, setIsImportDialogOpen] = useState(false);
-  const [isJsonInputDialogOpen, setIsJsonInputDialogOpen] = useState(false);
-  const [jsonData, setJsonData] = useState("");
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [selectedOrgId, setSelectedOrgId] = useState<number | null>(null);
 
-  // Fetch organizations with filters
-  const {
-    data: organizationsData,
-    isLoading,
-    refetch,
-  } = useQuery({
-    queryKey: [
-      "/api/organizations",
-      {
-        query: searchQuery,
-        sector: selectedSector,
-        region: selectedRegion,
-        verificationType: selectedVerificationType,
-        page,
-      },
-    ],
-    queryFn: getQueryFn({ on401: "throw" }),
-  });
-
-  // Delete organization mutation
-  const deleteOrganizationMutation = useMutation({
-    mutationFn: async (id: number) => {
-      return apiRequest(`/api/organizations/${id}`, {
-        method: "DELETE",
-      });
-    },
-    onSuccess: () => {
-      toast({
-        title: "Organization deleted",
-        description: "The organization has been successfully deleted.",
-      });
-      queryClient.invalidateQueries({ queryKey: ["/api/organizations"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/statistics"] });
-      setIsDeleteDialogOpen(false);
-    },
-    onError: (error) => {
-      toast({
-        title: "Error",
-        description: "Failed to delete organization. Please try again.",
-        variant: "destructive",
-      });
-    },
-  });
-
-  // Parse JSON data mutation
-  const parseJsonMutation = useMutation({
-    mutationFn: async (jsonData: string) => {
-      return apiRequest("/api/organizations/parse-json", {
-        method: "POST",
-        body: JSON.stringify({ jsonData }),
-      });
-    },
-    onSuccess: (data) => {
-      toast({
-        title: "Data parsed successfully",
-        description: "The JSON data has been successfully parsed.",
-      });
-      setIsJsonInputDialogOpen(false);
-      // Show preview dialog or directly create org
-    },
-    onError: (error) => {
-      toast({
-        title: "Error",
-        description: "Failed to parse JSON data. Please check the format and try again.",
-        variant: "destructive",
-      });
-    },
-  });
+  // Use sample data instead of API call for now
+  const organizationsData = {
+    organizations: sampleOrganizations,
+    total: sampleOrganizations.length
+  };
 
   const handleDeleteOrganization = (id: number) => {
     setSelectedOrgId(id);
@@ -130,57 +106,22 @@ const OrganizationManager = () => {
 
   const confirmDeleteOrganization = () => {
     if (selectedOrgId) {
-      deleteOrganizationMutation.mutate(selectedOrgId);
-    }
-  };
-
-  const handleParseJson = () => {
-    if (jsonData.trim()) {
-      parseJsonMutation.mutate(jsonData);
-    } else {
       toast({
-        title: "Error",
-        description: "Please enter valid JSON data.",
-        variant: "destructive",
+        title: "Organization deleted",
+        description: "The organization has been successfully deleted.",
       });
+      setIsDeleteDialogOpen(false);
     }
-  };
-
-  const handleGenerateLink = (id: number) => {
-    // Implement the link generation logic
-    toast({
-      title: "Profile link generated",
-      description: "The shareable profile link has been copied to clipboard.",
-    });
   };
 
   return (
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <h2 className="text-2xl font-bold">Organization Management</h2>
-        <div className="flex items-center gap-2">
-          <Button
-            onClick={() => setIsAddDialogOpen(true)}
-            className="btn-gradient btn-gradient-primary"
-          >
-            <span className="material-icons text-sm mr-1">add</span>
-            Add Organization
-          </Button>
-          <Button
-            onClick={() => setIsImportDialogOpen(true)}
-            variant="outline"
-          >
-            <span className="material-icons text-sm mr-1">upload_file</span>
-            Import
-          </Button>
-          <Button
-            onClick={() => setIsJsonInputDialogOpen(true)}
-            variant="outline"
-          >
-            <span className="material-icons text-sm mr-1">code</span>
-            JSON Input
-          </Button>
-        </div>
+        <Button className="btn-gradient btn-gradient-primary">
+          <span className="material-icons text-sm mr-1">add</span>
+          Add Organization
+        </Button>
       </div>
 
       <Card>
@@ -211,8 +152,8 @@ const OrganizationManager = () => {
                 <SelectContent>
                   <SelectItem value="all">All Sectors</SelectItem>
                   {SECTOR_OPTIONS.map((sector) => (
-                    <SelectItem key={sector} value={sector}>
-                      {sector}
+                    <SelectItem key={sector.value} value={sector.value}>
+                      {sector.label}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -228,8 +169,8 @@ const OrganizationManager = () => {
                 <SelectContent>
                   <SelectItem value="all">All Regions</SelectItem>
                   {REGION_OPTIONS.map((region) => (
-                    <SelectItem key={region} value={region}>
-                      {region}
+                    <SelectItem key={region.value} value={region.value}>
+                      {region.label}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -252,172 +193,79 @@ const OrganizationManager = () => {
             </div>
           </div>
 
-          {isLoading ? (
-            <div className="space-y-3">
-              <Skeleton className="h-10 w-full" />
-              <Skeleton className="h-10 w-full" />
-              <Skeleton className="h-10 w-full" />
-              <Skeleton className="h-10 w-full" />
-              <Skeleton className="h-10 w-full" />
-            </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Sector</TableHead>
-                    <TableHead>Region</TableHead>
-                    <TableHead>Verification</TableHead>
-                    <TableHead>Impact Score</TableHead>
-                    <TableHead>Published</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Sector</TableHead>
+                  <TableHead>Region</TableHead>
+                  <TableHead>Verification</TableHead>
+                  <TableHead>Impact Score</TableHead>
+                  <TableHead>Published</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {organizationsData.organizations.map((org) => (
+                  <TableRow key={org.id}>
+                    <TableCell className="font-medium">{org.name}</TableCell>
+                    <TableCell>{org.sector}</TableCell>
+                    <TableCell>{org.region}</TableCell>
+                    <TableCell>
+                      <Badge
+                        variant={
+                          org.verificationType === "audited"
+                            ? "default"
+                            : org.verificationType === "verified"
+                            ? "secondary"
+                            : "outline"
+                        }
+                      >
+                        {org.verificationType}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>{org.impactScore}</TableCell>
+                    <TableCell>
+                      {org.isPublished ? (
+                        <span className="text-green-600">✓</span>
+                      ) : (
+                        <span className="text-amber-500">⊘</span>
+                      )}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon">
+                            <span className="material-icons">more_vert</span>
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem>
+                            <span className="material-icons text-sm mr-2">visibility</span>
+                            View Details
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <span className="material-icons text-sm mr-2">edit</span>
+                            Edit
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => handleDeleteOrganization(org.id)}
+                            className="text-red-600"
+                          >
+                            <span className="material-icons text-sm mr-2">delete</span>
+                            Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
                   </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {organizationsData?.organizations?.map((org) => (
-                    <TableRow key={org.id}>
-                      <TableCell className="font-medium">{org.name}</TableCell>
-                      <TableCell>{org.sector}</TableCell>
-                      <TableCell>{org.region}</TableCell>
-                      <TableCell>
-                        <Badge
-                          variant={
-                            org.verificationType === "audited"
-                              ? "default"
-                              : org.verificationType === "verified"
-                              ? "secondary"
-                              : "outline"
-                          }
-                        >
-                          {org.verificationType}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>{org.impactScore || "N/A"}</TableCell>
-                      <TableCell>
-                        {org.isPublished ? (
-                          <span className="text-green-600">✓</span>
-                        ) : (
-                          <span className="text-amber-500">⊘</span>
-                        )}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon">
-                              <span className="material-icons">more_vert</span>
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem
-                              onClick={() => window.location.href = `/admin/organizations/${org.id}`}
-                            >
-                              <span className="material-icons text-sm mr-2">visibility</span>
-                              View Details
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                              onClick={() => window.location.href = `/admin/organizations/${org.id}/edit`}
-                            >
-                              <span className="material-icons text-sm mr-2">edit</span>
-                              Edit
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                              onClick={() => handleGenerateLink(org.id)}
-                            >
-                              <span className="material-icons text-sm mr-2">link</span>
-                              Generate Link
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                              onClick={() => handleDeleteOrganization(org.id)}
-                              className="text-red-600"
-                            >
-                              <span className="material-icons text-sm mr-2">delete</span>
-                              Delete
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-
-                  {(!organizationsData?.organizations || organizationsData.organizations.length === 0) && (
-                    <TableRow>
-                      <TableCell colSpan={7} className="text-center py-6 text-muted-foreground">
-                        No organizations found. Try adjusting your filters or add a new organization.
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </div>
-          )}
-
-          {/* Pagination */}
-          {organizationsData?.total && organizationsData.total > 0 && (
-            <div className="flex items-center justify-between mt-6">
-              <div className="text-sm text-muted-foreground">
-                Showing {Math.min((page - 1) * 10 + 1, organizationsData.total)} to{" "}
-                {Math.min(page * 10, organizationsData.total)} of {organizationsData.total} organizations
-              </div>
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setPage(Math.max(1, page - 1))}
-                  disabled={page === 1}
-                >
-                  Previous
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setPage(page + 1)}
-                  disabled={page * 10 >= organizationsData.total}
-                >
-                  Next
-                </Button>
-              </div>
-            </div>
-          )}
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
       </Card>
-
-      {/* JSON Input Dialog */}
-      <Dialog open={isJsonInputDialogOpen} onOpenChange={setIsJsonInputDialogOpen}>
-        <DialogContent className="max-w-3xl">
-          <DialogHeader>
-            <DialogTitle>Parse Organization JSON Data</DialogTitle>
-            <DialogDescription>
-              Paste AI-generated JSON to automatically create an organization profile. The system will parse and validate the data.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <Label htmlFor="json-input">JSON Data</Label>
-            <textarea
-              id="json-input"
-              className="min-h-[300px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background"
-              placeholder='Paste JSON here, e.g., {"name": "Organization Name", "sector": "Education", ...}'
-              value={jsonData}
-              onChange={(e) => setJsonData(e.target.value)}
-            />
-          </div>
-          <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setIsJsonInputDialogOpen(false)}
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={handleParseJson}
-              disabled={parseJsonMutation.isPending}
-              className="btn-gradient btn-gradient-accent"
-            >
-              {parseJsonMutation.isPending ? "Processing..." : "Parse JSON"}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
@@ -438,9 +286,8 @@ const OrganizationManager = () => {
             <Button
               variant="destructive"
               onClick={confirmDeleteOrganization}
-              disabled={deleteOrganizationMutation.isPending}
             >
-              {deleteOrganizationMutation.isPending ? "Deleting..." : "Delete"}
+              Delete
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -448,5 +295,3 @@ const OrganizationManager = () => {
     </div>
   );
 };
-
-export { OrganizationManager };
