@@ -309,25 +309,25 @@ const OrganizationManager = () => {
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuItem 
+                            <DropdownMenuItem
                               onClick={() => window.location.href = `/admin/organizations/${org.id}`}
                             >
                               <span className="material-icons text-sm mr-2">visibility</span>
                               View Details
                             </DropdownMenuItem>
-                            <DropdownMenuItem 
+                            <DropdownMenuItem
                               onClick={() => window.location.href = `/admin/organizations/${org.id}/edit`}
                             >
                               <span className="material-icons text-sm mr-2">edit</span>
                               Edit
                             </DropdownMenuItem>
-                            <DropdownMenuItem 
+                            <DropdownMenuItem
                               onClick={() => handleGenerateLink(org.id)}
                             >
                               <span className="material-icons text-sm mr-2">link</span>
                               Generate Link
                             </DropdownMenuItem>
-                            <DropdownMenuItem 
+                            <DropdownMenuItem
                               onClick={() => handleDeleteOrganization(org.id)}
                               className="text-red-600"
                             >
