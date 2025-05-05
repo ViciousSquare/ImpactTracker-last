@@ -211,8 +211,8 @@ const OrganizationManager = () => {
                 <SelectContent>
                   <SelectItem value="all">All Sectors</SelectItem>
                   {SECTOR_OPTIONS.map((sector) => (
-                    <SelectItem key={sector.value} value={sector.value}>
-                      {sector.label}
+                    <SelectItem key={sector} value={sector}>
+                      {sector}
                     </SelectItem>
                   ))}
                 </SelectContent>
