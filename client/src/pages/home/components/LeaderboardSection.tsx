@@ -36,6 +36,7 @@ const LeaderboardSection = () => {
   const { t } = useLanguage();
   const [region, setRegion] = useState('all');
   const [sdg, setSdg] = useState('all');
+  const [size, setSize] = useState('all');
   
   // Carousel ref for manual scrolling
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -146,6 +147,19 @@ const LeaderboardSection = () => {
               </SelectTrigger>
               <SelectContent>
                 {REGION_OPTIONS.map(option => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <Select value={size} onValueChange={setSize}>
+              <SelectTrigger className="bg-white border border-neutral-300 rounded-md px-3 py-2 text-sm text-neutral-700 h-auto w-auto">
+                <SelectValue placeholder={t('leaderboard.allSizes')} />
+              </SelectTrigger>
+              <SelectContent>
+                {ORGANIZATION_SIZE_OPTIONS.map(option => (
                   <SelectItem key={option.value} value={option.value}>
                     {option.label}
                   </SelectItem>

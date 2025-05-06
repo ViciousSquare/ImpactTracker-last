@@ -38,8 +38,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import { Link } from 'wouter'; // Added for linking to organization profiles
 
-// Sample data
+// Sample data (This should be replaced with actual API calls)
 const sampleOrganizations = [
   {
     id: 1,
@@ -48,7 +49,8 @@ const sampleOrganizations = [
     region: "North America",
     verificationType: "verified",
     impactScore: 85,
-    isPublished: true
+    isPublished: true,
+    size: "medium (11-50)" // Added size property
   },
   {
     id: 2,
@@ -57,7 +59,9 @@ const sampleOrganizations = [
     region: "Europe",
     verificationType: "audited",
     impactScore: 92,
-    isPublished: true
+    isPublished: true,
+    size: "large (51-200)" // Added size property
+
   },
   {
     id: 3,
@@ -66,9 +70,11 @@ const sampleOrganizations = [
     region: "Asia",
     verificationType: "self-reported",
     impactScore: 78,
-    isPublished: false
+    isPublished: false,
+    size: "small (1-10)" // Added size property
   }
 ];
+
 
 const SECTOR_OPTIONS = [
   { value: "Food Security", label: "Food Security" },
@@ -84,12 +90,21 @@ const REGION_OPTIONS = [
   { value: "Africa", label: "Africa" }
 ];
 
+const SIZE_OPTIONS = [
+  { value: "all", label: "All Sizes" },
+  { value: "small (1-10)", label: "Small (1-10)" },
+  { value: "medium (11-50)", label: "Medium (11-50)" },
+  { value: "large (51-200)", label: "Large (51-200)" },
+];
+
+
 export const OrganizationManager = () => {
   const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSector, setSelectedSector] = useState("all");
   const [selectedRegion, setSelectedRegion] = useState("all");
   const [selectedVerificationType, setSelectedVerificationType] = useState("all");
+  const [selectedSize, setSelectedSize] = useState("all"); // Added size filter
   const [page, setPage] = useState(1);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
@@ -116,6 +131,14 @@ export const OrganizationManager = () => {
     }
   };
 
+  const filteredOrganizations = organizationsData.organizations.filter(org => {
+    return (selectedSector === 'all' || org.sector === selectedSector) &&
+           (selectedRegion === 'all' || org.region === selectedRegion) &&
+           (selectedVerificationType === 'all' || org.verificationType === selectedVerificationType) &&
+           (selectedSize === 'all' || org.size === selectedSize);
+  });
+
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -124,7 +147,7 @@ export const OrganizationManager = () => {
           <span className="material-icons text-sm mr-1">add</span>
           Add Organization
         </Button>
-        
+
         <AddOrganizationDialog
           open={isAddDialogOpen}
           onOpenChange={setIsAddDialogOpen}
@@ -206,6 +229,20 @@ export const OrganizationManager = () => {
                   <SelectItem value="audited">Audited</SelectItem>
                 </SelectContent>
               </Select>
+
+              <Select value={selectedSize} onValueChange={setSelectedSize}> {/* Added Size filter */}
+                <SelectTrigger className="w-[160px]">
+                  <SelectValue placeholder="Size" />
+                </SelectTrigger>
+                <SelectContent>
+                  {SIZE_OPTIONS.map((size) => (
+                    <SelectItem key={size.value} value={size.value}>
+                      {size.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
             </div>
           </div>
 
@@ -218,12 +255,13 @@ export const OrganizationManager = () => {
                   <TableHead>Region</TableHead>
                   <TableHead>Verification</TableHead>
                   <TableHead>Impact Score</TableHead>
+                  <TableHead>Size</TableHead> {/* Added Size column */}
                   <TableHead>Published</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {organizationsData.organizations.map((org) => (
+                {filteredOrganizations.map((org) => (
                   <TableRow key={org.id}>
                     <TableCell className="font-medium">{org.name}</TableCell>
                     <TableCell>{org.sector}</TableCell>
@@ -242,6 +280,7 @@ export const OrganizationManager = () => {
                       </Badge>
                     </TableCell>
                     <TableCell>{org.impactScore}</TableCell>
+                    <TableCell>{org.size}</TableCell> {/* Added Size cell */}
                     <TableCell>
                       {org.isPublished ? (
                         <span className="text-green-600">✓</span>
@@ -258,8 +297,10 @@ export const OrganizationManager = () => {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem>
-                            <span className="material-icons text-sm mr-2">visibility</span>
-                            View Details
+                            <Link href={`/organization/${org.id}`}>
+                              <span className="material-icons text-sm mr-2">visibility</span>
+                              View Details
+                            </Link>
                           </DropdownMenuItem>
                           <DropdownMenuItem>
                             <span className="material-icons text-sm mr-2">edit</span>
@@ -271,6 +312,12 @@ export const OrganizationManager = () => {
                           >
                             <span className="material-icons text-sm mr-2">delete</span>
                             Delete
+                          </DropdownMenuItem>
+                          <DropdownMenuItem> {/* Added Member Preview */}
+                            <Link href={`/member/preview/${org.id}`}>
+                              <span className="material-icons text-sm mr-2">preview</span>
+                              Member Preview
+                            </Link>
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>

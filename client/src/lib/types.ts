@@ -259,7 +259,7 @@ export const BUSINESS_TYPE_OPTIONS = [
 
 export const ORGANIZATION_SIZE_OPTIONS = [
   { value: "all", label: "All Sizes" },
-  { value: "large", label: "Large (500+ employees)" },
-  { value: "medium", label: "Medium (100-499 employees)" },
-  { value: "small", label: "Small (1-99 employees)" }
+  { value: "large", label: "Large (250+ employees)" },
+  { value: "medium", label: "Medium (50-249 employees)" },
+  { value: "small", label: "Small (1-49 employees)" }
 ];
