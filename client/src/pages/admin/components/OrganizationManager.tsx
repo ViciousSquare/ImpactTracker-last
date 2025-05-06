@@ -81,7 +81,7 @@ export const OrganizationManager = () => {
 
   const addOrganizationMutation = useMutation({
     mutationFn: async (data: any) => {
-      const response = await apiRequest('/api/organizations', {
+      const response = await apiRequest('POST', '/api/organizations', {
         method: 'POST',
         body: JSON.stringify(data)
       });
