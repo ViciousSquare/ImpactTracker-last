@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { AddOrganizationDialog } from "./AddOrganizationDialog";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { getQueryFn, apiRequest, queryClient } from "@/lib/queryClient";
 import {
@@ -91,6 +92,7 @@ export const OrganizationManager = () => {
   const [selectedVerificationType, setSelectedVerificationType] = useState("all");
   const [page, setPage] = useState(1);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [selectedOrgId, setSelectedOrgId] = useState<number | null>(null);
 
   // Use sample data instead of API call for now
@@ -118,10 +120,24 @@ export const OrganizationManager = () => {
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <h2 className="text-2xl font-bold">Organization Management</h2>
-        <Button className="btn-gradient btn-gradient-primary">
+        <Button className="btn-gradient btn-gradient-primary" onClick={() => setIsAddDialogOpen(true)}>
           <span className="material-icons text-sm mr-1">add</span>
           Add Organization
         </Button>
+        
+        <AddOrganizationDialog
+          open={isAddDialogOpen}
+          onOpenChange={setIsAddDialogOpen}
+          onSubmit={(data) => {
+            console.log('New organization data:', data);
+            // TODO: Implement API call to save organization
+            toast({
+              title: "Organization added",
+              description: "The organization has been successfully added.",
+            });
+            setIsAddDialogOpen(false);
+          }}
+        />
       </div>
 
       <Card>

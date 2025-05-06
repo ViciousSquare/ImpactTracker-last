@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "wouter";
 import { 
@@ -20,12 +19,6 @@ import { OrganizationManager } from "./components/OrganizationManager";
 import { InvitationManager } from "./components/InvitationManager";
 import { VerificationManager } from "./components/VerificationManager";
 
-// Import remaining placeholder components
-import {
-  WorkflowBuilder,
-  DataParser,
-  ActivityLog
-} from "./components/placeholder";
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -65,14 +58,12 @@ const AdminDashboard = () => {
       </header>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid grid-cols-3 md:grid-cols-7 mb-8">
+        <TabsList className="grid grid-cols-3 md:grid-cols-4 mb-8"> {/* Reduced to 4 columns */}
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="organizations">Organizations</TabsTrigger>
           <TabsTrigger value="invitations">Invitations</TabsTrigger>
           <TabsTrigger value="verification">Verification</TabsTrigger>
-          <TabsTrigger value="data-input">Data Input</TabsTrigger>
-          <TabsTrigger value="workflows">Workflows</TabsTrigger>
-          <TabsTrigger value="activity">Activity</TabsTrigger>
+          {/* Removed Data Input, Workflows, and Activity tabs */}
         </TabsList>
 
         <div className="mt-6">
@@ -91,18 +82,7 @@ const AdminDashboard = () => {
           <TabsContent value="verification">
             <VerificationManager />
           </TabsContent>
-
-          <TabsContent value="data-input">
-            <DataParser />
-          </TabsContent>
-
-          <TabsContent value="workflows">
-            <WorkflowBuilder />
-          </TabsContent>
-
-          <TabsContent value="activity">
-            <ActivityLog />
-          </TabsContent>
+          {/* Removed content for Data Input, Workflows, and Activity */}
         </div>
       </Tabs>
     </div>
