@@ -40,42 +40,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Label } from "@/components/ui/label";
 import { Link } from 'wouter'; // Added for linking to organization profiles
 
-// Sample data (This should be replaced with actual API calls)
-const sampleOrganizations = [
-  {
-    id: 1,
-    name: "Food Security Initiative",
-    sector: "Food Security",
-    region: "North America",
-    verificationType: "verified",
-    impactScore: 85,
-    isPublished: true,
-    size: "medium (11-50)" // Added size property
-  },
-  {
-    id: 2,
-    name: "Housing First",
-    sector: "Housing",
-    region: "Europe",
-    verificationType: "audited",
-    impactScore: 92,
-    isPublished: true,
-    size: "large (51-200)" // Added size property
-
-  },
-  {
-    id: 3,
-    name: "Education Access",
-    sector: "Education",
-    region: "Asia",
-    verificationType: "self-reported",
-    impactScore: 78,
-    isPublished: false,
-    size: "small (1-10)" // Added size property
-  }
-];
-
-
 const SECTOR_OPTIONS = [
   { value: "Food Security", label: "Food Security" },
   { value: "Housing", label: "Housing" },
@@ -110,11 +74,25 @@ export const OrganizationManager = () => {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [selectedOrgId, setSelectedOrgId] = useState<number | null>(null);
 
-  // Use sample data instead of API call for now
-  const organizationsData = {
-    organizations: sampleOrganizations,
-    total: sampleOrganizations.length
-  };
+  const { data: organizationsData, isLoading } = useQuery({
+    queryKey: ['/api/organizations'],
+    queryFn: getQueryFn('/api/organizations')
+  });
+
+  const addOrganizationMutation = useMutation({
+    mutationFn: (data: any) => apiRequest('/api/organizations', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/organizations'] });
+      toast({
+        title: "Organization added",
+        description: "The organization has been successfully added.",
+      });
+      setIsAddDialogOpen(false);
+    }
+  });
 
   const handleDeleteOrganization = (id: number) => {
     setSelectedOrgId(id);
@@ -131,7 +109,7 @@ export const OrganizationManager = () => {
     }
   };
 
-  const filteredOrganizations = organizationsData.organizations.filter(org => {
+  const filteredOrganizations = (organizationsData?.organizations || []).filter(org => {
     return (selectedSector === 'all' || org.sector === selectedSector) &&
            (selectedRegion === 'all' || org.region === selectedRegion) &&
            (selectedVerificationType === 'all' || org.verificationType === selectedVerificationType) &&
@@ -151,15 +129,7 @@ export const OrganizationManager = () => {
         <AddOrganizationDialog
           open={isAddDialogOpen}
           onOpenChange={setIsAddDialogOpen}
-          onSubmit={(data) => {
-            console.log('New organization data:', data);
-            // TODO: Implement API call to save organization
-            toast({
-              title: "Organization added",
-              description: "The organization has been successfully added.",
-            });
-            setIsAddDialogOpen(false);
-          }}
+          onSubmit={addOrganizationMutation.mutate}
         />
       </div>
 
@@ -261,7 +231,19 @@ export const OrganizationManager = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredOrganizations.map((org) => (
+                {isLoading ? (
+                  <>
+                    <TableRow>
+                      <TableCell colSpan={8}><Skeleton /></TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell colSpan={8}><Skeleton /></TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell colSpan={8}><Skeleton /></TableCell>
+                    </TableRow>
+                  </>
+                ) : filteredOrganizations.map((org) => (
                   <TableRow key={org.id}>
                     <TableCell className="font-medium">{org.name}</TableCell>
                     <TableCell>{org.sector}</TableCell>
