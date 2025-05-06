@@ -8,6 +8,7 @@ import {
   SECTOR_OPTIONS, 
   REGION_OPTIONS, 
   SDG_OPTIONS,
+  ORGANIZATION_SIZE_OPTIONS,
   Sector,
   ImpactGrade
 } from '@/lib/types';
