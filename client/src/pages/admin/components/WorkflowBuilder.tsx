@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getQueryFn, apiRequest, queryClient } from "@/lib/queryClient";
@@ -69,7 +68,7 @@ export const WorkflowBuilder = () => {
     const workflow = {
       name,
       description,
-      steps: steps.filter(step => step.trim() !== ""),
+      steps: steps.filter((step) => step.trim() !== ""),
     };
     createWorkflowMutation.mutate(workflow);
   };

@@ -137,13 +137,15 @@ const MemberDashboard = () => {
         
         {/* Main Content */}
         <div className="lg:col-span-3">
-          <TabsContent value="profile" className="m-0">
-            <OrganizationProfile organization={organization} isLoading={orgLoading} />
-          </TabsContent>
-          
-          <TabsContent value="reports" className="m-0">
-            <ReportManager organizationId={organizationId} />
-          </TabsContent>
+          <Tabs value={activeTab} onValueChange={setActiveTab}>
+            <TabsContent value="profile" className="m-0">
+              <OrganizationProfile organization={organization} isLoading={orgLoading} />
+            </TabsContent>
+            
+            <TabsContent value="reports" className="m-0">
+              <ReportManager organizationId={organizationId} />
+            </TabsContent>
+          </Tabs>
           
           <TabsContent value="rankings" className="m-0">
             <Rankings organizationId={organizationId} />
