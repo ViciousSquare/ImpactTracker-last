@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -22,7 +21,7 @@ export const AddOrganizationDialog = ({ open, onOpenChange, onSubmit }: AddOrgan
     sector: '',
     sdgAlignment: [],
     region: '',
-    established: '',
+    yearEstablished: '', // Changed to yearEstablished
     contactInfo: '',
     website: '',
     contactEmail: '',
@@ -31,10 +30,10 @@ export const AddOrganizationDialog = ({ open, onOpenChange, onSubmit }: AddOrgan
     grade: '',
     reportingQuality: '',
     reach: '',
-    socialROI: '',
+    estSocialRoi: '', // Changed to estSocialRoi
     outcomeEffectiveness: '',
     transparencyGovernance: '',
-    verificationType: 'self-reported',
+    verificationLevel: '', // Changed to verificationLevel
     methodologySource: '',
     methodologySummary: '',
     reports: '',
@@ -48,16 +47,49 @@ export const AddOrganizationDialog = ({ open, onOpenChange, onSubmit }: AddOrgan
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(formData);
+    try {
+      // Attempt to parse JSON if provided, otherwise submit existing formData
+      if (formData.jsonData) {
+        const parsedData = JSON.parse(formData.jsonData);
+        const orgData = {
+          name: parsedData.organization_name || formData.name,
+          sector: parsedData.sector || formData.sector,
+          sdgAlignment: parsedData.sdg_alignment || formData.sdgAlignment,
+          region: parsedData.region || formData.region,
+          yearEstablished: parsedData.year_established || formData.yearEstablished,
+          contactInfo: parsedData.contact_info || formData.contactInfo,
+          website: parsedData.website || formData.website,
+          impactScore: parsedData.impact_iq_score || formData.impactScore,
+          grade: parsedData.grade || formData.grade,
+          reportingQuality: parsedData.reporting_quality || formData.reportingQuality,
+          reach: parsedData.reach || formData.reach,
+          estSocialRoi: parsedData.est_social_roi || formData.estSocialRoi,
+          outcomeEffectiveness: parsedData.outcome_effectiveness || formData.outcomeEffectiveness,
+          transparencyGovernance: parsedData.transparency_governance || formData.transparencyGovernance,
+          verificationLevel: parsedData.verification_level || formData.verificationLevel,
+          methodologySource: parsedData.methodology_source || formData.methodologySource,
+          methodologySummary: parsedData.methodology_summary || formData.methodologySummary,
+          reports: parsedData.reports || formData.reports,
+          keyMetrics: parsedData.key_metrics || formData.keyMetrics,
+          insights: parsedData.insights || formData.insights,
+          programs: parsedData.programs || formData.programs,
+          targetPartners: parsedData.target_partners || formData.targetPartners,
+          adminNotes: parsedData.admin_notes || formData.adminNotes,
+
+        };
+        onSubmit(orgData);
+      } else {
+        onSubmit(formData);
+      }
+    } catch (error) {
+      console.error('Invalid JSON format:', error);
+      // Add error handling here, e.g., display an error message to the user
+    }
   };
 
+
   const handleJsonUpload = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    try {
-      const jsonData = JSON.parse(e.target.value);
-      setFormData({ ...formData, ...jsonData });
-    } catch (error) {
-      console.error('Invalid JSON format');
-    }
+    setFormData({ ...formData, jsonData: e.target.value });
   };
 
   return (
@@ -135,12 +167,12 @@ export const AddOrganizationDialog = ({ open, onOpenChange, onSubmit }: AddOrgan
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="established">Year Established</Label>
+              <Label htmlFor="yearEstablished">Year Established</Label>
               <Input
-                id="established"
+                id="yearEstablished"
                 type="number"
-                value={formData.established}
-                onChange={(e) => setFormData({...formData, established: e.target.value})}
+                value={formData.yearEstablished}
+                onChange={(e) => setFormData({...formData, yearEstablished: e.target.value})}
               />
             </div>
 
@@ -229,13 +261,13 @@ export const AddOrganizationDialog = ({ open, onOpenChange, onSubmit }: AddOrgan
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="socialROI">Est. Social ROI (0-20)</Label>
+                <Label htmlFor="estSocialRoi">Est. Social ROI (0-20)</Label>
                 <Input
-                  id="socialROI"
+                  id="estSocialRoi"
                   type="number"
                   max="20"
-                  value={formData.socialROI}
-                  onChange={(e) => setFormData({...formData, socialROI: e.target.value})}
+                  value={formData.estSocialRoi}
+                  onChange={(e) => setFormData({...formData, estSocialRoi: e.target.value})}
                 />
               </div>
 
@@ -262,10 +294,10 @@ export const AddOrganizationDialog = ({ open, onOpenChange, onSubmit }: AddOrgan
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="verificationType">Verification Level</Label>
+                <Label htmlFor="verificationLevel">Verification Level</Label>
                 <Select
-                  value={formData.verificationType}
-                  onValueChange={(value) => setFormData({...formData, verificationType: value})}
+                  value={formData.verificationLevel}
+                  onValueChange={(value) => setFormData({...formData, verificationLevel: value})}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Select verification type" />
@@ -310,7 +342,7 @@ export const AddOrganizationDialog = ({ open, onOpenChange, onSubmit }: AddOrgan
 
           <div className="border-t pt-6">
             <h3 className="text-lg font-semibold mb-4">Insights & Metrics</h3>
-            
+
             <div className="space-y-2">
               <Label htmlFor="keyMetrics">Key Statistics/KPIs</Label>
               <Textarea

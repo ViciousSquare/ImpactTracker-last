@@ -1579,12 +1579,26 @@ export class MemStorage implements IStorage {
     const id = this.currentId++;
     const now = new Date();
     const organization: Organization = {
-      ...insertOrg,
       id,
-      createdAt: now,
-      updatedAt: now,
+      name: insertOrg.name,
+      sector: insertOrg.sector,
+      sdgAlignment: insertOrg.sdgAlignment || [],
+      region: insertOrg.region,
+      yearEstablished: insertOrg.yearEstablished || new Date().getFullYear(),
+      contactInfo: insertOrg.contactInfo || '',
+      website: insertOrg.website || '',
+      impactScore: insertOrg.impactScore || 80,
+      grade: insertOrg.grade || 'B+',
+      reportingQuality: insertOrg.reportingQuality || 16,
+      reach: insertOrg.reach || 16,
+      estSocialRoi: insertOrg.estSocialRoi || 16,
+      outcomeEffectiveness: insertOrg.outcomeEffectiveness || 16,
+      transparencyGovernance: insertOrg.transparencyGovernance || 16,
+      verificationLevel: insertOrg.verificationLevel || 'Self-Reported',
       verified: false,
-      isPublished: false
+      isPublished: true,
+      createdAt: now,
+      updatedAt: now
     };
     
     this.organizations.set(id, organization);
