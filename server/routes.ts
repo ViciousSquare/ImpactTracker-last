@@ -87,6 +87,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Create new organization
+  app.post('/api/organizations', async (req, res) => {
+    try {
+      const organization = await storage.createOrganization(req.body);
+      res.status(201).json(organization);
+    } catch (error) {
+      console.error('Failed to create organization:', error);
+      res.status(500).json({ message: 'Failed to create organization' });
+    }
+  });
+
   // Get solutions with filters
   app.get('/api/solutions', async (req, res) => {
     try {

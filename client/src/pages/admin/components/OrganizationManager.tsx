@@ -80,10 +80,16 @@ export const OrganizationManager = () => {
   });
 
   const addOrganizationMutation = useMutation({
-    mutationFn: (data: any) => apiRequest('/api/organizations', {
-      method: 'POST',
-      body: JSON.stringify(data)
-    }),
+    mutationFn: async (data: any) => {
+      const response = await apiRequest('/api/organizations', {
+        method: 'POST',
+        body: JSON.stringify(data)
+      });
+      if (!response.ok) {
+        throw new Error('Failed to create organization');
+      }
+      return response.json();
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/organizations'] });
       toast({
@@ -91,6 +97,13 @@ export const OrganizationManager = () => {
         description: "The organization has been successfully added.",
       });
       setIsAddDialogOpen(false);
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive"
+      });
     }
   });
 
