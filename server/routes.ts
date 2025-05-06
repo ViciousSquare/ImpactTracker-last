@@ -28,12 +28,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get leaderboard data with filters
   app.get('/api/leaderboard', async (req, res) => {
     try {
-      const { sector, region, sdg, query, page = '1', sortBy = 'impactScore', sortOrder = 'desc' } = req.query;
+      const { sector, region, sdg, size, query, page = '1', sortBy = 'impactScore', sortOrder = 'desc' } = req.query;
       
       const filters = {
         sector: sector as string || '',
         region: region as string || '',
         sdg: sdg as string || '',
+        size: size as string || '',
         query: query as string || '',
         page: parseInt(page as string, 10),
         sortBy: sortBy as string,

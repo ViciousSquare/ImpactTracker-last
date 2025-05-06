@@ -86,6 +86,7 @@ export interface LeaderboardItem {
   region: Region;
   impactGrade: ImpactGrade;
   verificationType: VerificationType;
+  organizationSize?: 'small' | 'medium' | 'large'; // Added organization size
 }
 
 export type BusinessType = 
@@ -148,6 +149,7 @@ export interface OrganizationProfile {
     socialROI: number;
     impactGrade: ImpactGrade;
   }[];
+  organizationSize?: 'small' | 'medium' | 'large'; // Added organization size
 }
 
 // Interface for trending stats
@@ -170,6 +172,7 @@ export const searchFormSchema = z.object({
   sector: z.string().optional(),
   region: z.string().optional(),
   sdg: z.string().optional(),
+  organizationSize: z.string().optional(), // Added organization size
 });
 
 export type SearchFormValues = z.infer<typeof searchFormSchema>;
@@ -181,6 +184,7 @@ export const solutionSearchSchema = z.object({
   businessType: z.string().optional(),
   sdg: z.string().optional(),
   demographic: z.string().optional(),
+  organizationSize: z.string().optional(), // Added organization size
 });
 
 export type SolutionSearchValues = z.infer<typeof solutionSearchSchema>;
@@ -251,4 +255,11 @@ export const BUSINESS_TYPE_OPTIONS = [
   { value: "Government", label: "Government" },
   { value: "Academic", label: "Academic" },
   { value: "Social Enterprise", label: "Social Enterprise" }
+];
+
+export const ORGANIZATION_SIZE_OPTIONS = [
+  { value: "all", label: "All Sizes" },
+  { value: "large", label: "Large (500+ employees)" },
+  { value: "medium", label: "Medium (100-499 employees)" },
+  { value: "small", label: "Small (1-99 employees)" }
 ];

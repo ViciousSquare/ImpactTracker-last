@@ -31,6 +31,13 @@ const Leaderboard = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState('impactScore');
   const [sortOrder, setSortOrder] = useState('desc');
+  const [size, setSize] = useState(''); // Added size state
+
+  const ORGANIZATION_SIZE_OPTIONS = [
+    { value: 'large', label: t('leaderboard.large') },
+    { value: 'medium', label: t('leaderboard.medium') },
+    { value: 'small', label: t('leaderboard.small') },
+  ]; // Added organization size options
 
   // Fetch trending items
   const { data: trendingItems, isLoading: trendingLoading } = useQuery<TrendingItem[]>({
@@ -42,7 +49,7 @@ const Leaderboard = () => {
     items: LeaderboardItem[];
     total: number;
   }>({
-    queryKey: ['/api/leaderboard', sector, region, sdg, searchQuery, currentPage, sortBy, sortOrder],
+    queryKey: ['/api/leaderboard', sector, region, sdg, searchQuery, currentPage, sortBy, sortOrder, size], // Added size to query key
   });
 
   const handleSearch = (e: React.FormEvent) => {
@@ -111,7 +118,7 @@ const Leaderboard = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </form>
-            
+
             <Select value={sector} onValueChange={(value) => { setSector(value); setCurrentPage(1); }}>
               <SelectTrigger className="bg-white border border-neutral-300 rounded-md px-3 py-2 text-neutral-700 h-auto">
                 <SelectValue placeholder={t('leaderboard.allSectors')} />
@@ -138,7 +145,20 @@ const Leaderboard = () => {
                   ))}
                 </SelectContent>
               </Select>
-              
+
+              <Select value={size} onValueChange={(value) => { setSize(value); setCurrentPage(1); }}> {/* Added size filter */}
+                <SelectTrigger className="bg-white border border-neutral-300 rounded-md px-3 py-2 text-neutral-700 h-auto">
+                  <SelectValue placeholder={t('leaderboard.allSizes')} />
+                </SelectTrigger>
+                <SelectContent>
+                  {ORGANIZATION_SIZE_OPTIONS.map(option => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
               <Select value={sdg} onValueChange={(value) => { setSdg(value); setCurrentPage(1); }}>
                 <SelectTrigger className="bg-white border border-neutral-300 rounded-md px-3 py-2 text-neutral-700 h-auto">
                   <SelectValue placeholder={t('leaderboard.allSDGs')} />
@@ -154,7 +174,7 @@ const Leaderboard = () => {
             </div>
           </div>
         </div>
-        
+
         {/* Trending tickers */}
         {trendingLoading ? (
           <div className="mb-6 bg-neutral-900 text-white rounded-md p-4 h-10">
@@ -167,7 +187,7 @@ const Leaderboard = () => {
             No trending data available
           </div>
         )}
-        
+
         {/* Leaderboard table */}
         <div className="bg-white rounded-lg shadow-sm border border-neutral-200 overflow-hidden">
           <div className="overflow-x-auto">
@@ -255,7 +275,7 @@ const Leaderboard = () => {
                 ) : leaderboardData && leaderboardData.items.length > 0 ? (
                   leaderboardData.items.map((item) => {
                     const verificationDetails = getVerificationDetails(item.verificationType);
-                    
+
                     return (
                       <tr key={item.id} className="table-row-hover">
                         <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-neutral-900">
@@ -320,7 +340,7 @@ const Leaderboard = () => {
               </tbody>
             </table>
           </div>
-          
+
           {/* Pagination */}
           {leaderboardData && leaderboardData.total > 0 && (
             <div className="bg-neutral-50 px-4 py-3 flex items-center justify-between border-t border-neutral-200 sm:px-6">
@@ -360,7 +380,7 @@ const Leaderboard = () => {
                       <span className="sr-only">{t('leaderboard.pagination.previous')}</span>
                       <span className="material-icons text-sm">chevron_left</span>
                     </Button>
-                    
+
                     {/* Page buttons */}
                     {Array.from({ length: Math.min(5, Math.ceil(leaderboardData.total / itemsPerPage)) }, (_, i) => i + 1).map((page) => (
                       <Button
@@ -377,14 +397,14 @@ const Leaderboard = () => {
                         {page}
                       </Button>
                     ))}
-                    
+
                     {/* Conditional ellipsis */}
                     {Math.ceil(leaderboardData.total / itemsPerPage) > 5 && (
                       <span className="relative inline-flex items-center px-4 py-2 border border-neutral-300 bg-white text-sm font-medium text-neutral-700">
                         ...
                       </span>
                     )}
-                    
+
                     {/* Last page button */}
                     {Math.ceil(leaderboardData.total / itemsPerPage) > 5 && (
                       <Button
@@ -396,7 +416,7 @@ const Leaderboard = () => {
                         {Math.ceil(leaderboardData.total / itemsPerPage)}
                       </Button>
                     )}
-                    
+
                     <Button
                       variant="outline"
                       size="icon"
