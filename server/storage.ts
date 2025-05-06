@@ -1574,6 +1574,22 @@ export class MemStorage implements IStorage {
   async getReportsByOrganization(organizationId: number): Promise<Report[]> {
     return [];
   }
+
+  async createOrganization(insertOrg: InsertOrganization): Promise<Organization> {
+    const id = this.currentId++;
+    const now = new Date();
+    const organization: Organization = {
+      ...insertOrg,
+      id,
+      createdAt: now,
+      updatedAt: now,
+      verified: false,
+      isPublished: false
+    };
+    
+    this.organizations.set(id, organization);
+    return organization;
+  }
   
   // Helper method to initialize sample data
   private initSampleData(): void {
