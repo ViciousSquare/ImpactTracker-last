@@ -45,45 +45,62 @@ export const AddOrganizationDialog = ({ open, onOpenChange, onSubmit }: AddOrgan
     jsonData: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { toast } = useToast();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      // Attempt to parse JSON if provided, otherwise submit existing formData
+      let orgData = formData;
       if (formData.jsonData) {
-        const parsedData = JSON.parse(formData.jsonData);
-        const orgData = {
-          name: parsedData.organization_name || formData.name,
-          sector: parsedData.sector || formData.sector,
-          sdgAlignment: parsedData.sdg_alignment || formData.sdgAlignment,
-          region: parsedData.region || formData.region,
-          yearEstablished: parsedData.year_established || formData.yearEstablished,
-          contactInfo: parsedData.contact_info || formData.contactInfo,
-          website: parsedData.website || formData.website,
-          impactScore: parsedData.impact_iq_score || formData.impactScore,
-          grade: parsedData.grade || formData.grade,
-          reportingQuality: parsedData.reporting_quality || formData.reportingQuality,
-          reach: parsedData.reach || formData.reach,
-          estSocialRoi: parsedData.est_social_roi || formData.estSocialRoi,
-          outcomeEffectiveness: parsedData.outcome_effectiveness || formData.outcomeEffectiveness,
-          transparencyGovernance: parsedData.transparency_governance || formData.transparencyGovernance,
-          verificationLevel: parsedData.verification_level || formData.verificationLevel,
-          methodologySource: parsedData.methodology_source || formData.methodologySource,
-          methodologySummary: parsedData.methodology_summary || formData.methodologySummary,
-          reports: parsedData.reports || formData.reports,
-          keyMetrics: parsedData.key_metrics || formData.keyMetrics,
-          insights: parsedData.insights || formData.insights,
-          programs: parsedData.programs || formData.programs,
-          targetPartners: parsedData.target_partners || formData.targetPartners,
-          adminNotes: parsedData.admin_notes || formData.adminNotes,
-
-        };
-        onSubmit(orgData);
-      } else {
-        onSubmit(formData);
+        try {
+          const parsedData = JSON.parse(formData.jsonData);
+          orgData = {
+            name: parsedData.organization_name || formData.name,
+            sector: parsedData.sector || formData.sector,
+            sdgAlignment: parsedData.sdg_alignment || formData.sdgAlignment,
+            region: parsedData.region || formData.region,
+            yearEstablished: parsedData.year_established || formData.yearEstablished,
+            contactInfo: parsedData.contact_info || formData.contactInfo,
+            website: parsedData.website || formData.website,
+            impactScore: parsedData.impact_iq_score || formData.impactScore,
+            grade: parsedData.grade || formData.grade,
+            reportingQuality: parsedData.reporting_quality || formData.reportingQuality,
+            reach: parsedData.reach || formData.reach,
+            estSocialRoi: parsedData.est_social_roi || formData.estSocialRoi,
+            outcomeEffectiveness: parsedData.outcome_effectiveness || formData.outcomeEffectiveness,
+            transparencyGovernance: parsedData.transparency_governance || formData.transparencyGovernance,
+            verificationLevel: parsedData.verification_level || formData.verificationLevel,
+            methodologySource: parsedData.methodology_source || formData.methodologySource,
+            methodologySummary: parsedData.methodology_summary || formData.methodologySummary,
+            reports: parsedData.reports || formData.reports,
+            keyMetrics: parsedData.key_metrics || formData.keyMetrics,
+            insights: parsedData.insights || formData.insights,
+            programs: parsedData.programs || formData.programs,
+            targetPartners: parsedData.target_partners || formData.targetPartners,
+            adminNotes: parsedData.admin_notes || formData.adminNotes,
+          };
+        } catch (error) {
+          toast({
+            title: "Error",
+            description: "Invalid JSON format. Please check your input.",
+            variant: "destructive"
+          });
+          return;
+        }
       }
+      
+      await onSubmit(orgData);
+      onOpenChange(false);
+      toast({
+        title: "Success",
+        description: "Organization has been successfully added",
+      });
     } catch (error) {
-      console.error('Invalid JSON format:', error);
-      // Add error handling here, e.g., display an error message to the user
+      toast({
+        title: "Error",
+        description: "Failed to create organization. Please try again.",
+        variant: "destructive"
+      });
     }
   };
 
