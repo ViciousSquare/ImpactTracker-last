@@ -85,20 +85,6 @@ export const OrganizationManager = () => {
         method: 'POST',
         body: JSON.stringify(data)
       });
-      return response;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['organizations'] });
-      setOpen(false);
-    },
-    onError: (error) => {
-      console.error('Failed to create organization:', error);
-      toast({
-        title: "Error",
-        description: "Failed to create organization. Please try again.",
-        variant: "destructive"
-      });
-    }
       if (!response.ok) {
         throw new Error('Failed to create organization');
       }
@@ -113,6 +99,7 @@ export const OrganizationManager = () => {
       setIsAddDialogOpen(false);
     },
     onError: (error: Error) => {
+      console.error('Failed to create organization:', error);
       toast({
         title: "Error",
         description: error.message,
