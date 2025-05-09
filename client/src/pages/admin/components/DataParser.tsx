@@ -121,19 +121,44 @@ const DataParser = () => {
       };
       contact_info?: string;
       methodology_summary?: string;
+      methodology_source?: string;
+      reports_documents_used?: Array<{
+        file_name: string;
+        type: string;
+        date: string;
+      }>;
       impact_analysis?: {
         executive_summary?: string;
+        key_strengths?: string[];
+        areas_for_development?: string[];
+        sector_positioning?: string;
+        conclusion?: string;
       };
       impact_iq_score?: number;
       grade?: string;
       reporting_quality?: number;
       outcome_effectiveness?: number;
       reach?: number;
+      est_social_roi?: number;
       transparency_governance?: number;
       verification_level?: string;
       year_established?: number;
+      key_insights_about_org?: string[];
+      admin_notes?: string;
+      recommendations?: string[];
       financials?: {
+        revenue?: number;
+        expenditures?: number;
         program_expenses_pct?: number;
+        fundraising_pct?: number;
+        admin_pct?: number;
+        surplus?: number;
+        funding_sources?: {
+          institutional?: number;
+          individual?: number;
+          government?: number;
+          other?: number;
+        };
       };
       programs?: Array<{
         name: string;
@@ -141,6 +166,7 @@ const DataParser = () => {
         people_reached?: number;
         social_roi?: string;
         score: string;
+        sdgs?: string[];
       }>;
       key_statistics_kpis?: string[];
       key_target_members_partners?: Array<{
@@ -168,7 +194,9 @@ const DataParser = () => {
           website: data.data.website || "",
           contactEmail: data.data.best_contact?.email || "",
           contactPhone: (data.data.contact_info || "").split(",").find(str => str.includes("-"))?.trim() || "",
-          bestContact: data.data.best_contact ? `${data.data.best_contact.name} (${data.data.best_contact.role})` : "",
+          bestContact: data.data.best_contact 
+            ? `${data.data.best_contact.name || ""} (${data.data.best_contact.role || ""})`
+            : "",
           mission: data.data.methodology_summary || "",
           description: data.data.impact_analysis?.executive_summary || "",
           impactScore: typeof data.data.impact_iq_score === 'number' ? data.data.impact_iq_score : 0,
@@ -184,27 +212,142 @@ const DataParser = () => {
           employeeCount: data.data.financials?.program_expenses_pct || 0,
           programCount: (data.data.programs || []).length,
           beneficiariesReached: data.data.programs?.reduce((sum: number, p: any) => sum + (p.people_reached || 0), 0) || 0,
-          plainTextSummary: data.data.impact_analysis?.executive_summary || "",
+          plainTextSummary: generatePlainTextSummary(data.data),
           programs: data.data.programs?.map((p: any) => ({
-            name: p.name,
-            description: p.effectiveness,
+            name: p.name || "Unnamed Program",
+            description: p.effectiveness || "",
             metrics: `People reached: ${p.people_reached || 'N/A'}, Social ROI: ${p.social_roi || 'N/A'}`,
-            beneficiaries: "Program beneficiaries",
+            beneficiaries: Array.isArray(p.sdgs) ? p.sdgs.join(", ") : "Program beneficiaries",
             startYear: p.year || new Date().getFullYear(),
-            status: p.score
+            status: p.score || "active"
           })) || [],
-          metrics: data.data.key_statistics_kpis?.map((stat: string) => ({
-            name: stat,
-            value: "N/A",
-            unit: "count",
-            year: new Date().getFullYear(),
-            category: "impact"
-          })) || [],
-          partners: data.data.key_target_members_partners?.map((p: any) => ({
-            name: p.name,
-            role: `${p.type} - ${p.role}`
-          })) || [],
+          metrics: [
+            // Include any key statistics from the data
+            ...(data.data.key_statistics_kpis?.map((stat: string) => ({
+              name: stat,
+              value: "N/A",
+              unit: "count",
+              year: new Date().getFullYear(),
+              category: "impact"
+            })) || []),
+            
+            // Include financials as metrics if available
+            ...(data.data.financials ? [
+              data.data.financials.revenue ? {
+                name: "Annual Revenue",
+                value: data.data.financials.revenue.toString(),
+                unit: "currency",
+                year: new Date().getFullYear(),
+                category: "financial"
+              } : null,
+              data.data.financials.expenditures ? {
+                name: "Annual Expenditures",
+                value: data.data.financials.expenditures.toString(),
+                unit: "currency",
+                year: new Date().getFullYear(),
+                category: "financial"
+              } : null,
+              data.data.financials.program_expenses_pct ? {
+                name: "Program Expenses",
+                value: data.data.financials.program_expenses_pct.toString(),
+                unit: "percentage",
+                year: new Date().getFullYear(),
+                category: "financial"
+              } : null,
+            ].filter(Boolean) as any[] : []),
+            
+            // Include social ROI if available
+            ...(data.data.est_social_roi ? [{
+              name: "Estimated Social ROI",
+              value: data.data.est_social_roi.toString(),
+              unit: "ratio",
+              year: new Date().getFullYear(),
+              category: "impact"
+            }] : [])
+          ],
+          partners: [
+            // Include primary partners
+            ...(data.data.key_target_members_partners?.map((p: any) => ({
+              name: p.name || "Unknown Partner",
+              role: `${p.type || "Partner"} - ${p.role || "Collaborator"}`
+            })) || []),
+            
+            // Add funding sources as partners if available
+            ...(data.data.financials?.funding_sources ? [
+              data.data.financials.funding_sources.government ? {
+                name: "Government Funding",
+                role: `Financial - ${data.data.financials.funding_sources.government}%`
+              } : null,
+              data.data.financials.funding_sources.institutional ? {
+                name: "Institutional Funding",
+                role: `Financial - ${data.data.financials.funding_sources.institutional}%`
+              } : null,
+              data.data.financials.funding_sources.individual ? {
+                name: "Individual Donors",
+                role: `Financial - ${data.data.financials.funding_sources.individual}%`
+              } : null,
+            ].filter(Boolean) as any[] : [])
+          ],
         };
+        
+        // Helper function to generate a comprehensive plainTextSummary from available data
+        function generatePlainTextSummary(data: any): string {
+          const parts = [];
+          
+          // Basic info
+          if (data.organization_name && data.sector) {
+            parts.push(`${data.organization_name} is a ${data.sector} organization${data.year_established ? ` founded in ${data.year_established}` : ''}.`);
+          }
+          
+          // Mission and impact
+          if (data.methodology_summary) {
+            parts.push(data.methodology_summary);
+          }
+          
+          // Executive summary from impact analysis
+          if (data.impact_analysis?.executive_summary) {
+            parts.push(data.impact_analysis.executive_summary);
+          }
+          
+          // Key strengths
+          if (Array.isArray(data.impact_analysis?.key_strengths) && data.impact_analysis.key_strengths.length > 0) {
+            parts.push(`Key strengths: ${data.impact_analysis.key_strengths.join(', ')}.`);
+          }
+          
+          // Impact metrics
+          if (typeof data.impact_iq_score === 'number') {
+            parts.push(`The organization has an Impact IQ Score of ${data.impact_iq_score}${data.grade ? ` (Grade: ${data.grade})` : ''}.`);
+          }
+          
+          // Programs
+          if (Array.isArray(data.programs) && data.programs.length > 0) {
+            const totalReached = data.programs.reduce((sum: number, p: any) => sum + (p.people_reached || 0), 0);
+            if (totalReached > 0) {
+              parts.push(`Through ${data.programs.length} program(s), they've reached approximately ${totalReached} beneficiaries.`);
+            }
+          }
+          
+          // Financial summary
+          if (data.financials) {
+            const financialPoints = [];
+            if (data.financials.revenue) {
+              financialPoints.push(`annual revenue of $${data.financials.revenue}`);
+            }
+            if (data.financials.program_expenses_pct) {
+              financialPoints.push(`${data.financials.program_expenses_pct}% spent on programs`);
+            }
+            if (financialPoints.length > 0) {
+              parts.push(`Financial snapshot: ${financialPoints.join(', ')}.`);
+            }
+          }
+          
+          // If no content was generated, use a basic fallback
+          if (parts.length === 0) {
+            return data.impact_analysis?.executive_summary || "";
+          }
+          
+          return parts.join(' ');
+        }
 
         setPreviewOrganization(preview);
         setShowPreviewDialog(true);
@@ -422,19 +565,54 @@ const DataParser = () => {
       if (parsedData.key_statistics_kpis && !Array.isArray(parsedData.key_statistics_kpis)) {
         validationWarnings.push("key_statistics_kpis should be an array");
       }
-
+      if (parsedData.programs && !Array.isArray(parsedData.programs)) {
+        validationWarnings.push("programs should be an array");
+      }
+      if (parsedData.key_target_members_partners && !Array.isArray(parsedData.key_target_members_partners)) {
+        validationWarnings.push("key_target_members_partners should be an array");
+      }
+      if (parsedData.key_insights_about_org && !Array.isArray(parsedData.key_insights_about_org)) {
+        validationWarnings.push("key_insights_about_org should be an array");
+      }
+      if (parsedData.recommendations && !Array.isArray(parsedData.recommendations)) {
+        validationWarnings.push("recommendations should be an array");
+      }
+      if (parsedData.reports_documents_used && !Array.isArray(parsedData.reports_documents_used)) {
+        validationWarnings.push("reports_documents_used should be an array");
+      }
+      
       // Check for expected object structures
       if (parsedData.best_contact && typeof parsedData.best_contact !== 'object') {
         validationWarnings.push("best_contact should be an object");
+      }
+      if (parsedData.impact_analysis && typeof parsedData.impact_analysis !== 'object') {
+        validationWarnings.push("impact_analysis should be an object");
+      } else if (parsedData.impact_analysis) {
+        // Check for nested arrays in impact_analysis
+        if (parsedData.impact_analysis.key_strengths && !Array.isArray(parsedData.impact_analysis.key_strengths)) {
+          validationWarnings.push("impact_analysis.key_strengths should be an array");
+        }
+        if (parsedData.impact_analysis.areas_for_development && !Array.isArray(parsedData.impact_analysis.areas_for_development)) {
+          validationWarnings.push("impact_analysis.areas_for_development should be an array");
+        }
+      }
+      if (parsedData.financials && typeof parsedData.financials !== 'object') {
+        validationWarnings.push("financials should be an object");
+      } else if (parsedData.financials && parsedData.financials.funding_sources && 
+                typeof parsedData.financials.funding_sources !== 'object') {
+        validationWarnings.push("financials.funding_sources should be an object");
       }
 
       // Continue with parsing even if there are warnings
       if (validationWarnings.length > 0) {
         toast({
           title: "Data Structure Warnings",
-          description: `The following issues were found: ${validationWarnings.join(', ')}. Processing available data.`,
-          variant: "warning",
+          description: `Found ${validationWarnings.length} structure issues. Processing available data.`,
+          variant: "default",
         });
+        
+        // Show detailed warnings in UI, not just toast
+        setParsingError(`Structure warnings (will still process):\n${validationWarnings.join('\n')}`);
       }
 
       setIsDataParsing(true);
