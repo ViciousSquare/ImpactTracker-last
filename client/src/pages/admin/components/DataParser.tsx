@@ -205,10 +205,10 @@ const DataParser = () => {
             role: `${p.type} - ${p.role}`
           })) || [],
         };
-        
+
         setPreviewOrganization(preview);
         setShowPreviewDialog(true);
-        
+
         toast({
           title: "JSON parsed successfully",
           description: "Organization data has been extracted and is ready for preview.",
@@ -293,12 +293,12 @@ const DataParser = () => {
         title: "Organization imported",
         description: `${data.name} has been successfully added to the platform.`,
       });
-      
+
       // Reset the form
       setJsonInput("");
       setShowPreviewDialog(false);
       setPreviewOrganization(null);
-      
+
       // Invalidate relevant queries
       queryClient.invalidateQueries({ queryKey: ["/api/organizations"] });
       queryClient.invalidateQueries({ queryKey: ["/api/statistics"] });
@@ -323,10 +323,10 @@ const DataParser = () => {
         title: "Batch import completed",
         description: `Successfully imported ${response.successful} organizations. Failed: ${response.failed}.`,
       });
-      
+
       // Reset the form
       setJsonInput("");
-      
+
       // Invalidate relevant queries
       queryClient.invalidateQueries({ queryKey: ["/api/organizations"] });
       queryClient.invalidateQueries({ queryKey: ["/api/statistics"] });
@@ -371,25 +371,68 @@ const DataParser = () => {
 
     // Validate JSON format before attempting to parse
     try {
-      const parsedData = JSON.parse(jsonInput);
-      setParsingError(null);
+      // First try to parse the JSON
+      let parsedData;
+      try {
+        parsedData = JSON.parse(jsonInput);
+      } catch (e) {
+        // If parsing fails, try to identify where the error occurred
+        const error = e as Error;
+        let errorMessage = error.message;
 
-      // Validate JSON structure
-      if (typeof parsedData !== 'object' || parsedData === null) {
-        throw new Error('Invalid JSON structure. Expected an object.');
+        if (error.message.includes('Unexpected token')) {
+          const match = error.message.match(/position (\d+)/);
+          if (match) {
+            const position = parseInt(match[1]);
+            const context = jsonInput.substring(Math.max(0, position - 20), Math.min(jsonInput.length, position + 20));
+            errorMessage = `JSON syntax error near: "...${context}..."`;
+          }
+        }
+
+        throw new Error(errorMessage);
       }
 
-      // Basic validation of required fields
-      const missingFields = [];
-      if (!parsedData.organization_name) missingFields.push('organization_name');
-      if (!parsedData.sector) missingFields.push('sector');
-      if (!parsedData.region) missingFields.push('region');
-      
-      // Continue with parsing even if some fields are missing
-      if (missingFields.length > 0) {
+      setParsingError(null);
+
+      // For batch import, validate array structure
+      if (activeTab === 'batch-import') {
+        if (!Array.isArray(parsedData)) {
+          throw new Error("Batch import requires a JSON array of organizations.");
+        }
+      } else {
+        // For single organization import, validate required fields
+        if (!parsedData.organization_name) {
+          throw new Error("Missing required field: organization_name");
+        }
+        if (!parsedData.sector) {
+          throw new Error("Missing required field: sector");
+        }
+        if (!parsedData.region) {
+          throw new Error("Missing required field: region");
+        }
+      }
+
+      // Validate data structure and handle missing fields gracefully
+      const validationWarnings = [];
+
+      // Check for malformed arrays
+      if (parsedData.sdg_alignment && !Array.isArray(parsedData.sdg_alignment)) {
+        validationWarnings.push("sdg_alignment should be an array");
+      }
+      if (parsedData.key_statistics_kpis && !Array.isArray(parsedData.key_statistics_kpis)) {
+        validationWarnings.push("key_statistics_kpis should be an array");
+      }
+
+      // Check for expected object structures
+      if (parsedData.best_contact && typeof parsedData.best_contact !== 'object') {
+        validationWarnings.push("best_contact should be an object");
+      }
+
+      // Continue with parsing even if there are warnings
+      if (validationWarnings.length > 0) {
         toast({
-          title: "Warning: Missing Fields",
-          description: `The following fields are missing: ${missingFields.join(', ')}. Continuing with available data.`,
+          title: "Data Structure Warnings",
+          description: `The following issues were found: ${validationWarnings.join(', ')}. Processing available data.`,
           variant: "warning",
         });
       }
@@ -401,7 +444,7 @@ const DataParser = () => {
       const friendlyError = errorMessage.includes('Unexpected end of JSON input') 
         ? 'JSON is incomplete. Please check for missing closing brackets or commas.' 
         : errorMessage;
-      
+
       setParsingError(`JSON syntax error: ${friendlyError}`);
       toast({
         title: "Invalid JSON Format",
@@ -423,10 +466,51 @@ const DataParser = () => {
     }
 
     try {
+      // First try to parse the JSON
+      let parsedData;
+      try {
+        parsedData = JSON.parse(jsonInput);
+      } catch (e) {
+        // If parsing fails, try to identify where the error occurred
+        const error = e as Error;
+        let errorMessage = error.message;
+
+        if (error.message.includes('Unexpected token')) {
+          const match = error.message.match(/position (\d+)/);
+          if (match) {
+            const position = parseInt(match[1]);
+            const context = jsonInput.substring(Math.max(0, position - 20), Math.min(jsonInput.length, position + 20));
+            errorMessage = `JSON syntax error near: "...${context}..."`;
+          }
+        }
+
+        throw new Error(errorMessage);
+      }
+
+      setParsingError(null);
+
+      // For batch import, validate array structure
+      if (activeTab === 'batch-import') {
+        if (!Array.isArray(parsedData)) {
+          throw new Error("Batch import requires a JSON array of organizations.");
+        }
+      } else {
+        // For single organization import, validate required fields
+        if (!parsedData.organization_name) {
+          throw new Error("Missing required field: organization_name");
+        }
+        if (!parsedData.sector) {
+          throw new Error("Missing required field: sector");
+        }
+        if (!parsedData.region) {
+          throw new Error("Missing required field: region");
+        }
+      }
+
       // Validate that the input is a valid JSON array
       const parsed = JSON.parse(jsonInput);
       setParsingError(null);
-      
+
       if (!Array.isArray(parsed)) {
         const errorMessage = "Batch import requires a JSON array of organizations.";
         setParsingError(errorMessage);
@@ -437,7 +521,7 @@ const DataParser = () => {
         });
         return;
       }
-      
+
       // Validate each organization in the array has required fields
       const invalidItems = parsed.filter((org: any, index: number) => {
         if (!org.name || !org.sector || !org.region) {
@@ -445,7 +529,7 @@ const DataParser = () => {
         }
         return false;
       });
-      
+
       if (invalidItems.length > 0) {
         const errorMessage = `${invalidItems.length} organization(s) in the array are missing required fields (name, sector, region). Please check and fix the data.`;
         setParsingError(errorMessage);
@@ -456,12 +540,12 @@ const DataParser = () => {
         });
         return;
       }
-      
+
       toast({
         title: "Starting batch import",
         description: `Processing ${parsed.length} organizations for import...`,
       });
-      
+
       batchImportMutation.mutate(jsonInput);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : "Invalid JSON format";
@@ -561,7 +645,7 @@ const DataParser = () => {
       };
       setPreviewOrganization(updatedPreview);
       setIsEditing(false);
-      
+
       toast({
         title: "Changes saved",
         description: "Organization preview has been updated with your changes.",
@@ -572,14 +656,14 @@ const DataParser = () => {
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-bold">Data Input System</h2>
-      
+
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList>
           <TabsTrigger value="json-parser">JSON Parser</TabsTrigger>
           <TabsTrigger value="batch-import">Batch Import</TabsTrigger>
           <TabsTrigger value="help">Help & Examples</TabsTrigger>
         </TabsList>
-        
+
         <TabsContent value="json-parser" className="mt-6 space-y-6">
           <Card>
             <CardHeader>
@@ -599,14 +683,14 @@ const DataParser = () => {
                   onChange={(e) => setJsonInput(e.target.value)}
                 />
               </div>
-              
+
               {parsingError && (
                 <div className="bg-red-50 border border-red-200 p-4 rounded-md">
                   <h3 className="text-red-700 font-medium mb-2">JSON Parsing Error</h3>
                   <pre className="text-sm text-red-800 whitespace-pre-wrap">{parsingError}</pre>
                 </div>
               )}
-              
+
               <div className="flex flex-col sm:flex-row gap-4 items-center">
                 <div>
                   <Label htmlFor="file-upload">Or upload a JSON file</Label>
@@ -653,7 +737,7 @@ const DataParser = () => {
             </CardFooter>
           </Card>
         </TabsContent>
-        
+
         <TabsContent value="batch-import" className="mt-6">
           <Card>
             <CardHeader>
@@ -676,7 +760,7 @@ const DataParser = () => {
                   Format: [&#123; organization1 &#125;, &#123; organization2 &#125;, ...]
                 </p>
               </div>
-              
+
               {parsingError && (
                 <div className="bg-red-50 border border-red-200 p-4 rounded-md">
                   <h3 className="text-red-700 font-medium mb-2">Validation Error</h3>
@@ -708,7 +792,7 @@ const DataParser = () => {
             </CardFooter>
           </Card>
         </TabsContent>
-        
+
         <TabsContent value="help" className="mt-6">
           <Card>
             <CardHeader>
@@ -727,9 +811,9 @@ const DataParser = () => {
                   <li>Required fields: name, sector, region</li>
                 </ul>
               </div>
-              
+
               <Separator />
-              
+
               <div>
                 <h3 className="text-lg font-medium">Example JSON Format</h3>
                 <pre className="bg-muted p-4 rounded-md mt-2 overflow-x-auto text-sm">
@@ -785,9 +869,9 @@ const DataParser = () => {
 }`}
                 </pre>
               </div>
-              
+
               <Separator />
-              
+
               <div>
                 <h3 className="text-lg font-medium">Batch Import Format</h3>
                 <p className="text-sm text-muted-foreground mt-1">
@@ -812,7 +896,7 @@ const DataParser = () => {
           </Card>
         </TabsContent>
       </Tabs>
-      
+
       {/* Organization Preview & Edit Dialog */}
       {previewOrganization && (
         <Dialog open={showPreviewDialog} onOpenChange={setShowPreviewDialog}>
@@ -827,7 +911,7 @@ const DataParser = () => {
                   : "Review the parsed organization data and approve or edit as needed"}
               </DialogDescription>
             </DialogHeader>
-            
+
             {isEditing ? (
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -845,7 +929,7 @@ const DataParser = () => {
                         </FormItem>
                       )}
                     />
-                    
+
                     <FormField
                       control={form.control}
                       name="sector"
@@ -880,9 +964,9 @@ const DataParser = () => {
                         </FormItem>
                       )}
                     />
-                    
+
                     <FormField
-                      control={form.control}
+control={form.control}
                       name="region"
                       render={({ field }) => (
                         <FormItem>
@@ -918,7 +1002,7 @@ const DataParser = () => {
                         </FormItem>
                       )}
                     />
-                    
+
                     <FormField
                       control={form.control}
                       name="website"
@@ -932,7 +1016,7 @@ const DataParser = () => {
                         </FormItem>
                       )}
                     />
-                    
+
                     <FormField
                       control={form.control}
                       name="contactEmail"
@@ -946,7 +1030,7 @@ const DataParser = () => {
                         </FormItem>
                       )}
                     />
-                    
+
                     <FormField
                       control={form.control}
                       name="contactPhone"
@@ -960,7 +1044,7 @@ const DataParser = () => {
                         </FormItem>
                       )}
                     />
-                    
+
                     <FormField
                       control={form.control}
                       name="yearFounded"
@@ -978,7 +1062,7 @@ const DataParser = () => {
                         </FormItem>
                       )}
                     />
-                    
+
                     <FormField
                       control={form.control}
                       name="employeeCount"
@@ -996,7 +1080,7 @@ const DataParser = () => {
                         </FormItem>
                       )}
                     />
-                    
+
                     <FormField
                       control={form.control}
                       name="verificationType"
@@ -1022,7 +1106,7 @@ const DataParser = () => {
                         </FormItem>
                       )}
                     />
-                    
+
                     <FormField
                       control={form.control}
                       name="impactScore"
@@ -1042,7 +1126,7 @@ const DataParser = () => {
                         </FormItem>
                       )}
                     />
-                    
+
                     <FormField
                       control={form.control}
                       name="impactGrade"
@@ -1078,9 +1162,9 @@ const DataParser = () => {
                       )}
                     />
                   </div>
-                  
+
                   <Separator />
-                  
+
                   <FormField
                     control={form.control}
                     name="mission"
@@ -1094,7 +1178,7 @@ const DataParser = () => {
                       </FormItem>
                     )}
                   />
-                  
+
                   <FormField
                     control={form.control}
                     name="description"
@@ -1108,7 +1192,7 @@ const DataParser = () => {
                       </FormItem>
                     )}
                   />
-                  
+
                   <FormField
                     control={form.control}
                     name="plainTextSummary"
@@ -1126,7 +1210,7 @@ const DataParser = () => {
                       </FormItem>
                     )}
                   />
-                  
+
                   <div className="flex justify-end gap-2">
                     <Button 
                       type="button" 
@@ -1185,7 +1269,7 @@ const DataParser = () => {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div>
                     <h3 className="text-lg font-medium mb-2">Impact Assessment</h3>
                     <div className="space-y-3">
@@ -1234,9 +1318,9 @@ const DataParser = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 <Separator />
-                
+
                 <div>
                   <h3 className="text-lg font-medium mb-2">Mission & Description</h3>
                   <div className="space-y-3">
@@ -1250,16 +1334,16 @@ const DataParser = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 <Separator />
-                
+
                 <div>
                   <h3 className="text-lg font-medium mb-2">Plain Text Summary</h3>
                   <div className="bg-amber-50 border border-amber-100 p-4 rounded-md">
                     <p className="text-sm whitespace-pre-wrap">{previewOrganization.plainTextSummary || "No plain text summary provided."}</p>
                   </div>
                 </div>
-                
+
                 {previewOrganization.programs && previewOrganization.programs.length > 0 && (
                   <>
                     <Separator />
@@ -1295,7 +1379,7 @@ const DataParser = () => {
                     </div>
                   </>
                 )}
-                
+
                 {previewOrganization.metrics && previewOrganization.metrics.length > 0 && (
                   <>
                     <Separator />
@@ -1323,7 +1407,7 @@ const DataParser = () => {
                     </div>
                   </>
                 )}
-                
+
                 {previewOrganization.partners && previewOrganization.partners.length > 0 && (
                   <>
                     <Separator />
@@ -1344,7 +1428,7 @@ const DataParser = () => {
                 )}
               </div>
             )}
-            
+
             <DialogFooter>
               {isEditing ? (
                 <div className="w-full flex justify-end">
