@@ -158,8 +158,8 @@ const DataParser = () => {
       return apiRequest<ParseJsonResponse>("POST", "/api/organizations/parse", { jsonData });
     },
     onSuccess: (data) => {
-      if (data.parsed && data.data) {
-        // Create a complete preview model with all the data
+      if (data.data) {
+        // Create a preview model with all available data, using defaults for missing fields
         const preview: OrganizationPreview = {
           name: data.data.organization_name || "",
           sector: data.data.sector || "",
@@ -371,21 +371,39 @@ const DataParser = () => {
 
     // Validate JSON format before attempting to parse
     try {
-      JSON.parse(jsonInput);
+      const parsedData = JSON.parse(jsonInput);
       setParsingError(null);
+
+      // Basic validation of required fields
+      const missingFields = [];
+      if (!parsedData.organization_name) missingFields.push('organization_name');
+      if (!parsedData.sector) missingFields.push('sector');
+      
+      // Continue with parsing even if some fields are missing
+      if (missingFields.length > 0) {
+        toast({
+          title: "Warning: Missing Fields",
+          description: `The following fields are missing: ${missingFields.join(', ')}. Continuing with available data.`,
+          variant: "warning",
+        });
+      }
+
+      setIsDataParsing(true);
+      parseJsonMutation.mutate(jsonInput);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : "Invalid JSON format";
-      setParsingError(`JSON syntax error: ${errorMessage}`);
+      const friendlyError = errorMessage.includes('Unexpected end of JSON input') 
+        ? 'JSON is incomplete. Please check for missing closing brackets or commas.' 
+        : errorMessage;
+      
+      setParsingError(`JSON syntax error: ${friendlyError}`);
       toast({
-        title: "Invalid JSON",
-        description: "Please check your JSON syntax and fix any formatting errors.",
+        title: "Invalid JSON Format",
+        description: friendlyError,
         variant: "destructive",
       });
       return;
     }
-
-    setIsDataParsing(true);
-    parseJsonMutation.mutate(jsonInput);
   };
 
   const handleBatchImport = () => {
