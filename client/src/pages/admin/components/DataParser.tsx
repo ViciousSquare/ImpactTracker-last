@@ -108,44 +108,51 @@ const DataParser = () => {
   // Parse JSON mutation
   const parseJsonMutation = useMutation({
     mutationFn: async (jsonData: string) => {
-      return apiRequest("/api/organizations/parse", {
-        method: "POST",
-        body: JSON.stringify({ jsonData }),
-      });
+      return apiRequest("POST", "/api/organizations/parse", jsonData);
     },
     onSuccess: (data) => {
       if (data.parsed) {
         // Create a complete preview model with all the data
         const preview: OrganizationPreview = {
-          name: data.data?.name || "",
+          name: data.data?.organization_name || "",
           sector: data.data?.sector || "",
-          sdgAlignment: data.data?.sdgAlignment?.split(",") || [],
+          sdgAlignment: data.data?.sdg_alignment || [],
           region: data.data?.region || "",
           website: data.data?.website || "",
-          contactEmail: data.data?.contactEmail || "",
-          contactPhone: data.data?.contactPhone || "",
-          bestContact: data.data?.bestContact || "",
-          mission: data.data?.mission || "",
-          description: data.data?.description || "",
-          impactScore: data.data?.impactScore || 0,
-          impactGrade: data.data?.impactGrade || "N/A",
+          contactEmail: data.data?.best_contact?.email || "",
+          contactPhone: data.data?.contact_info?.split(",")?.[1]?.trim() || "",
+          bestContact: `${data.data?.best_contact?.name} (${data.data?.best_contact?.role})` || "",
+          mission: data.data?.methodology_summary || "",
+          description: data.data?.impact_analysis?.executive_summary || "",
+          impactScore: data.data?.impact_iq_score || 0,
+          impactGrade: data.data?.grade || "N/A",
           impactComponents: {
-            innovation: data.data?.impactComponents?.innovation || 0,
-            quality: data.data?.impactComponents?.quality || 0,
-            scalability: data.data?.impactComponents?.scalability || 0,
-            sustainability: data.data?.impactComponents?.sustainability || 0,
+            reportingQuality: data.data?.reporting_quality || 0,
+            reach: data.data?.reach || 0,
+            socialROI: data.data?.est_social_roi || 0,
+            outcomeEffectiveness: data.data?.outcome_effectiveness || 0,
+            transparencyGovernance: data.data?.transparency_governance || 0
           },
-          verificationType: data.data?.verificationType || "self-reported",
-          yearFounded: data.data?.yearFounded || new Date().getFullYear(),
-          employeeCount: data.data?.employeeCount || 0,
-          programCount: data.data?.programCount || 0,
-          beneficiariesReached: data.data?.beneficiariesReached || 0,
-          plainTextSummary: plainTextSummary,
-          programs: data.programs || [],
-          metrics: data.metrics || [],
-          partners: data.targetPartners?.map((p: any) => ({
+          verificationType: data.data?.verification_level?.toLowerCase() || "self-reported",
+          yearFounded: data.data?.year_established || new Date().getFullYear(),
+          employeeCount: data.data?.financials?.program_expenses_pct || 0,
+          programCount: (data.data?.programs || []).length,
+          beneficiariesReached: data.data?.programs?.reduce((sum: number, p: any) => sum + (p.people_reached || 0), 0) || 0,
+          plainTextSummary: data.data?.impact_analysis?.executive_summary || "",
+          programs: data.data?.programs?.map((p: any) => ({
             name: p.name,
-            role: p.role
+            description: p.effectiveness,
+            metrics: `People reached: ${p.people_reached || 'N/A'}, Social ROI: ${p.social_roi || 'N/A'}`,
+            status: p.score
+          })) || [],
+          metrics: data.data?.key_statistics_kpis?.map((stat: string) => ({
+            name: stat,
+            value: "N/A",
+            year: new Date().getFullYear()
+          })) || [],
+          partners: data.data?.key_target_members_partners?.map((p: any) => ({
+            name: p.name,
+            role: `${p.type} - ${p.role}`
           })) || [],
         };
         
