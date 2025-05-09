@@ -240,9 +240,33 @@ const DataParser = () => {
   // Parse JSON mutation
   const parseJsonMutation = useMutation({
     mutationFn: async (jsonData: string) => {
-      // Parse the JSON first to validate
-      const parsed = JSON.parse(jsonData);
-      return apiRequest<ParseJsonResponse>("POST", "/api/organizations/parse", { jsonData });
+      // Try to fix common JSON issues
+      let fixedJson = jsonData;
+      
+      // If JSON ends with a comma, remove it
+      fixedJson = fixedJson.replace(/,(\s*[}\]])/g, '$1');
+      
+      // If JSON appears to be truncated, try to complete it
+      if (fixedJson.split('{').length > fixedJson.split('}').length) {
+        fixedJson += '}';
+      }
+      if (fixedJson.split('[').length > fixedJson.split(']').length) {
+        fixedJson += ']';
+      }
+
+      try {
+        // Parse the JSON first to validate
+        const parsed = JSON.parse(fixedJson);
+        
+        // Ensure required fields exist
+        if (!parsed.organization_name || !parsed.sector || !parsed.region) {
+          throw new Error("Missing required fields: organization_name, sector, and region are required");
+        }
+
+        return apiRequest<ParseJsonResponse>("POST", "/api/organizations/parse", { jsonData: fixedJson });
+      } catch (error) {
+        throw new Error(`JSON parsing failed: ${error instanceof Error ? error.message : 'Invalid JSON'}`);
+      }
     },
     onSuccess: (data) => {
       if (data.data) {
@@ -369,9 +393,11 @@ const DataParser = () => {
       setIsDataParsing(false);
     },
     onError: (error) => {
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      setParsingError(errorMessage);
       toast({
-        title: "Error",
-        description: "Failed to parse JSON. Please check the format and try again.",
+        title: "JSON Parsing Failed",
+        description: errorMessage,
         variant: "destructive",
       });
       setIsDataParsing(false);
