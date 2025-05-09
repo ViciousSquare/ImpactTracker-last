@@ -309,6 +309,52 @@ export class MemStorage implements IStorage {
     return updatedUser;
   }
   
+  async listOrganizations(filters: {
+    sector?: string;
+    region?: string;
+    verificationType?: string;
+    query?: string;
+    page?: number;
+    limit?: number;
+  } = {}): Promise<{ organizations: Organization[]; total: number; }> {
+    let organizations = Array.from(this.organizations.values());
+    
+    // Apply filters
+    if (filters.sector) {
+      organizations = organizations.filter(org => org.sector === filters.sector);
+    }
+    
+    if (filters.region) {
+      organizations = organizations.filter(org => org.region === filters.region);
+    }
+    
+    if (filters.verificationType) {
+      organizations = organizations.filter(org => org.verificationType === filters.verificationType);
+    }
+    
+    if (filters.query) {
+      const query = filters.query.toLowerCase();
+      organizations = organizations.filter(org => 
+        org.name.toLowerCase().includes(query)
+      );
+    }
+    
+    // Sort by latest created
+    organizations.sort((a, b) => 
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+    
+    // Pagination
+    const page = filters.page || 1;
+    const limit = filters.limit || 10;
+    const startIndex = (page - 1) * limit;
+    
+    return {
+      organizations: organizations.slice(startIndex, startIndex + limit),
+      total: organizations.length
+    };
+  }
+
   async listUsers(filters: { 
     role?: string; 
     query?: string; 
