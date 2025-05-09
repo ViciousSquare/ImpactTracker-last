@@ -240,6 +240,8 @@ const DataParser = () => {
   // Parse JSON mutation
   const parseJsonMutation = useMutation({
     mutationFn: async (jsonData: string) => {
+      // Parse the JSON first to validate
+      const parsed = JSON.parse(jsonData);
       return apiRequest<ParseJsonResponse>("POST", "/api/organizations/parse", { jsonData });
     },
     onSuccess: (data) => {
@@ -258,7 +260,7 @@ const DataParser = () => {
             : "",
           mission: data.data.methodology_summary || "",
           description: data.data.impact_analysis?.executive_summary || "",
-          impactScore: typeof data.data.impact_iq_score === 'number' ? data.data.impact_iq_score : 0,
+          impactScore: data.data.impact_iq_score || 0,
           impactGrade: data.data.grade || "N/A",
           impactComponents: {
             innovation: data.data.reporting_quality || 0,
