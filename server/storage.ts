@@ -1576,8 +1576,10 @@ export class MemStorage implements IStorage {
   }
 
   async createOrganization(insertOrg: InsertOrganization): Promise<Organization> {
+    const id = this.currentId++;
     const now = new Date();
-    const organization = await db.insert(schema.organizations).values({
+    const organization: Organization = {
+      id,
       name: insertOrg.name,
       sector: insertOrg.sector,
       sdgAlignment: insertOrg.sdgAlignment || [],
@@ -1591,9 +1593,10 @@ export class MemStorage implements IStorage {
       isPublished: true,
       createdAt: now,
       updatedAt: now
-    }).returning();
+    };
     
-    return organization[0];
+    this.organizations.set(id, organization);
+    return organization;
   }
   
   // Helper method to initialize sample data
