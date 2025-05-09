@@ -117,6 +117,10 @@ interface OrganizationPreview {
   bestContact: string;
   mission: string;
   description: string;
+  executiveSummary: string;
+  keyStrengths: string[];
+  areasForDevelopment: string[];
+  sectorPosition: string;
   impactScore: number;
   impactGrade: string;
   impactComponents: {
@@ -358,7 +362,11 @@ const DataParser = () => {
           contactPhone: data.data.contact_info?.phone || data.data.contactPhone || "",
           bestContact: data.data.best_contact?.name || "",
           mission: data.data.methodology_summary || data.data.mission || "",
-          description: data.data.impact_analysis?.executive_summary || data.data.description || "",
+          description: data.data.description || "",
+          executiveSummary: data.data.impact_analysis?.executive_summary || "",
+          keyStrengths: data.data.impact_analysis?.key_strengths || [],
+          areasForDevelopment: data.data.impact_analysis?.areas_for_development || [],
+          sectorPosition: data.data.impact_analysis?.sector_positioning || "",
           impactScore: data.data.impact_iq_score || 0,
           impactGrade: data.data.grade || "N/A",
           impactComponents: {
@@ -1620,25 +1628,52 @@ control={form.control}
                 <Separator />
 
                 <div>
-                  <h3 className="text-lg font-medium mb-2">Mission & Description</h3>
-                  <div className="space-y-3">
+                  <h3 className="text-lg font-medium mb-2">Impact Analysis</h3>
+                  <div className="space-y-4">
+                    <div>
+                      <span className="font-medium text-sm">Executive Summary:</span> 
+                      <p className="mt-1 text-sm bg-neutral-50 p-3 rounded-md">
+                        {previewOrganization.executiveSummary || "N/A"}
+                      </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <span className="font-medium text-sm">Key Strengths:</span>
+                        <ul className="mt-2 space-y-1">
+                          {previewOrganization.keyStrengths?.map((strength, idx) => (
+                            <li key={idx} className="text-sm flex items-start gap-2">
+                              <span className="text-green-600 mt-1">•</span>
+                              {strength}
+                            </li>
+                          )) || <li className="text-sm text-neutral-500">No strengths listed</li>}
+                        </ul>
+                      </div>
+
+                      <div>
+                        <span className="font-medium text-sm">Areas for Development:</span>
+                        <ul className="mt-2 space-y-1">
+                          {previewOrganization.areasForDevelopment?.map((area, idx) => (
+                            <li key={idx} className="text-sm flex items-start gap-2">
+                              <span className="text-amber-600 mt-1">•</span>
+                              {area}
+                            </li>
+                          )) || <li className="text-sm text-neutral-500">No areas listed</li>}
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div>
+                      <span className="font-medium text-sm">Sector Position:</span>
+                      <p className="mt-1 text-sm bg-neutral-50 p-3 rounded-md">
+                        {previewOrganization.sectorPosition || "N/A"}
+                      </p>
+                    </div>
+
                     <div>
                       <span className="font-medium text-sm">Mission:</span> 
                       <p className="mt-1 text-sm">{previewOrganization.mission || "N/A"}</p>
                     </div>
-                    <div>
-                      <span className="font-medium text-sm">Description:</span> 
-                      <p className="mt-1 text-sm">{previewOrganization.description || "N/A"}</p>
-                    </div>
-                  </div>
-                </div>
-
-                <Separator />
-
-                <div>
-                  <h3 className="text-lg font-medium mb-2">Plain Text Summary</h3>
-                  <div className="bg-amber-50 border border-amber-100 p-4 rounded-md">
-                    <p className="text-sm whitespace-pre-wrap">{previewOrganization.plainTextSummary || "No plain text summary provided."}</p>
                   </div>
                 </div>
 
