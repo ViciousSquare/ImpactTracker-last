@@ -698,7 +698,7 @@ const DataParser = () => {
                 <h3 className="text-lg font-medium">JSON Parser Guidelines</h3>
                 <ul className="list-disc list-inside mt-2 text-muted-foreground space-y-1">
                   <li>Paste valid JSON representing a single organization</li>
-                  <li>Include a separate plain text summary for additional context</li>
+                  <li>Include plainTextSummary field in the JSON for additional context</li>
                   <li>Preview and edit fields before final approval</li>
                   <li>Required fields: name, sector, region</li>
                 </ul>
@@ -756,7 +756,8 @@ const DataParser = () => {
       "name": "Environmental Agency",
       "role": "Funding Partner"
     }
-  ]
+  ],
+  "plainTextSummary": "Example Nonprofit is an environmental organization founded in 2010 that works to protect forest ecosystems. With a team of 25 staff members, they have reached 5000 beneficiaries through their conservation programs."
 }`}
                 </pre>
               </div>
