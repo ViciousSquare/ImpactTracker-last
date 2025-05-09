@@ -520,7 +520,7 @@ const DataParser = () => {
     mutationFn: async (orgData: OrganizationPreview) => {
       return apiRequest<ImportResponse>("POST", "/api/organizations", orgData);
     },
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       toast({
         title: "Organization imported",
         description: `${data.name} has been successfully added to the platform.`,
