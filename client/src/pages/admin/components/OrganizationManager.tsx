@@ -74,8 +74,8 @@ export const OrganizationManager = () => {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [selectedOrgId, setSelectedOrgId] = useState<number | null>(null);
 
-  const { data: organizationsData, isLoading } = useQuery({
-    queryKey: ['/api/organizations'],
+  const { data: organizationsData, isLoading, refetch } = useQuery({
+    queryKey: ['organizations'],
     queryFn: getQueryFn('/api/organizations')
   });
 

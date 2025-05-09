@@ -5,32 +5,32 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 // Helper function to generate a comprehensive plainTextSummary from available data
 function generateOrganizationSummary(data: any): string {
   const parts = [];
-  
+
   // Basic info
   if (data.organization_name && data.sector) {
     parts.push(`${data.organization_name} is a ${data.sector} organization${data.year_established ? ` founded in ${data.year_established}` : ''}.`);
   }
-  
+
   // Mission and impact
   if (data.methodology_summary) {
     parts.push(data.methodology_summary);
   }
-  
+
   // Executive summary from impact analysis
   if (data.impact_analysis?.executive_summary) {
     parts.push(data.impact_analysis.executive_summary);
   }
-  
+
   // Key strengths
   if (Array.isArray(data.impact_analysis?.key_strengths) && data.impact_analysis.key_strengths.length > 0) {
     parts.push(`Key strengths: ${data.impact_analysis.key_strengths.join(', ')}.`);
   }
-  
+
   // Impact metrics
   if (typeof data.impact_iq_score === 'number') {
     parts.push(`The organization has an Impact IQ Score of ${data.impact_iq_score}${data.grade ? ` (Grade: ${data.grade})` : ''}.`);
   }
-  
+
   // Programs
   if (Array.isArray(data.programs) && data.programs.length > 0) {
     const totalReached = data.programs.reduce((sum: number, p: any) => sum + (p.people_reached || 0), 0);
@@ -38,7 +38,7 @@ function generateOrganizationSummary(data: any): string {
       parts.push(`Through ${data.programs.length} program(s), they've reached approximately ${totalReached} beneficiaries.`);
     }
   }
-  
+
   // Financial summary
   if (data.financials) {
     const financialPoints = [];
@@ -52,12 +52,12 @@ function generateOrganizationSummary(data: any): string {
       parts.push(`Financial snapshot: ${financialPoints.join(', ')}.`);
     }
   }
-  
+
   // If no content was generated, use a basic fallback
   if (parts.length === 0) {
     return data.impact_analysis?.executive_summary || "";
   }
-  
+
   return parts.join(' ');
 }
 import {
@@ -243,7 +243,7 @@ const DataParser = () => {
       try {
         // First try to clean any HTML/unwanted content
         let cleanJson = jsonData;
-        
+
         // If we detect HTML content, try to extract JSON
         if (cleanJson.includes('<!DOCTYPE') || cleanJson.includes('<html')) {
           const jsonStart = cleanJson.indexOf('{');
@@ -255,7 +255,7 @@ const DataParser = () => {
 
         // Parse the cleaned JSON
         const parsedData = JSON.parse(cleanJson);
-        
+
         // Extract what we can, use defaults for missing fields
         const organization = {
           organization_name: parsedData.organization_name || parsedData.name || "Unnamed Organization",
@@ -309,20 +309,20 @@ const DataParser = () => {
         }
         throw error;
       }
-      
+
       // Remove any BOM or hidden characters
       fixedJson = fixedJson.replace(/^\uFEFF/, '');
-      
+
       // If JSON appears truncated, try to complete it
       const openBraces = (fixedJson.match(/\{/g) || []).length;
       const closeBraces = (fixedJson.match(/\}/g) || []).length;
       if (openBraces > closeBraces) {
         fixedJson += "}".repeat(openBraces - closeBraces);
       }
-      
+
       // If JSON ends with a comma, remove it
       fixedJson = fixedJson.replace(/,(\s*[}\]])/g, '$1');
-      
+
       // If JSON appears to be truncated, try to complete it
       if (fixedJson.split('{').length > fixedJson.split('}').length) {
         fixedJson += '}';
@@ -334,7 +334,7 @@ const DataParser = () => {
       try {
         // Parse the JSON first to validate
         const parsed = JSON.parse(fixedJson);
-        
+
         // Ensure required fields exist
         if (!parsed.organization_name || !parsed.sector || !parsed.region) {
           throw new Error("Missing required fields: organization_name, sector, and region are required");
@@ -392,7 +392,7 @@ const DataParser = () => {
               year: new Date().getFullYear(),
               category: "impact"
             })) || []),
-            
+
             // Include financials as metrics if available
             ...(data.data.financials ? [
               data.data.financials.revenue ? {
@@ -417,7 +417,7 @@ const DataParser = () => {
                 category: "financial"
               } : null,
             ].filter(Boolean) as any[] : []),
-            
+
             // Include social ROI if available
             ...(data.data.est_social_roi ? [{
               name: "Estimated Social ROI",
@@ -433,7 +433,7 @@ const DataParser = () => {
               name: p.name || "Unknown Partner",
               role: `${p.type || "Partner"} - ${p.role || "Collaborator"}`
             })) || []),
-            
+
             // Add funding sources as partners if available
             ...(data.data.financials?.funding_sources ? [
               data.data.financials.funding_sources.government ? {
@@ -451,7 +451,7 @@ const DataParser = () => {
             ].filter(Boolean) as any[] : [])
           ],
         };
-        
+
         // Set preview organization
         setPreviewOrganization(preview);
         setShowPreviewDialog(true);
@@ -549,8 +549,9 @@ const DataParser = () => {
       setPreviewOrganization(null);
 
       // Invalidate relevant queries
-      queryClient.invalidateQueries({ queryKey: ["/api/organizations"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/statistics"] });
+      queryClient.invalidateQueries({ queryKey: ["organizations"] });
+      queryClient.invalidateQueries({ queryKey: ["statistics"] });
+      queryClient.refetchQueries({ queryKey: ["organizations"] });
     },
     onError: (error) => {
       toast({
@@ -577,8 +578,8 @@ const DataParser = () => {
       setJsonInput("");
 
       // Invalidate relevant queries
-      queryClient.invalidateQueries({ queryKey: ["/api/organizations"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/statistics"] });
+      queryClient.invalidateQueries({ queryKey: ["organizations"] });
+      queryClient.invalidateQueries({ queryKey: ["statistics"] });
     },
     onError: (error) => {
       toast({
@@ -686,7 +687,7 @@ const DataParser = () => {
       if (parsedData.reports_documents_used && !Array.isArray(parsedData.reports_documents_used)) {
         validationWarnings.push("reports_documents_used should be an array");
       }
-      
+
       // Check for expected object structures
       if (parsedData.best_contact && typeof parsedData.best_contact !== 'object') {
         validationWarnings.push("best_contact should be an object");
@@ -716,7 +717,7 @@ const DataParser = () => {
           description: `Found ${validationWarnings.length} structure issues. Processing available data.`,
           variant: "default",
         });
-        
+
         // Show detailed warnings in UI, not just toast
         setParsingError(`Structure warnings (will still process):\n${validationWarnings.join('\n')}`);
       }
@@ -899,6 +900,7 @@ const DataParser = () => {
       beneficiariesReached: previewOrganization.beneficiariesReached,
       plainTextSummary: previewOrganization.plainTextSummary,
     } : {
+      ```text
       name: "",
       sector: "",
       sdgAlignment: [],
