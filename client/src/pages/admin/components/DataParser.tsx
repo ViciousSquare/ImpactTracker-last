@@ -71,7 +71,7 @@ interface OrganizationPreview {
   employeeCount: number;
   programCount: number;
   beneficiariesReached: number;
-  plainTextSummary: string;
+  plainTextSummary: string; // Part of the JSON structure now
   programs: {
     name: string;
     description: string;
@@ -97,9 +97,9 @@ const DataParser = () => {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("json-parser");
   const [jsonInput, setJsonInput] = useState("");
-  const [plainTextSummary, setPlainTextSummary] = useState("");
   const [isFileUploading, setIsFileUploading] = useState(false);
   const [isDataParsing, setIsDataParsing] = useState(false);
+  const [parsingError, setParsingError] = useState<string | null>(null);
   const [previewOrganization, setPreviewOrganization] = useState<OrganizationPreview | null>(null);
   const [showPreviewDialog, setShowPreviewDialog] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -127,11 +127,10 @@ const DataParser = () => {
           impactScore: data.data?.impact_iq_score || 0,
           impactGrade: data.data?.grade || "N/A",
           impactComponents: {
-            reportingQuality: data.data?.reporting_quality || 0,
-            reach: data.data?.reach || 0,
-            socialROI: data.data?.est_social_roi || 0,
-            outcomeEffectiveness: data.data?.outcome_effectiveness || 0,
-            transparencyGovernance: data.data?.transparency_governance || 0
+            innovation: data.data?.reporting_quality || 0,
+            quality: data.data?.outcome_effectiveness || 0,
+            scalability: data.data?.reach || 0,
+            sustainability: data.data?.transparency_governance || 0
           },
           verificationType: data.data?.verification_level?.toLowerCase() || "self-reported",
           yearFounded: data.data?.year_established || new Date().getFullYear(),
@@ -232,7 +231,6 @@ const DataParser = () => {
       
       // Reset the form
       setJsonInput("");
-      setPlainTextSummary("");
       setShowPreviewDialog(false);
       setPreviewOrganization(null);
       
@@ -309,6 +307,21 @@ const DataParser = () => {
       return;
     }
 
+    // Validate JSON format before attempting to parse
+    try {
+      JSON.parse(jsonInput);
+      setParsingError(null);
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Invalid JSON format";
+      setParsingError(`JSON syntax error: ${errorMessage}`);
+      toast({
+        title: "Invalid JSON",
+        description: "Please check your JSON syntax and fix any formatting errors.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsDataParsing(true);
     parseJsonMutation.mutate(jsonInput);
   };
@@ -326,17 +339,47 @@ const DataParser = () => {
     try {
       // Validate that the input is a valid JSON array
       const parsed = JSON.parse(jsonInput);
+      setParsingError(null);
+      
       if (!Array.isArray(parsed)) {
+        const errorMessage = "Batch import requires a JSON array of organizations.";
+        setParsingError(errorMessage);
         toast({
-          title: "Invalid input",
-          description: "Batch import requires a JSON array of organizations.",
+          title: "Invalid input format",
+          description: errorMessage,
           variant: "destructive",
         });
         return;
       }
       
+      // Validate each organization in the array has required fields
+      const invalidItems = parsed.filter((org: any, index: number) => {
+        if (!org.name || !org.sector || !org.region) {
+          return true;
+        }
+        return false;
+      });
+      
+      if (invalidItems.length > 0) {
+        const errorMessage = `${invalidItems.length} organization(s) in the array are missing required fields (name, sector, region). Please check and fix the data.`;
+        setParsingError(errorMessage);
+        toast({
+          title: "Invalid organization data",
+          description: errorMessage,
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      toast({
+        title: "Starting batch import",
+        description: `Processing ${parsed.length} organizations for import...`,
+      });
+      
       batchImportMutation.mutate(jsonInput);
     } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Invalid JSON format";
+      setParsingError(`JSON syntax error: ${errorMessage}`);
       toast({
         title: "Invalid JSON",
         description: "The input is not valid JSON. Please check and try again.",
@@ -471,20 +514,12 @@ const DataParser = () => {
                 />
               </div>
               
-              <div>
-                <Label htmlFor="plain-text-summary">Plain Text Summary</Label>
-                <Textarea 
-                  id="plain-text-summary"
-                  placeholder="Paste or enter a plain text summary about this organization..."
-                  className="min-h-[150px] mt-2"
-                  value={plainTextSummary}
-                  onChange={(e) => setPlainTextSummary(e.target.value)}
-                />
-                <p className="text-sm text-muted-foreground mt-1">
-                  This plain text summary will be stored separately from the JSON data and can 
-                  provide additional context about the organization.
-                </p>
-              </div>
+              {parsingError && (
+                <div className="bg-red-50 border border-red-200 p-4 rounded-md">
+                  <h3 className="text-red-700 font-medium mb-2">JSON Parsing Error</h3>
+                  <pre className="text-sm text-red-800 whitespace-pre-wrap">{parsingError}</pre>
+                </div>
+              )}
               
               <div className="flex flex-col sm:flex-row gap-4 items-center">
                 <div>
@@ -507,7 +542,7 @@ const DataParser = () => {
                 variant="outline" 
                 onClick={() => {
                   setJsonInput("");
-                  setPlainTextSummary("");
+                  setParsingError(null);
                   if (fileInputRef.current) {
                     fileInputRef.current.value = "";
                   }
@@ -555,6 +590,13 @@ const DataParser = () => {
                   Format: [&#123; organization1 &#125;, &#123; organization2 &#125;, ...]
                 </p>
               </div>
+              
+              {parsingError && (
+                <div className="bg-red-50 border border-red-200 p-4 rounded-md">
+                  <h3 className="text-red-700 font-medium mb-2">Validation Error</h3>
+                  <pre className="text-sm text-red-800 whitespace-pre-wrap">{parsingError}</pre>
+                </div>
+              )}
             </CardContent>
             <CardFooter className="flex justify-between">
               <Button 
