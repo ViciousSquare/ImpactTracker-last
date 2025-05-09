@@ -77,7 +77,6 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -349,18 +348,16 @@ const DataParser = () => {
       if (data.data) {
         // Create a preview model with all available data, using defaults for missing fields
         const preview: OrganizationPreview = {
-          name: data.data.organization_name || "",
+          name: data.data.organization_name || data.data.name || "",
           sector: data.data.sector || "",
           sdgAlignment: Array.isArray(data.data.sdg_alignment) ? data.data.sdg_alignment : [],
           region: data.data.region || "",
           website: data.data.website || "",
-          contactEmail: data.data.best_contact?.email || "",
-          contactPhone: (data.data.contact_info || "").split(",").find(str => str.includes("-"))?.trim() || "",
-          bestContact: data.data.best_contact 
-            ? `${data.data.best_contact.name || ""} (${data.data.best_contact.role || ""})`
-            : "",
-          mission: data.data.methodology_summary || "",
-          description: data.data.impact_analysis?.executive_summary || "",
+          contactEmail: data.data.contact_info?.email || data.data.contact_email || "",
+          contactPhone: data.data.contact_info?.phone || data.data.contactPhone || "",
+          bestContact: data.data.best_contact?.name || "",
+          mission: data.data.methodology_summary || data.data.mission || "",
+          description: data.data.impact_analysis?.executive_summary || data.data.description || "",
           impactScore: data.data.impact_iq_score || 0,
           impactGrade: data.data.grade || "N/A",
           impactComponents: {
@@ -369,19 +366,18 @@ const DataParser = () => {
             scalability: data.data.reach || 0,
             sustainability: data.data.transparency_governance || 0
           },
-          verificationType: data.data.verification_level?.toLowerCase() || "self-reported",
+          verificationType: data.data.verification_level || "self-reported",
           yearFounded: data.data.year_established || new Date().getFullYear(),
-          employeeCount: data.data.financials?.program_expenses_pct || 0,
+          employeeCount: data.data.employee_count || 0,
           programCount: (data.data.programs || []).length,
-          beneficiariesReached: data.data.programs?.reduce((sum: number, p: any) => sum + (p.people_reached || 0), 0) || 0,
-          plainTextSummary: generateOrganizationSummary(data.data),
-          programs: data.data.programs?.map((p: any) => ({
-            name: p.name || "Unnamed Program",
-            description: p.effectiveness || "",
+          beneficiariesReached: data.data.total_beneficiaries || 0,
+          programs: data.data.programs?.map(p => ({
+            name: p.name,
+            description: p.description || p.effectiveness || "",
             metrics: `People reached: ${p.people_reached || 'N/A'}, Social ROI: ${p.social_roi || 'N/A'}`,
-            beneficiaries: Array.isArray(p.sdgs) ? p.sdgs.join(", ") : "Program beneficiaries",
+            beneficiaries: Array.isArray(p.sdgs) ? p.sdgs.join(", ") : "",
             startYear: p.year || new Date().getFullYear(),
-            status: p.score || "active"
+            status: p.status || "active"
           })) || [],
           metrics: [
             // Include any key statistics from the data
@@ -450,6 +446,7 @@ const DataParser = () => {
               } : null,
             ].filter(Boolean) as any[] : [])
           ],
+          plainTextSummary: generateOrganizationSummary(data.data),
         };
 
         // Set preview organization
@@ -906,8 +903,7 @@ const DataParser = () => {
       region: "",
       website: "",
       contactEmail: "",
-      contactPhone: "",
-      bestContact: "",
+      contactPhone: "",bestContact: "",
       mission: "",
       description: "",
       impactScore: 0,

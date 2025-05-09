@@ -75,8 +75,9 @@ export const OrganizationManager = () => {
   const [selectedOrgId, setSelectedOrgId] = useState<number | null>(null);
 
   const { data: organizationsData, isLoading, refetch } = useQuery({
-    queryKey: ['organizations'],
-    queryFn: getQueryFn('/api/organizations')
+    queryKey: ['/api/organizations'],
+    queryFn: getQueryFn('/api/organizations'),
+    refetchInterval: 3000 // Refresh every 3 seconds
   });
 
   const addOrganizationMutation = useMutation({
