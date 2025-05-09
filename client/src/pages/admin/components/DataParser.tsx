@@ -351,16 +351,35 @@ const DataParser = () => {
     },
     onSuccess: (data) => {
       if (data.data) {
-        // Create a preview model with all available data, using defaults for missing fields
+        // Create a preview model with all available data
         const preview: OrganizationPreview = {
-          name: data.data.organization_name || data.data.name || "",
+          name: data.data.organization_name || "",
           sector: data.data.sector || "",
           sdgAlignment: Array.isArray(data.data.sdg_alignment) ? data.data.sdg_alignment : [],
-          executiveSummary: data.data.impact_analysis?.executive_summary || data.data.methodology_summary || "",
+          region: data.data.region || "",
+          website: data.data.website || "",
+          contactEmail: data.data.best_contact?.email || data.data.contact_info || "",
+          contactPhone: data.data.contact_info || "",
+          bestContact: data.data.best_contact?.name || "",
+          mission: data.data.methodology_summary || "",
+          description: data.data.methodology_summary || "",
+          executiveSummary: data.data.impact_analysis?.executive_summary || "",
           keyStrengths: data.data.impact_analysis?.key_strengths || [],
           areasForDevelopment: data.data.impact_analysis?.areas_for_development || [],
           sectorPosition: data.data.impact_analysis?.sector_positioning || "",
-          methodologySummary: data.data.methodology_summary || "",
+          impactScore: data.data.impact_iq_score || 0,
+          impactGrade: data.data.grade || "",
+          impactComponents: {
+            innovation: data.data.reporting_quality || 0,
+            quality: data.data.outcome_effectiveness || 0,
+            scalability: data.data.reach || 0,
+            sustainability: data.data.transparency_governance || 0
+          },
+          verificationType: data.data.verification_level || "self-reported",
+          yearFounded: data.data.year_established || new Date().getFullYear(),
+          employeeCount: data.data.employee_count || 0,
+          programCount: (data.data.programs || []).length,
+          beneficiariesReached: data.data.total_beneficiaries || 0,
           programs: (data.data.programs || []).map(p => ({
             name: p.name,
             description: p.description || "",
