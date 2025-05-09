@@ -240,8 +240,17 @@ const DataParser = () => {
   // Parse JSON mutation
   const parseJsonMutation = useMutation({
     mutationFn: async (jsonData: string) => {
+      // Check if input looks like HTML
+      if (jsonData.trim().toLowerCase().startsWith('<!doctype') || 
+          jsonData.trim().startsWith('<')) {
+        throw new Error("Invalid JSON: Received HTML content instead of JSON. Please check the input data.");
+      }
+
       // Try to fix common JSON issues
       let fixedJson = jsonData;
+      
+      // Remove any BOM or hidden characters
+      fixedJson = fixedJson.replace(/^\uFEFF/, '');
       
       // If JSON ends with a comma, remove it
       fixedJson = fixedJson.replace(/,(\s*[}\]])/g, '$1');
