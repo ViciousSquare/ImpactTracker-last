@@ -900,7 +900,6 @@ const DataParser = () => {
       beneficiariesReached: previewOrganization.beneficiariesReached,
       plainTextSummary: previewOrganization.plainTextSummary,
     } : {
-      ```text
       name: "",
       sector: "",
       sdgAlignment: [],
