@@ -163,15 +163,15 @@ const DataParser = () => {
         const preview: OrganizationPreview = {
           name: data.data.organization_name || "",
           sector: data.data.sector || "",
-          sdgAlignment: data.data.sdg_alignment || [],
+          sdgAlignment: Array.isArray(data.data.sdg_alignment) ? data.data.sdg_alignment : [],
           region: data.data.region || "",
           website: data.data.website || "",
           contactEmail: data.data.best_contact?.email || "",
-          contactPhone: data.data.contact_info?.split(",")?.[1]?.trim() || "",
-          bestContact: `${data.data.best_contact?.name} (${data.data.best_contact?.role})` || "",
+          contactPhone: (data.data.contact_info || "").split(",").find(str => str.includes("-"))?.trim() || "",
+          bestContact: data.data.best_contact ? `${data.data.best_contact.name} (${data.data.best_contact.role})` : "",
           mission: data.data.methodology_summary || "",
           description: data.data.impact_analysis?.executive_summary || "",
-          impactScore: data.data.impact_iq_score || 0,
+          impactScore: typeof data.data.impact_iq_score === 'number' ? data.data.impact_iq_score : 0,
           impactGrade: data.data.grade || "N/A",
           impactComponents: {
             innovation: data.data.reporting_quality || 0,
@@ -374,10 +374,16 @@ const DataParser = () => {
       const parsedData = JSON.parse(jsonInput);
       setParsingError(null);
 
+      // Validate JSON structure
+      if (typeof parsedData !== 'object' || parsedData === null) {
+        throw new Error('Invalid JSON structure. Expected an object.');
+      }
+
       // Basic validation of required fields
       const missingFields = [];
       if (!parsedData.organization_name) missingFields.push('organization_name');
       if (!parsedData.sector) missingFields.push('sector');
+      if (!parsedData.region) missingFields.push('region');
       
       // Continue with parsing even if some fields are missing
       if (missingFields.length > 0) {
