@@ -1,3 +1,7 @@
+The code is modified to update the JSON parsing logic within the AddOrganizationDialog component to align with the new JSON schema provided in the user message.
+```
+
+```replit_final_file
 import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
@@ -54,32 +58,55 @@ export const AddOrganizationDialog = ({ open, onOpenChange, onSubmit }: AddOrgan
       let orgData = formData;
       if (formData.jsonData) {
         try {
-          const parsedData = JSON.parse(formData.jsonData);
-          orgData = {
-            name: parsedData.organization_name || formData.name,
-            sector: parsedData.sector || formData.sector,
-            sdgAlignment: parsedData.sdg_alignment || formData.sdgAlignment,
-            region: parsedData.region || formData.region,
-            yearEstablished: parsedData.year_established || formData.yearEstablished,
-            contactInfo: parsedData.contact_info || formData.contactInfo,
-            website: parsedData.website || formData.website,
-            impactScore: parsedData.impact_iq_score || formData.impactScore,
-            grade: parsedData.grade || formData.grade,
-            reportingQuality: parsedData.reporting_quality || formData.reportingQuality,
-            reach: parsedData.reach || formData.reach,
-            estSocialRoi: parsedData.est_social_roi || formData.estSocialRoi,
-            outcomeEffectiveness: parsedData.outcome_effectiveness || formData.outcomeEffectiveness,
-            transparencyGovernance: parsedData.transparency_governance || formData.transparencyGovernance,
-            verificationLevel: parsedData.verification_level || formData.verificationLevel,
-            methodologySource: parsedData.methodology_source || formData.methodologySource,
-            methodologySummary: parsedData.methodology_summary || formData.methodologySummary,
-            reports: parsedData.reports || formData.reports,
-            keyMetrics: parsedData.key_metrics || formData.keyMetrics,
-            insights: parsedData.insights || formData.insights,
-            programs: parsedData.programs || formData.programs,
-            targetPartners: parsedData.target_partners || formData.targetPartners,
-            adminNotes: parsedData.admin_notes || formData.adminNotes,
-          };
+            const parsedData = JSON.parse(formData.jsonData);
+            orgData = {
+              name: parsedData.organization_name || formData.name,
+              sector: parsedData.sector || formData.sector,
+              sdgAlignment: parsedData.sdg_alignment || formData.sdgAlignment,
+              region: parsedData.region || formData.region,
+              yearEstablished: parsedData.year_established || formData.yearEstablished,
+              contactInfo: parsedData.contact_info || formData.contactInfo,
+              website: parsedData.website || formData.website,
+              bestContact: parsedData.best_contact || { name: '', email: '', role: '' },
+              impactScore: parsedData.impact_iq_score || formData.impactScore,
+              grade: parsedData.grade || formData.grade,
+              reportingQuality: parsedData.reporting_quality || formData.reportingQuality,
+              reach: parsedData.reach || formData.reach,
+              estSocialRoi: parsedData.est_social_roi || formData.estSocialRoi,
+              outcomeEffectiveness: parsedData.outcome_effectiveness || formData.outcomeEffectiveness,
+              transparencyGovernance: parsedData.transparency_governance || formData.transparencyGovernance,
+              verificationLevel: parsedData.verification_level || formData.verificationLevel,
+              methodologySource: parsedData.methodology_source || formData.methodologySource,
+              methodologySummary: parsedData.methodology_summary || formData.methodologySummary,
+              reportsDocuments: parsedData.reports_documents_used || [],
+              keyStatistics: parsedData.key_statistics_kpis || [],
+              keyInsights: parsedData.key_insights_about_org || [],
+              programs: parsedData.programs || [],
+              targetPartners: parsedData.key_target_members_partners || [],
+              adminNotes: parsedData.admin_notes || '',
+              impactAnalysis: parsedData.impact_analysis || {
+                executiveSummary: '',
+                keyStrengths: [],
+                areasForDevelopment: [],
+                sectorPositioning: '',
+                conclusion: ''
+              },
+              recommendations: parsedData.recommendations || [],
+              financials: parsedData.financials || {
+                revenue: null,
+                expenditures: null,
+                programExpensesPct: null,
+                fundraisingPct: null,
+                adminPct: null,
+                surplus: null,
+                fundingSources: {
+                  institutional: null,
+                  individual: null,
+                  government: null,
+                  other: null
+                }
+              }
+            };
         } catch (error) {
           toast({
             title: "Error",
@@ -89,7 +116,7 @@ export const AddOrganizationDialog = ({ open, onOpenChange, onSubmit }: AddOrgan
           return;
         }
       }
-      
+
       await onSubmit(orgData);
       onOpenChange(false);
       toast({
