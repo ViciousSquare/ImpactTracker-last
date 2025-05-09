@@ -513,16 +513,21 @@ const DataParser = () => {
       setPreviewOrganization(null);
 
       // Invalidate all relevant queries
-      queryClient.invalidateQueries({ queryKey: ['/api/organizations'] });
-      queryClient.invalidateQueries({ queryKey: ['/api/statistics'] });
-      queryClient.invalidateQueries({ queryKey: ['/api/organizations/featured'] });
+      // Invalidate and refetch all relevant queries
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['/api/organizations'] }),
+        queryClient.invalidateQueries({ queryKey: ['/api/statistics'] }),
+        queryClient.invalidateQueries({ queryKey: ['/api/organizations/featured'] }),
+        queryClient.invalidateQueries({ queryKey: ['/api/trending'] }),
+        queryClient.invalidateQueries({ queryKey: ['/api/leaderboard'] })
+      ]);
       
-      // Force refetch
-      queryClient.refetchQueries({ 
-        queryKey: ['/api/organizations'],
-        type: 'active',
-        exact: false 
-      });
+      // Force immediate refetch
+      await Promise.all([
+        queryClient.refetchQueries({ queryKey: ['/api/organizations'], type: 'active' }),
+        queryClient.refetchQueries({ queryKey: ['/api/statistics'], type: 'active' }),
+        queryClient.refetchQueries({ queryKey: ['/api/organizations/featured'], type: 'active' })
+      ]);
     },
     onError: (error) => {
       toast({

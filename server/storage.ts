@@ -310,7 +310,7 @@ export class MemStorage implements IStorage {
   }
 
   async listOrganizations(filters: any = {}): Promise<{ organizations: Organization[]; total: number }> {
-    const organizations = this._organizations || [];
+    let organizations = Array.from(this.organizations.values());
 
     // Apply filters
     if (filters.sector) {
