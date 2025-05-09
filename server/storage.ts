@@ -1576,33 +1576,24 @@ export class MemStorage implements IStorage {
   }
 
   async createOrganization(insertOrg: InsertOrganization): Promise<Organization> {
-    const id = this.currentId++;
     const now = new Date();
-    const organization: Organization = {
-      id,
+    const organization = await db.insert(schema.organizations).values({
       name: insertOrg.name,
       sector: insertOrg.sector,
       sdgAlignment: insertOrg.sdgAlignment || [],
       region: insertOrg.region,
-      yearEstablished: insertOrg.yearEstablished || new Date().getFullYear(),
+      established: insertOrg.established || new Date().getFullYear(),
       contactInfo: insertOrg.contactInfo || '',
       website: insertOrg.website || '',
       impactScore: insertOrg.impactScore || 80,
-      grade: insertOrg.grade || 'B+',
-      reportingQuality: insertOrg.reportingQuality || 16,
-      reach: insertOrg.reach || 16,
-      estSocialRoi: insertOrg.estSocialRoi || 16,
-      outcomeEffectiveness: insertOrg.outcomeEffectiveness || 16,
-      transparencyGovernance: insertOrg.transparencyGovernance || 16,
-      verificationLevel: insertOrg.verificationLevel || 'Self-Reported',
+      impactGrade: insertOrg.impactGrade || 'B+',
       verified: false,
       isPublished: true,
       createdAt: now,
       updatedAt: now
-    };
+    }).returning();
     
-    this.organizations.set(id, organization);
-    return organization;
+    return organization[0];
   }
   
   // Helper method to initialize sample data
