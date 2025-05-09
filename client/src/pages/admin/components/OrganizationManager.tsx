@@ -77,7 +77,10 @@ export const OrganizationManager = () => {
   const { data: organizationsData, isLoading, refetch } = useQuery({
     queryKey: ['/api/organizations'],
     queryFn: getQueryFn('/api/organizations'),
-    refetchInterval: 3000 // Refresh every 3 seconds
+    refetchInterval: 3000, // Refresh every 3 seconds
+    staleTime: 0, // Consider data immediately stale
+    cacheTime: 1000 * 60 * 5, // Cache for 5 minutes
+    retry: 2 // Retry failed requests twice
   });
 
   const addOrganizationMutation = useMutation({

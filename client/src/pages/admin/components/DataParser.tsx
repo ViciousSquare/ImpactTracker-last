@@ -499,10 +499,17 @@ const DataParser = () => {
       setShowPreviewDialog(false);
       setPreviewOrganization(null);
 
-      // Invalidate relevant queries
-      queryClient.invalidateQueries({ queryKey: ["organizations"] });
-      queryClient.invalidateQueries({ queryKey: ["statistics"] });
-      queryClient.refetchQueries({ queryKey: ["organizations"] });
+      // Invalidate all relevant queries
+      queryClient.invalidateQueries({ queryKey: ['/api/organizations'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/statistics'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/organizations/featured'] });
+      
+      // Force refetch
+      queryClient.refetchQueries({ 
+        queryKey: ['/api/organizations'],
+        type: 'active',
+        exact: false 
+      });
     },
     onError: (error) => {
       toast({
