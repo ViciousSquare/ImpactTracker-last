@@ -105,51 +105,102 @@ const DataParser = () => {
   const [isEditing, setIsEditing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Define parse response type
+  type ParseJsonResponse = {
+    parsed: boolean;
+    data?: {
+      organization_name?: string;
+      sector?: string;
+      sdg_alignment?: string[];
+      region?: string;
+      website?: string;
+      best_contact?: {
+        name?: string;
+        email?: string;
+        role?: string;
+      };
+      contact_info?: string;
+      methodology_summary?: string;
+      impact_analysis?: {
+        executive_summary?: string;
+      };
+      impact_iq_score?: number;
+      grade?: string;
+      reporting_quality?: number;
+      outcome_effectiveness?: number;
+      reach?: number;
+      transparency_governance?: number;
+      verification_level?: string;
+      year_established?: number;
+      financials?: {
+        program_expenses_pct?: number;
+      };
+      programs?: Array<{
+        name: string;
+        effectiveness: string;
+        people_reached?: number;
+        social_roi?: string;
+        score: string;
+      }>;
+      key_statistics_kpis?: string[];
+      key_target_members_partners?: Array<{
+        name: string;
+        type: string;
+        role: string;
+      }>;
+    };
+    error?: string;
+  };
+
   // Parse JSON mutation
   const parseJsonMutation = useMutation({
     mutationFn: async (jsonData: string) => {
-      return apiRequest("POST", "/api/organizations/parse", jsonData);
+      return apiRequest<ParseJsonResponse>("POST", "/api/organizations/parse", { jsonData });
     },
     onSuccess: (data) => {
-      if (data.parsed) {
+      if (data.parsed && data.data) {
         // Create a complete preview model with all the data
         const preview: OrganizationPreview = {
-          name: data.data?.organization_name || "",
-          sector: data.data?.sector || "",
-          sdgAlignment: data.data?.sdg_alignment || [],
-          region: data.data?.region || "",
-          website: data.data?.website || "",
-          contactEmail: data.data?.best_contact?.email || "",
-          contactPhone: data.data?.contact_info?.split(",")?.[1]?.trim() || "",
-          bestContact: `${data.data?.best_contact?.name} (${data.data?.best_contact?.role})` || "",
-          mission: data.data?.methodology_summary || "",
-          description: data.data?.impact_analysis?.executive_summary || "",
-          impactScore: data.data?.impact_iq_score || 0,
-          impactGrade: data.data?.grade || "N/A",
+          name: data.data.organization_name || "",
+          sector: data.data.sector || "",
+          sdgAlignment: data.data.sdg_alignment || [],
+          region: data.data.region || "",
+          website: data.data.website || "",
+          contactEmail: data.data.best_contact?.email || "",
+          contactPhone: data.data.contact_info?.split(",")?.[1]?.trim() || "",
+          bestContact: `${data.data.best_contact?.name} (${data.data.best_contact?.role})` || "",
+          mission: data.data.methodology_summary || "",
+          description: data.data.impact_analysis?.executive_summary || "",
+          impactScore: data.data.impact_iq_score || 0,
+          impactGrade: data.data.grade || "N/A",
           impactComponents: {
-            innovation: data.data?.reporting_quality || 0,
-            quality: data.data?.outcome_effectiveness || 0,
-            scalability: data.data?.reach || 0,
-            sustainability: data.data?.transparency_governance || 0
+            innovation: data.data.reporting_quality || 0,
+            quality: data.data.outcome_effectiveness || 0,
+            scalability: data.data.reach || 0,
+            sustainability: data.data.transparency_governance || 0
           },
-          verificationType: data.data?.verification_level?.toLowerCase() || "self-reported",
-          yearFounded: data.data?.year_established || new Date().getFullYear(),
-          employeeCount: data.data?.financials?.program_expenses_pct || 0,
-          programCount: (data.data?.programs || []).length,
-          beneficiariesReached: data.data?.programs?.reduce((sum: number, p: any) => sum + (p.people_reached || 0), 0) || 0,
-          plainTextSummary: data.data?.impact_analysis?.executive_summary || "",
-          programs: data.data?.programs?.map((p: any) => ({
+          verificationType: data.data.verification_level?.toLowerCase() || "self-reported",
+          yearFounded: data.data.year_established || new Date().getFullYear(),
+          employeeCount: data.data.financials?.program_expenses_pct || 0,
+          programCount: (data.data.programs || []).length,
+          beneficiariesReached: data.data.programs?.reduce((sum: number, p: any) => sum + (p.people_reached || 0), 0) || 0,
+          plainTextSummary: data.data.impact_analysis?.executive_summary || "",
+          programs: data.data.programs?.map((p: any) => ({
             name: p.name,
             description: p.effectiveness,
             metrics: `People reached: ${p.people_reached || 'N/A'}, Social ROI: ${p.social_roi || 'N/A'}`,
+            beneficiaries: "Program beneficiaries",
+            startYear: p.year || new Date().getFullYear(),
             status: p.score
           })) || [],
-          metrics: data.data?.key_statistics_kpis?.map((stat: string) => ({
+          metrics: data.data.key_statistics_kpis?.map((stat: string) => ({
             name: stat,
             value: "N/A",
-            year: new Date().getFullYear()
+            unit: "count",
+            year: new Date().getFullYear(),
+            category: "impact"
           })) || [],
-          partners: data.data?.key_target_members_partners?.map((p: any) => ({
+          partners: data.data.key_target_members_partners?.map((p: any) => ({
             name: p.name,
             role: `${p.type} - ${p.role}`
           })) || [],
@@ -181,13 +232,17 @@ const DataParser = () => {
     },
   });
 
+  // Define file upload response type
+  type FileUploadResponse = {
+    parsed: boolean;
+    jsonData?: string;
+    error?: string;
+  };
+
   // File upload mutation
   const uploadFileMutation = useMutation({
     mutationFn: async (formData: FormData) => {
-      return apiRequest("/api/organizations/upload", {
-        method: "POST",
-        body: formData,
-      });
+      return apiRequest<FileUploadResponse>("POST", "/api/organizations/upload", formData);
     },
     onSuccess: (data) => {
       if (data.parsed) {
@@ -215,13 +270,23 @@ const DataParser = () => {
     },
   });
 
+  // Define import response type
+  type ImportResponse = {
+    id?: number;
+    name: string;
+  };
+
+  // Define batch import response type
+  type BatchImportResponse = {
+    successful: number;
+    failed: number;
+    errors?: Array<{ index: number; error: string }>;
+  };
+
   // Import data mutation
   const importDataMutation = useMutation({
     mutationFn: async (orgData: OrganizationPreview) => {
-      return apiRequest("/api/organizations", {
-        method: "POST",
-        body: JSON.stringify(orgData),
-      });
+      return apiRequest<ImportResponse>("POST", "/api/organizations", orgData);
     },
     onSuccess: (data) => {
       toast({
@@ -251,10 +316,7 @@ const DataParser = () => {
   const batchImportMutation = useMutation({
     mutationFn: async (jsonData: string) => {
       const organizations = JSON.parse(jsonData);
-      return apiRequest("/api/organizations/batch", {
-        method: "POST",
-        body: JSON.stringify({ organizations }),
-      });
+      return apiRequest<BatchImportResponse>("POST", "/api/organizations/batch", { organizations });
     },
     onSuccess: (response) => {
       toast({
