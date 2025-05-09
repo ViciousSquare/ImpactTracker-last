@@ -240,14 +240,36 @@ const DataParser = () => {
   // Parse JSON mutation
   const parseJsonMutation = useMutation({
     mutationFn: async (jsonData: string) => {
-      // Check if input looks like HTML
-      if (jsonData.trim().toLowerCase().startsWith('<!doctype') || 
-          jsonData.trim().startsWith('<')) {
-        throw new Error("Invalid JSON: Received HTML content instead of JSON. Please check the input data.");
-      }
+      try {
+        // First validate JSON structure
+        const parsedData = JSON.parse(jsonData);
+        
+        // Validate required fields
+        if (!parsedData.organization_name) throw new Error("Missing organization_name");
+        if (!parsedData.sector) throw new Error("Missing sector");
+        if (!parsedData.region) throw new Error("Missing region");
 
-      // Try to fix common JSON issues
-      let fixedJson = jsonData;
+        // Call API with validated JSON
+        const response = await fetch('/api/organizations/parse', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ jsonData: parsedData })
+        });
+
+        if (!response.ok) {
+          const errorData = await response.text();
+          throw new Error(`API Error: ${errorData}`);
+        }
+
+        return response.json();
+      } catch (error) {
+        if (error instanceof Error) {
+          throw new Error(`JSON Parsing Error: ${error.message}`);
+        }
+        throw error;
+      }
       
       // Remove any BOM or hidden characters
       fixedJson = fixedJson.replace(/^\uFEFF/, '');
