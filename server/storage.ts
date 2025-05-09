@@ -56,7 +56,7 @@ export interface IStorage {
   createUser(user: InsertUser): Promise<User>;
   updateUser(id: number, userData: Partial<InsertUser>): Promise<User | undefined>;
   listUsers(filters?: { role?: string, query?: string, page?: number, limit?: number }): Promise<{ users: User[], total: number }>;
-  
+
   // Statistics
   getStatistics(): Promise<{
     organizationCount: number;
@@ -67,10 +67,10 @@ export interface IStorage {
     activeUsers?: number;
   }>;
   updateStatistics(data: Partial<Statistic>): Promise<Statistic>;
-  
+
   // Trending
   getTrendingOrganizations(): Promise<TrendingItem[]>;
-  
+
   // Leaderboard
   getLeaderboard(filters: {
     sector: string;
@@ -84,7 +84,7 @@ export interface IStorage {
     items: LeaderboardItem[];
     total: number;
   }>;
-  
+
   // Organizations
   getFeaturedOrganization(): Promise<OrganizationProfile[]>;
   getOrganizationById(id: number): Promise<OrganizationProfile | undefined>;
@@ -106,7 +106,7 @@ export interface IStorage {
   }>;
   generateProfileLink(organizationId: number): Promise<string>;
   getSuccessStories(): Promise<OrganizationProfile[]>;
-  
+
   // Solutions
   getSolutions(filters: {
     query: string;
@@ -117,26 +117,26 @@ export interface IStorage {
     demographic: string;
     page: number;
   }): Promise<SolutionItem[]>;
-  
+
   // Programs
   getProgramsByOrganization(organizationId: number): Promise<Program[]>;
   createProgram(program: InsertProgram): Promise<Program>;
   updateProgram(id: number, data: Partial<InsertProgram>): Promise<Program | undefined>;
   deleteProgram(id: number): Promise<boolean>;
-  
+
   // Metrics
   getMetric(id: number): Promise<Metric | undefined>;
   getMetricsByOrganization(organizationId: number): Promise<Metric[]>;
   createMetric(metric: InsertMetric): Promise<Metric>;
   updateMetric(id: number, data: Partial<InsertMetric>): Promise<Metric | undefined>;
-  
+
   // Reports
   getReportsByOrganization(organizationId: number): Promise<Report[]>;
   createReport(report: InsertReport): Promise<Report>;
   updateReport(id: number, data: Partial<InsertReport>): Promise<Report | undefined>;
   deleteReport(id: number): Promise<boolean>;
   extractReportData(reportId: number): Promise<any>;
-  
+
   // Invitations
   createInvitation(invitation: InsertInvitation): Promise<Invitation>;
   getInvitationByToken(token: string): Promise<Invitation | undefined>;
@@ -147,7 +147,7 @@ export interface IStorage {
     limit?: number 
   }): Promise<{ invitations: Invitation[], total: number }>;
   updateInvitation(id: number, data: Partial<InsertInvitation>): Promise<Invitation | undefined>;
-  
+
   // Verification Requests
   createVerificationRequest(request: InsertVerificationRequest): Promise<VerificationRequest>;
   getVerificationRequestsByOrganization(organizationId: number): Promise<VerificationRequest[]>;
@@ -158,19 +158,19 @@ export interface IStorage {
     limit?: number 
   }): Promise<{ requests: VerificationRequest[], total: number }>;
   updateVerificationRequest(id: number, data: Partial<InsertVerificationRequest>): Promise<VerificationRequest | undefined>;
-  
+
   // Notifications
   createNotification(notification: InsertNotification): Promise<Notification>;
   getNotificationsByUser(userId: number): Promise<Notification[]>;
   markNotificationAsRead(id: number): Promise<boolean>;
   deleteNotification(id: number): Promise<boolean>;
-  
+
   // Target Partners
   createTargetPartner(partner: InsertTargetPartner): Promise<TargetPartner>;
   getTargetPartnersByOrganization(organizationId: number): Promise<TargetPartner[]>;
   updateTargetPartner(id: number, data: Partial<InsertTargetPartner>): Promise<TargetPartner | undefined>;
   deleteTargetPartner(id: number): Promise<boolean>;
-  
+
   // Activity Logs
   createActivityLog(log: InsertActivityLog): Promise<ActivityLog>;
   getActivityLogsByUser(userId: number): Promise<ActivityLog[]>;
@@ -182,7 +182,7 @@ export interface IStorage {
     page?: number, 
     limit?: number 
   }): Promise<{ logs: ActivityLog[], total: number }>;
-  
+
   // Workflows
   createWorkflow(workflow: InsertWorkflow): Promise<Workflow>;
   getWorkflowById(id: number): Promise<Workflow | undefined>;
@@ -194,7 +194,7 @@ export interface IStorage {
     page?: number, 
     limit?: number 
   }): Promise<{ workflows: Workflow[], total: number }>;
-  
+
   // AI and Data Processing
   parseOrganizationJson(jsonData: string): Promise<{ 
     parsed: boolean, 
@@ -237,7 +237,7 @@ export class MemStorage implements IStorage {
   private activityLogs: Map<number, ActivityLog>;
   private workflows: Map<number, Workflow>;
   private stats: Statistic;
-  
+
   currentId: number;
 
   constructor() {
@@ -253,10 +253,10 @@ export class MemStorage implements IStorage {
     this.activityLogs = new Map();
     this.workflows = new Map();
     this.currentId = 1;
-    
+
     // Initialize with sample data for demo
     this.initSampleData();
-    
+
     // Set initial statistics
     this.stats = {
       id: 1,
@@ -294,61 +294,54 @@ export class MemStorage implements IStorage {
     this.users.set(id, user);
     return user;
   }
-  
+
   async updateUser(id: number, userData: Partial<InsertUser>): Promise<User | undefined> {
     const user = this.users.get(id);
     if (!user) return undefined;
-    
+
     const updatedUser: User = {
       ...user,
       ...userData,
       updatedAt: new Date()
     };
-    
+
     this.users.set(id, updatedUser);
     return updatedUser;
   }
-  
-  async listOrganizations(filters: {
-    sector?: string;
-    region?: string;
-    verificationType?: string;
-    query?: string;
-    page?: number;
-    limit?: number;
-  } = {}): Promise<{ organizations: Organization[]; total: number; }> {
-    let organizations = Array.from(this.organizations.values());
-    
+
+  async listOrganizations(filters: any = {}): Promise<{ organizations: Organization[]; total: number }> {
+    const organizations = this._organizations || [];
+
     // Apply filters
     if (filters.sector) {
       organizations = organizations.filter(org => org.sector === filters.sector);
     }
-    
+
     if (filters.region) {
       organizations = organizations.filter(org => org.region === filters.region);
     }
-    
+
     if (filters.verificationType) {
       organizations = organizations.filter(org => org.verificationType === filters.verificationType);
     }
-    
+
     if (filters.query) {
       const query = filters.query.toLowerCase();
       organizations = organizations.filter(org => 
         org.name.toLowerCase().includes(query)
       );
     }
-    
+
     // Sort by latest created
     organizations.sort((a, b) => 
       new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     );
-    
+
     // Pagination
     const page = filters.page || 1;
     const limit = filters.limit || 10;
     const startIndex = (page - 1) * limit;
-    
+
     return {
       organizations: organizations.slice(startIndex, startIndex + limit),
       total: organizations.length
@@ -362,12 +355,12 @@ export class MemStorage implements IStorage {
     limit?: number; 
   } = {}): Promise<{ users: User[]; total: number; }> {
     let users = Array.from(this.users.values());
-    
+
     // Apply filters
     if (filters.role) {
       users = users.filter(user => user.role === filters.role);
     }
-    
+
     if (filters.query) {
       const query = filters.query.toLowerCase();
       users = users.filter(user => 
@@ -376,23 +369,23 @@ export class MemStorage implements IStorage {
         (user.name && user.name.toLowerCase().includes(query))
       );
     }
-    
+
     // Sort by latest created
     users.sort((a, b) => 
       new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     );
-    
+
     // Pagination
     const page = filters.page || 1;
     const limit = filters.limit || 10;
     const startIndex = (page - 1) * limit;
-    
+
     return {
       users: users.slice(startIndex, startIndex + limit),
       total: users.length
     };
   }
-  
+
   // Statistics operations
   async getStatistics(): Promise<{
     organizationCount: number;
@@ -411,17 +404,17 @@ export class MemStorage implements IStorage {
       activeUsers: this.stats.activeUsers || 0
     };
   }
-  
+
   async updateStatistics(data: Partial<Statistic>): Promise<Statistic> {
     this.stats = {
       ...this.stats,
       ...data,
       updatedAt: new Date()
     };
-    
+
     return this.stats;
   }
-  
+
   // Trending operations
   async getTrendingOrganizations(): Promise<TrendingItem[]> {
     return [
@@ -431,7 +424,7 @@ export class MemStorage implements IStorage {
       { id: 4, name: 'Literacy Alliance', change: 5 }
     ];
   }
-  
+
   // Leaderboard operations
   async getLeaderboard(filters: {
     sector: string;
@@ -508,18 +501,18 @@ export class MemStorage implements IStorage {
         verificationType: VerificationType.Verified
       }
     ];
-    
+
     // Apply filters (simple implementation for demo)
     let filtered = [...mockLeaderboard];
-    
+
     if (filters.sector) {
       filtered = filtered.filter(item => item.sector === filters.sector);
     }
-    
+
     if (filters.region) {
       filtered = filtered.filter(item => item.region === filters.region);
     }
-    
+
     if (filters.query) {
       const query = filters.query.toLowerCase();
       filtered = filtered.filter(item => 
@@ -527,43 +520,43 @@ export class MemStorage implements IStorage {
         item.sector.toLowerCase().includes(query)
       );
     }
-    
+
     // Sort data
     filtered.sort((a, b) => {
       const aValue = a[filters.sortBy as keyof LeaderboardItem];
       const bValue = b[filters.sortBy as keyof LeaderboardItem];
-      
+
       if (typeof aValue === 'string' && typeof bValue === 'string') {
         return filters.sortOrder === 'asc' 
           ? aValue.localeCompare(bValue) 
           : bValue.localeCompare(aValue);
       }
-      
+
       if (typeof aValue === 'number' && typeof bValue === 'number') {
         return filters.sortOrder === 'asc' ? aValue - bValue : bValue - aValue;
       }
-      
+
       return 0;
     });
-    
+
     // Pagination
     const page = filters.page || 1;
     const pageSize = 5;
     const startIndex = (page - 1) * pageSize;
     const endIndex = startIndex + pageSize;
     const paginatedItems = filtered.slice(startIndex, endIndex);
-    
+
     // Update ranks based on sorting
     paginatedItems.forEach((item, index) => {
       item.rank = startIndex + index + 1;
     });
-    
+
     return {
       items: paginatedItems,
       total: 243 // Mock total for pagination
     };
   }
-  
+
   // Organization operations
   async getFeaturedOrganization(): Promise<OrganizationProfile[]> {
     return [
@@ -1152,13 +1145,13 @@ export class MemStorage implements IStorage {
       }
     ];
   }
-  
+
   async getOrganizationById(id: number): Promise<OrganizationProfile | undefined> {
     // Return the specific organization by ID
     const organizations = await this.getFeaturedOrganization();
     return organizations.find(org => org.id === id);
   }
-  
+
   async getSuccessStories(): Promise<OrganizationProfile[]> {
     // Return showcase organizations as success stories
     return [
@@ -1428,7 +1421,7 @@ export class MemStorage implements IStorage {
       }
     ];
   }
-  
+
   // Solution operations
   async getSolutions(filters: {
     query: string;
@@ -1570,10 +1563,10 @@ export class MemStorage implements IStorage {
         tags: ['Economic Development', 'Rural', 'SDG 8', 'Entrepreneurship']
       }
     ];
-    
+
     // Apply filters (simple implementation for demo)
     let filtered = [...mockSolutions];
-    
+
     if (filters.query) {
       const query = filters.query.toLowerCase();
       filtered = filtered.filter(item => 
@@ -1583,39 +1576,39 @@ export class MemStorage implements IStorage {
         item.tags.some(tag => tag.toLowerCase().includes(query))
       );
     }
-    
+
     if (filters.sector && filters.sector !== 'All Sectors') {
       filtered = filtered.filter(item => item.sector === filters.sector);
     }
-    
+
     if (filters.businessType && filters.businessType !== 'All Business Types') {
       filtered = filtered.filter(item => item.businessType === filters.businessType);
     }
-    
+
     if (filters.region && filters.region !== 'All Regions') {
       filtered = filtered.filter(item => item.region === filters.region);
     }
-    
+
     if (filters.sdg && filters.sdg !== 'All SDGs') {
       filtered = filtered.filter(item => 
         item.tags.some(tag => tag.includes(filters.sdg))
       );
     }
-    
+
     if (filters.demographic && filters.demographic !== 'All Demographics') {
       filtered = filtered.filter(item => 
         item.tags.some(tag => tag.includes(filters.demographic))
       );
     }
-    
+
     return filtered;
   }
-  
+
   // Programs operations
   async getProgramsByOrganization(organizationId: number): Promise<Program[]> {
     return [];
   }
-  
+
   // Reports operations
   async getReportsByOrganization(organizationId: number): Promise<Report[]> {
     return [];
@@ -1640,11 +1633,11 @@ export class MemStorage implements IStorage {
       createdAt: now,
       updatedAt: now
     };
-    
+
     this.organizations.set(id, organization);
     return organization;
   }
-  
+
   // Helper method to initialize sample data
   private initSampleData(): void {
     // This would be replaced with actual data in a real implementation
