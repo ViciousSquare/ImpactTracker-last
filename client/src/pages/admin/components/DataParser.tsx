@@ -349,11 +349,7 @@ const DataParser = () => {
           ],
         };
         
-        // Generate a plainTextSummary from the available data
-        const plainTextSummary = generateOrganizationSummary(data.data);
-        
-        setPreviewOrganization(preview);
-
+        // Set preview organization
         setPreviewOrganization(preview);
         setShowPreviewDialog(true);
 
