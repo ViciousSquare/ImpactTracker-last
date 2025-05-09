@@ -1,5 +1,5 @@
+
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
@@ -10,7 +10,6 @@ interface AddOrganizationDialogProps {
 }
 
 export const AddOrganizationDialog = ({ open, onOpenChange }: AddOrganizationDialogProps) => {
-  const navigate = useNavigate();
   const { toast } = useToast();
 
   return (
@@ -28,7 +27,7 @@ export const AddOrganizationDialog = ({ open, onOpenChange }: AddOrganizationDia
           </Button>
           <Button onClick={() => {
             onOpenChange(false);
-            navigate('/admin?tab=data-input');
+            window.location.href = '/admin?tab=data-input';
           }}>
             Go to Data Input
           </Button>
