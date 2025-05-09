@@ -18,6 +18,7 @@ import { DashboardStats } from "./components/DashboardStats";
 import { OrganizationManager } from "./components/OrganizationManager";
 import { InvitationManager } from "./components/InvitationManager";
 import { VerificationManager } from "./components/VerificationManager";
+import DataParser from "./components/DataParser";
 
 
 const AdminDashboard = () => {
@@ -58,12 +59,12 @@ const AdminDashboard = () => {
       </header>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid grid-cols-3 md:grid-cols-4 mb-8"> {/* Reduced to 4 columns */}
+        <TabsList className="grid grid-cols-3 md:grid-cols-5 mb-8">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="organizations">Organizations</TabsTrigger>
           <TabsTrigger value="invitations">Invitations</TabsTrigger>
           <TabsTrigger value="verification">Verification</TabsTrigger>
-          {/* Removed Data Input, Workflows, and Activity tabs */}
+          <TabsTrigger value="data-input">Data Input</TabsTrigger>
         </TabsList>
 
         <div className="mt-6">
@@ -82,7 +83,10 @@ const AdminDashboard = () => {
           <TabsContent value="verification">
             <VerificationManager />
           </TabsContent>
-          {/* Removed content for Data Input, Workflows, and Activity */}
+          
+          <TabsContent value="data-input">
+            <DataParser />
+          </TabsContent>
         </div>
       </Tabs>
     </div>
