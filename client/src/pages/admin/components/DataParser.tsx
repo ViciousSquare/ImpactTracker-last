@@ -1,6 +1,65 @@
 import { useState, useRef } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
+
+// Helper function to generate a comprehensive plainTextSummary from available data
+function generateOrganizationSummary(data: any): string {
+  const parts = [];
+  
+  // Basic info
+  if (data.organization_name && data.sector) {
+    parts.push(`${data.organization_name} is a ${data.sector} organization${data.year_established ? ` founded in ${data.year_established}` : ''}.`);
+  }
+  
+  // Mission and impact
+  if (data.methodology_summary) {
+    parts.push(data.methodology_summary);
+  }
+  
+  // Executive summary from impact analysis
+  if (data.impact_analysis?.executive_summary) {
+    parts.push(data.impact_analysis.executive_summary);
+  }
+  
+  // Key strengths
+  if (Array.isArray(data.impact_analysis?.key_strengths) && data.impact_analysis.key_strengths.length > 0) {
+    parts.push(`Key strengths: ${data.impact_analysis.key_strengths.join(', ')}.`);
+  }
+  
+  // Impact metrics
+  if (typeof data.impact_iq_score === 'number') {
+    parts.push(`The organization has an Impact IQ Score of ${data.impact_iq_score}${data.grade ? ` (Grade: ${data.grade})` : ''}.`);
+  }
+  
+  // Programs
+  if (Array.isArray(data.programs) && data.programs.length > 0) {
+    const totalReached = data.programs.reduce((sum: number, p: any) => sum + (p.people_reached || 0), 0);
+    if (totalReached > 0) {
+      parts.push(`Through ${data.programs.length} program(s), they've reached approximately ${totalReached} beneficiaries.`);
+    }
+  }
+  
+  // Financial summary
+  if (data.financials) {
+    const financialPoints = [];
+    if (data.financials.revenue) {
+      financialPoints.push(`annual revenue of $${data.financials.revenue}`);
+    }
+    if (data.financials.program_expenses_pct) {
+      financialPoints.push(`${data.financials.program_expenses_pct}% spent on programs`);
+    }
+    if (financialPoints.length > 0) {
+      parts.push(`Financial snapshot: ${financialPoints.join(', ')}.`);
+    }
+  }
+  
+  // If no content was generated, use a basic fallback
+  if (parts.length === 0) {
+    return data.impact_analysis?.executive_summary || "";
+  }
+  
+  return parts.join(' ');
+}
 import {
   Card,
   CardContent,
@@ -212,7 +271,7 @@ const DataParser = () => {
           employeeCount: data.data.financials?.program_expenses_pct || 0,
           programCount: (data.data.programs || []).length,
           beneficiariesReached: data.data.programs?.reduce((sum: number, p: any) => sum + (p.people_reached || 0), 0) || 0,
-          plainTextSummary: generatePlainTextSummary(data.data),
+          plainTextSummary: generateOrganizationSummary(data.data),
           programs: data.data.programs?.map((p: any) => ({
             name: p.name || "Unnamed Program",
             description: p.effectiveness || "",
@@ -290,64 +349,10 @@ const DataParser = () => {
           ],
         };
         
-        // Helper function to generate a comprehensive plainTextSummary from available data
-        function generatePlainTextSummary(data: any): string {
-          const parts = [];
-          
-          // Basic info
-          if (data.organization_name && data.sector) {
-            parts.push(`${data.organization_name} is a ${data.sector} organization${data.year_established ? ` founded in ${data.year_established}` : ''}.`);
-          }
-          
-          // Mission and impact
-          if (data.methodology_summary) {
-            parts.push(data.methodology_summary);
-          }
-          
-          // Executive summary from impact analysis
-          if (data.impact_analysis?.executive_summary) {
-            parts.push(data.impact_analysis.executive_summary);
-          }
-          
-          // Key strengths
-          if (Array.isArray(data.impact_analysis?.key_strengths) && data.impact_analysis.key_strengths.length > 0) {
-            parts.push(`Key strengths: ${data.impact_analysis.key_strengths.join(', ')}.`);
-          }
-          
-          // Impact metrics
-          if (typeof data.impact_iq_score === 'number') {
-            parts.push(`The organization has an Impact IQ Score of ${data.impact_iq_score}${data.grade ? ` (Grade: ${data.grade})` : ''}.`);
-          }
-          
-          // Programs
-          if (Array.isArray(data.programs) && data.programs.length > 0) {
-            const totalReached = data.programs.reduce((sum: number, p: any) => sum + (p.people_reached || 0), 0);
-            if (totalReached > 0) {
-              parts.push(`Through ${data.programs.length} program(s), they've reached approximately ${totalReached} beneficiaries.`);
-            }
-          }
-          
-          // Financial summary
-          if (data.financials) {
-            const financialPoints = [];
-            if (data.financials.revenue) {
-              financialPoints.push(`annual revenue of $${data.financials.revenue}`);
-            }
-            if (data.financials.program_expenses_pct) {
-              financialPoints.push(`${data.financials.program_expenses_pct}% spent on programs`);
-            }
-            if (financialPoints.length > 0) {
-              parts.push(`Financial snapshot: ${financialPoints.join(', ')}.`);
-            }
-          }
-          
-          // If no content was generated, use a basic fallback
-          if (parts.length === 0) {
-            return data.impact_analysis?.executive_summary || "";
-          }
-          
-          return parts.join(' ');
-        }
+        // Generate a plainTextSummary from the available data
+        const plainTextSummary = generateOrganizationSummary(data.data);
+        
+        setPreviewOrganization(preview);
 
         setPreviewOrganization(preview);
         setShowPreviewDialog(true);
@@ -996,7 +1001,7 @@ const DataParser = () => {
                 <h3 className="text-lg font-medium">Example JSON Format</h3>
                 <pre className="bg-muted p-4 rounded-md mt-2 overflow-x-auto text-sm">
 {`{
-  "organization_name": "Example Organization",
+  "organization_name": "Example Mental Health Org",
   "sector": "Youth Mental Health",
   "sdg_alignment": [
     "SDG 3: Good Health and Well-being",
@@ -1016,14 +1021,99 @@ const DataParser = () => {
   "grade": "A-",
   "reporting_quality": 18,
   "reach": 17,
-  "est_social_roi": 16,
+  "est_social_roi": 4.2,
   "outcome_effectiveness": 17,
   "transparency_governance": 17,
   "verification_level": "Self-Reported",
   "methodology_source": "2024 Impact Report",
   "methodology_summary": "Organization measures impact through quantitative program metrics, participant feedback surveys, and qualitative testimonials. They track engagement across their core programs and measure both immediate outputs and long-term outcomes.",
+  "reports_documents_used": [
+    {
+      "file_name": "Annual Impact Report 2024",
+      "type": "PDF",
+      "date": "2024-01-15"
+    },
+    {
+      "file_name": "Program Evaluation Summary",
+      "type": "PDF",
+      "date": "2023-11-30"
+    }
+  ],
+  "key_statistics_kpis": [
+    "45,000 youth reached through mental health programming",
+    "88% of participants report improved well-being",
+    "650 education professionals trained in mental health support"
+  ],
+  "key_insights_about_org": [
+    "National leader in youth mental health peer support models",
+    "Innovative digital outreach strategies",
+    "Strong cross-sector partnerships"
+  ],
+  "programs": [
+    {
+      "name": "School Mental Health Workshops",
+      "people_reached": 35000,
+      "social_roi": "4.5x",
+      "score": "High Impact",
+      "effectiveness": "Reaches schools across Canada with evidence-based mental health literacy workshops and ongoing support",
+      "sdgs": ["SDG 3", "SDG 4"]
+    },
+    {
+      "name": "Digital Support Platform",
+      "people_reached": 10000,
+      "social_roi": "3.8x",
+      "score": "Medium Impact",
+      "effectiveness": "Online peer support community with professional moderation and mental health resources",
+      "sdgs": ["SDG 3", "SDG 10"]
+    }
+  ],
+  "key_target_members_partners": [
+    {
+      "name": "National Mental Health Foundation",
+      "type": "Nonprofit",
+      "role": "Funding Partner"
+    },
+    {
+      "name": "Provincial Education Departments",
+      "type": "Government",
+      "role": "Implementation Partner"
+    }
+  ],
+  "admin_notes": "Strong candidate for featured status due to national reach and innovative programs",
   "impact_analysis": {
-    "executive_summary": "Detailed description of the organization's impact and achievements."
+    "executive_summary": "Example Mental Health Org demonstrates significant impact in youth mental health through their school-based workshops and digital platform. They have successfully scaled their programs nationwide, reaching 45,000 youth annually with evidence-based mental health literacy and support services.",
+    "key_strengths": [
+      "Evidence-based program design",
+      "Strong digital engagement strategy",
+      "Effective school partnerships",
+      "Youth-led program components"
+    ],
+    "areas_for_development": [
+      "Enhance long-term outcome measurement",
+      "Diversify funding streams",
+      "Strengthen rural/remote service delivery"
+    ],
+    "sector_positioning": "Leading national organization in school-based youth mental health programming with innovative peer support models",
+    "conclusion": "Highly effective organization with strong impact metrics and scaling potential"
+  },
+  "recommendations": [
+    "Explore provincial government funding opportunities",
+    "Develop formal impact measurement framework",
+    "Consider international expansion of digital platform"
+  ],
+  "financials": {
+    "revenue": 2500000,
+    "expenditures": 2450000,
+    "program_expenses_pct": 82,
+    "fundraising_pct": 12,
+    "admin_pct": 6,
+    "surplus": 50000,
+    "funding_sources": {
+      "institutional": 55,
+      "individual": 20,
+      "government": 25,
+      "other": 0
+    }
   }
 }`}
                 </pre>
@@ -1039,13 +1129,19 @@ const DataParser = () => {
                 <pre className="bg-muted p-4 rounded-md mt-2 overflow-x-auto text-sm">
 {`[
   {
-    "name": "Organization 1",
+    "organization_name": "Organization 1",
     "sector": "Education",
+    "sdg_alignment": ["SDG 4"],
+    "region": "BC",
+    "impact_iq_score": 75,
     ...
   },
   {
-    "name": "Organization 2",
+    "organization_name": "Organization 2",
     "sector": "Healthcare",
+    "sdg_alignment": ["SDG 3"],
+    "region": "ON",
+    "impact_iq_score": 82,
     ...
   }
 ]`}
