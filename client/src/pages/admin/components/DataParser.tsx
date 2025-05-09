@@ -274,6 +274,13 @@ const DataParser = () => {
       // Remove any BOM or hidden characters
       fixedJson = fixedJson.replace(/^\uFEFF/, '');
       
+      // If JSON appears truncated, try to complete it
+      const openBraces = (fixedJson.match(/\{/g) || []).length;
+      const closeBraces = (fixedJson.match(/\}/g) || []).length;
+      if (openBraces > closeBraces) {
+        fixedJson += "}".repeat(openBraces - closeBraces);
+      }
+      
       // If JSON ends with a comma, remove it
       fixedJson = fixedJson.replace(/,(\s*[}\]])/g, '$1');
       
