@@ -372,81 +372,26 @@ const DataParser = () => {
           employeeCount: data.data.employee_count || 0,
           programCount: (data.data.programs || []).length,
           beneficiariesReached: data.data.total_beneficiaries || 0,
+          stats: {
+            peopleReached: data.data.total_beneficiaries?.toLocaleString() + ' annually' || 'N/A',
+            socialROI: data.data.est_social_roi || 0,
+            programs: (data.data.programs || []).length,
+            funding: data.data.financials?.revenue ? `$${(data.data.financials.revenue/1000000).toFixed(1)}M` : 'N/A',
+            programAllocation: data.data.financials?.program_expenses_pct || 0
+          },
           programs: data.data.programs?.map(p => ({
             name: p.name,
-            description: p.description || p.effectiveness || "",
-            metrics: `People reached: ${p.people_reached || 'N/A'}, Social ROI: ${p.social_roi || 'N/A'}`,
-            beneficiaries: Array.isArray(p.sdgs) ? p.sdgs.join(", ") : "",
-            startYear: p.year || new Date().getFullYear(),
-            status: p.status || "active"
+            peopleReached: p.people_reached || 0,
+            socialROI: parseFloat(p.social_roi) || 0,
+            impactGrade: p.score || 'N/A'
           })) || [],
-          metrics: [
-            // Include any key statistics from the data
-            ...(data.data.key_statistics_kpis?.map((stat: string) => ({
-              name: stat,
-              value: "N/A",
-              unit: "count",
-              year: new Date().getFullYear(),
-              category: "impact"
-            })) || []),
-
-            // Include financials as metrics if available
-            ...(data.data.financials ? [
-              data.data.financials.revenue ? {
-                name: "Annual Revenue",
-                value: data.data.financials.revenue.toString(),
-                unit: "currency",
-                year: new Date().getFullYear(),
-                category: "financial"
-              } : null,
-              data.data.financials.expenditures ? {
-                name: "Annual Expenditures",
-                value: data.data.financials.expenditures.toString(),
-                unit: "currency",
-                year: new Date().getFullYear(),
-                category: "financial"
-              } : null,
-              data.data.financials.program_expenses_pct ? {
-                name: "Program Expenses",
-                value: data.data.financials.program_expenses_pct.toString(),
-                unit: "percentage",
-                year: new Date().getFullYear(),
-                category: "financial"
-              } : null,
-            ].filter(Boolean) as any[] : []),
-
-            // Include social ROI if available
-            ...(data.data.est_social_roi ? [{
-              name: "Estimated Social ROI",
-              value: data.data.est_social_roi.toString(),
-              unit: "ratio",
-              year: new Date().getFullYear(),
-              category: "impact"
-            }] : [])
-          ],
-          partners: [
-            // Include primary partners
-            ...(data.data.key_target_members_partners?.map((p: any) => ({
-              name: p.name || "Unknown Partner",
-              role: `${p.type || "Partner"} - ${p.role || "Collaborator"}`
-            })) || []),
-
-            // Add funding sources as partners if available
-            ...(data.data.financials?.funding_sources ? [
-              data.data.financials.funding_sources.government ? {
-                name: "Government Funding",
-                role: `Financial - ${data.data.financials.funding_sources.government}%`
-              } : null,
-              data.data.financials.funding_sources.institutional ? {
-                name: "Institutional Funding",
-                role: `Financial - ${data.data.financials.funding_sources.institutional}%`
-              } : null,
-              data.data.financials.funding_sources.individual ? {
-                name: "Individual Donors",
-                role: `Financial - ${data.data.financials.funding_sources.individual}%`
-              } : null,
-            ].filter(Boolean) as any[] : [])
-          ],
+          metrics: {
+            reportingQuality: data.data.reporting_quality || 0,
+            reach: data.data.reach || 0,
+            socialROI: data.data.est_social_roi || 0,
+            outcomeEffectiveness: data.data.outcome_effectiveness || 0,
+            transparencyGovernance: data.data.transparency_governance || 0
+          },
           plainTextSummary: generateOrganizationSummary(data.data),
         };
 
@@ -967,7 +912,7 @@ const DataParser = () => {
               </div>
 
               {parsingError && (
-                <div className="bg-red-50 border border-red-200 p-4 rounded-md">
+                <div className="bg-red-50 border border-red-200 p-4rounded-md">
                   <h3 className="text-red-700 font-medium mb-2">JSON Parsing Error</h3>
                   <pre className="text-sm text-red-800 whitespace-pre-wrap">{parsingError}</pre>
                 </div>
