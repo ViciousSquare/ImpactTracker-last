@@ -818,54 +818,35 @@ const DataParser = () => {
                 <h3 className="text-lg font-medium">Example JSON Format</h3>
                 <pre className="bg-muted p-4 rounded-md mt-2 overflow-x-auto text-sm">
 {`{
-  "name": "Example Nonprofit",
-  "sector": "Environment",
-  "sdgAlignment": "SDG 13,SDG 15",
-  "region": "BC",
-  "website": "https://example.org",
-  "contactEmail": "contact@example.org",
-  "contactPhone": "555-123-4567",
-  "mission": "Protect forest ecosystems",
-  "description": "Detailed description of organization's work",
-  "impactScore": 78,
-  "impactGrade": "B+",
-  "impactComponents": {
-    "innovation": 75,
-    "quality": 80,
-    "scalability": 70,
-    "sustainability": 85
+  "organization_name": "Example Organization",
+  "sector": "Youth Mental Health",
+  "sdg_alignment": [
+    "SDG 3: Good Health and Well-being",
+    "SDG 4: Quality Education",
+    "SDG 10: Reduced Inequalities"
+  ],
+  "region": "Canada (National)",
+  "year_established": 2010,
+  "contact_info": "123 Main Street, Suite 100, Toronto, ON, M5V 1A1, (416) 555-0123, contact@example.org",
+  "website": "example.org",
+  "best_contact": {
+    "name": "Jane Smith",
+    "email": "contact@example.org",
+    "role": "Executive Director"
   },
-  "verificationType": "verified",
-  "yearFounded": 2010,
-  "employeeCount": 25,
-  "programCount": 3,
-  "beneficiariesReached": 5000,
-  "programs": [
-    {
-      "name": "Forest Conservation Initiative",
-      "description": "Program details here",
-      "metrics": "Area protected, species preserved",
-      "beneficiaries": "Local communities, wildlife",
-      "startYear": 2015,
-      "status": "active"
-    }
-  ],
-  "metrics": [
-    {
-      "name": "Forest Area Protected",
-      "value": "5000",
-      "unit": "hectares",
-      "year": 2022,
-      "category": "environment"
-    }
-  ],
-  "partners": [
-    {
-      "name": "Environmental Agency",
-      "role": "Funding Partner"
-    }
-  ],
-  "plainTextSummary": "Example Nonprofit is an environmental organization founded in 2010 that works to protect forest ecosystems. With a team of 25 staff members, they have reached 5000 beneficiaries through their conservation programs."
+  "impact_iq_score": 85,
+  "grade": "A-",
+  "reporting_quality": 18,
+  "reach": 17,
+  "est_social_roi": 16,
+  "outcome_effectiveness": 17,
+  "transparency_governance": 17,
+  "verification_level": "Self-Reported",
+  "methodology_source": "2024 Impact Report",
+  "methodology_summary": "Organization measures impact through quantitative program metrics, participant feedback surveys, and qualitative testimonials. They track engagement across their core programs and measure both immediate outputs and long-term outcomes.",
+  "impact_analysis": {
+    "executive_summary": "Detailed description of the organization's impact and achievements."
+  }
 }`}
                 </pre>
               </div>
@@ -978,8 +959,7 @@ control={form.control}
                             >
                               <SelectTrigger>
                                 <SelectValue placeholder="Select region" />
-                              </SelectTrigger>
-                              <SelectContent>
+                              </SelectTrigger>                              <SelectContent>
                                 <SelectItem value="BC">British Columbia</SelectItem>
                                 <SelectItem value="AB">Alberta</SelectItem>
                                 <SelectItem value="SK">Saskatchewan</SelectItem>
