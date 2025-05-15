@@ -1345,73 +1345,73 @@ export class MemStorage implements IStorage {
           'SDG 8: Decent Work and Economic Growth'
         ],
         metrics: {
-          reportingQuality: 17,
-          reach: 16,
+          reportingQuality: 18,
+          reach: 18,
           socialROI: 17,
           outcomeEffectiveness: 18,
-          transparencyGovernance: 17
+          transparencyGovernance: 18
         },
         stats: {
-          peopleReached: '42,000 annually',
-          socialROI: 7.65,
-          programs: 12,
-          funding: '$15.8M',
-          programAllocation: 85
+          peopleReached: '130,000 annually',
+          socialROI: 7.8,
+          programs: 6,
+          funding: '$25.4M',
+          programAllocation: 84
         },
-        yearlyTrend: [76, 79, 82, 84, 85],
+        yearlyTrend: [81, 84, 86, 88, 89],
         topPrograms: [
           {
-            name: 'Community Health Representatives',
-            peopleReached: 18000,
-            socialROI: 8.35,
+            name: 'Building Brighter Futures Scholarships',
+            peopleReached: 62500,
+            socialROI: 8.3,
             impactGrade: ImpactGrade.A
           },
           {
-            name: 'Traditional Healing Integration',
-            peopleReached: 14000,
-            socialROI: 7.82,
+            name: 'Rivers to Success Mentorship',
+            peopleReached: 38700,
+            socialROI: 7.2,
             impactGrade: ImpactGrade.A
           },
           {
-            name: 'Maternal & Child Health',
-            peopleReached: 8500,
-            socialROI: 6.75,
+            name: 'Indspire Awards',
+            peopleReached: 21000,
+            socialROI: 6.9,
             impactGrade: ImpactGrade.AMinus
           }
         ]
       },
       {
         id: 6,
-        name: 'Rural Economic Innovation',
+        name: 'FoodShare Toronto',
         logo: undefined,
-        mission: 'Rural Economic Innovation supports economic resilience in rural communities through entrepreneurship development, digital inclusion, and sustainable local economies.',
-        sector: 'Economic Development',
-        region: 'Prairies',
-        established: 2012,
-        impactScore: 81,
-        impactGrade: ImpactGrade.AMinus,
-        verificationType: VerificationType.Verified,
-        yearlyChange: 6.5,
+        mission: 'Working to increase access to good, healthy food through community-led initiatives and advocating for food justice.',
+        sector: 'Food Security',
+        region: 'Ontario',
+        established: 1985,
+        impactScore: 85,
+        impactGrade: ImpactGrade.A,
+        verificationType: VerificationType.Audited,
+        yearlyChange: 6.2,
         sdgAlignment: [
-          'SDG 8: Decent Work and Economic Growth',
-          'SDG 9: Industry, Innovation and Infrastructure',
+          'SDG 2: Zero Hunger',
+          'SDG 10: Reduced Inequalities',
           'SDG 11: Sustainable Cities and Communities'
         ],
         metrics: {
-          reportingQuality: 16,
-          reach: 16,
-          socialROI: 17,
-          outcomeEffectiveness: 16,
-          transparencyGovernance: 16
+          reportingQuality: 17,
+          reach: 17,
+          socialROI: 16,
+          outcomeEffectiveness: 17,
+          transparencyGovernance: 18
         },
         stats: {
-          peopleReached: '32,000 annually',
-          socialROI: 6.92,
-          programs: 8,
-          funding: '$12.3M',
-          programAllocation: 83
+          peopleReached: '260,000 annually',
+          socialROI: 5.7,
+          programs: 11,
+          funding: '$7.8M',
+          programAllocation: 81
         },
-        yearlyTrend: [68, 72, 75, 78, 81],
+        yearlyTrend: [75, 78, 80, 82, 85],
         topPrograms: [
           {
             name: 'Rural Business Accelerator',
