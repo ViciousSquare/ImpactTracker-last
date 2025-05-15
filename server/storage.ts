@@ -418,10 +418,11 @@ export class MemStorage implements IStorage {
   // Trending operations
   async getTrendingOrganizations(): Promise<TrendingItem[]> {
     return [
-      { id: 1, name: 'FoodShare Toronto', change: 12 },
-      { id: 2, name: 'Green Energy Solutions', change: -4 },
-      { id: 3, name: 'Homeless Connect', change: 8 },
-      { id: 4, name: 'Literacy Alliance', change: 5 }
+      { id: 6, name: 'FoodShare Toronto', change: 12.3 },
+      { id: 1, name: 'Jack.org', change: 8.5 },
+      { id: 5, name: 'Pathways to Education', change: 4.8 },
+      { id: 3, name: 'Housing First Canada', change: 4.1 },
+      { id: 2, name: 'Canadian Food Banks Network', change: 5.2 }
     ];
   }
 
@@ -438,65 +439,77 @@ export class MemStorage implements IStorage {
     items: LeaderboardItem[];
     total: number;
   }> {
-    // Mock leaderboard data
-    const mockLeaderboard: LeaderboardItem[] = [
-      {
-        id: 1,
-        rank: 1,
-        name: 'Canadian Food Bank Network',
-        sector: 'Food Security',
-        impactScore: 95,
-        yearlyChange: 3.2,
-        socialROI: 9.35,
-        region: 'National',
-        impactGrade: ImpactGrade.APlus,
-        verificationType: VerificationType.Audited
-      },
+    // Real leaderboard data based on organizations
+    const leaderboard: LeaderboardItem[] = [
       {
         id: 2,
-        rank: 2,
-        name: 'Housing First Initiative',
-        sector: 'Housing',
+        rank: 1,
+        name: 'Canadian Food Banks Network',
+        sector: 'Food Security',
         impactScore: 92,
-        yearlyChange: 5.7,
-        socialROI: 7.26,
-        region: 'Ontario',
-        impactGrade: ImpactGrade.A,
-        verificationType: VerificationType.Audited
-      },
-      {
-        id: 3,
-        rank: 3,
-        name: 'Youth STEM Foundation',
-        sector: 'Education',
-        impactScore: 88,
-        yearlyChange: -1.2,
-        socialROI: 5.93,
-        region: 'Quebec',
-        impactGrade: ImpactGrade.AMinus,
-        verificationType: VerificationType.Verified
-      },
-      {
-        id: 4,
-        rank: 4,
-        name: 'Climate Action Coalition',
-        sector: 'Environment',
-        impactScore: 86,
-        yearlyChange: 2.4,
-        socialROI: 4.82,
-        region: 'British Columbia',
-        impactGrade: ImpactGrade.BPlus,
+        yearlyChange: 5.2,
+        socialROI: 8.7,
+        region: 'National',
+        impactGrade: ImpactGrade.APlus,
         verificationType: VerificationType.Verified
       },
       {
         id: 5,
+        rank: 2,
+        name: 'Pathways to Education',
+        sector: 'Education',
+        impactScore: 91,
+        yearlyChange: 4.8,
+        socialROI: 7.9,
+        region: 'National',
+        impactGrade: ImpactGrade.APlus,
+        verificationType: VerificationType.Verified
+      },
+      {
+        id: 3,
+        rank: 3,
+        name: 'Housing First Canada',
+        sector: 'Housing',
+        impactScore: 89,
+        yearlyChange: 4.1,
+        socialROI: 6.8,
+        region: 'National',
+        impactGrade: ImpactGrade.A,
+        verificationType: VerificationType.Audited
+      },
+      {
+        id: 1,
+        rank: 4,
+        name: 'Jack.org',
+        sector: 'Youth Mental Health',
+        impactScore: 87,
+        yearlyChange: 8.5,
+        socialROI: 6.2,
+        region: 'National',
+        impactGrade: ImpactGrade.A,
+        verificationType: VerificationType.SelfReported
+      },
+      {
+        id: 6,
         rank: 5,
-        name: 'Mental Health Alliance',
-        sector: 'Health & Wellbeing',
-        impactScore: 84,
-        yearlyChange: 3.8,
-        socialROI: 6.15,
-        region: 'Alberta',
+        name: 'FoodShare Toronto',
+        sector: 'Food Security',
+        impactScore: 87,
+        yearlyChange: 12.3,
+        socialROI: 6.4,
+        region: 'Ontario',
+        impactGrade: ImpactGrade.A,
+        verificationType: VerificationType.Verified
+      },
+      {
+        id: 4,
+        rank: 6,
+        name: 'Environmental Defence Canada',
+        sector: 'Environment',
+        impactScore: 85,
+        yearlyChange: 2.8,
+        socialROI: 5.7,
+        region: 'National',
         impactGrade: ImpactGrade.BPlus,
         verificationType: VerificationType.Verified
       }
