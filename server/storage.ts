@@ -419,7 +419,7 @@ export class MemStorage implements IStorage {
   async getTrendingOrganizations(): Promise<TrendingItem[]> {
     return [
       { id: 6, name: 'FoodShare Toronto', change: 12.3 },
-      { id: 14, name: 'The Narwhal', change: 7.2 },
+      { id: 20, name: 'The Narwhal', change: 7.2 },
       { id: 1, name: 'Jack.org', change: 8.5 },
       { id: 10, name: 'Aga Khan Foundation Canada', change: 6.3 },
       { id: 12, name: 'Indspire', change: 5.4 },
@@ -493,7 +493,7 @@ export class MemStorage implements IStorage {
       },
       {
         id: 3,
-        rank: 5,
+        rank: 6,
         name: 'Housing First Canada',
         sector: 'Housing',
         impactScore: 89,
@@ -1024,7 +1024,7 @@ export class MemStorage implements IStorage {
         ]
       },
       {
-        id: 14,
+        id: 21,
         name: 'Youth Mental Health Collective',
         logo: undefined,
         mission: 'Youth Mental Health Collective promotes mental wellness among young Canadians through peer support networks, digital wellness resources, and mental health education in schools.',
