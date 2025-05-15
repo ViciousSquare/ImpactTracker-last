@@ -1328,7 +1328,7 @@ export class MemStorage implements IStorage {
         ]
       },
       {
-        id: 5,
+        id: 7,
         name: 'Indspire',
         logo: undefined,
         mission: 'Indspire invests in the education of Indigenous people through financial awards, resources, and role models, delivering programs that support educators, and partnering with communities and other stakeholders.',
@@ -1414,21 +1414,21 @@ export class MemStorage implements IStorage {
         yearlyTrend: [75, 78, 80, 82, 85],
         topPrograms: [
           {
-            name: 'Rural Business Accelerator',
-            peopleReached: 15000,
-            socialROI: 7.65,
+            name: 'Good Food Markets',
+            peopleReached: 95000,
+            socialROI: 6.1,
             impactGrade: ImpactGrade.A
           },
           {
-            name: 'Digital Skills Initiative',
-            peopleReached: 11000,
-            socialROI: 6.45,
+            name: 'School Grown',
+            peopleReached: 62000,
+            socialROI: 5.8,
             impactGrade: ImpactGrade.AMinus
           },
           {
-            name: 'Local Value Chain Development',
-            peopleReached: 6000,
-            socialROI: 6.15,
+            name: 'FoodShare Warehouse & Distribution',
+            peopleReached: 45000,
+            socialROI: 5.2,
             impactGrade: ImpactGrade.AMinus
           }
         ]
