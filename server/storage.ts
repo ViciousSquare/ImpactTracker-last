@@ -1292,56 +1292,57 @@ export class MemStorage implements IStorage {
           'SDG 11: Sustainable Cities and Communities'
         ],
         metrics: {
-          reportingQuality: 19,
-          reach: 18,
+          reportingQuality: 17,
+          reach: 16,
           socialROI: 18,
           outcomeEffectiveness: 19,
           transparencyGovernance: 17
         },
         stats: {
-          peopleReached: '120,000 annually',
-          socialROI: 8.47,
-          programs: 9,
-          funding: '$21.5M',
-          programAllocation: 86
+          peopleReached: '580,000 annually',
+          socialROI: 7.4,
+          programs: 12,
+          funding: '$8.3M',
+          programAllocation: 79
         },
-        yearlyTrend: [80, 84, 87, 89, 91],
+        yearlyTrend: [79, 82, 85, 86, 87],
         topPrograms: [
           {
-            name: 'Community Solar Projects',
-            peopleReached: 45000,
-            socialROI: 9.85,
-            impactGrade: ImpactGrade.APlus
-          },
-          {
-            name: 'Clean Energy Education',
-            peopleReached: 38000,
-            socialROI: 7.92,
+            name: 'Toxics Program',
+            peopleReached: 210000,
+            socialROI: 8.6,
             impactGrade: ImpactGrade.A
           },
           {
-            name: 'Green Building Transformation',
-            peopleReached: 23000,
-            socialROI: 7.65,
+            name: 'Climate Change Campaign',
+            peopleReached: 185000,
+            socialROI: 7.3,
             impactGrade: ImpactGrade.A
+          },
+          {
+            name: 'Plastics Reduction Initiative',
+            peopleReached: 165000,
+            socialROI: 6.8,
+            impactGrade: ImpactGrade.AMinus
           }
         ]
       },
       {
         id: 5,
-        name: 'Indigenous Health Network',
+        name: 'Indspire',
         logo: undefined,
-        mission: 'Indigenous Health Network is committed to improving health outcomes in Indigenous communities through culturally-responsive care, traditional healing practices, and community-based health programs.',
-        sector: 'Health',
-        region: 'Northern',
-        established: 2005,
-        impactScore: 85,
+        mission: 'Indspire invests in the education of Indigenous people through financial awards, resources, and role models, delivering programs that support educators, and partnering with communities and other stakeholders.',
+        sector: 'Education',
+        region: 'National',
+        established: 1985,
+        impactScore: 89,
         impactGrade: ImpactGrade.A,
         verificationType: VerificationType.Verified,
-        yearlyChange: 3.2,
+        yearlyChange: 4.1,
         sdgAlignment: [
-          'SDG 3: Good Health',
-          'SDG 10: Reduced Inequalities'
+          'SDG 4: Quality Education',
+          'SDG 10: Reduced Inequalities',
+          'SDG 8: Decent Work and Economic Growth'
         ],
         metrics: {
           reportingQuality: 17,
