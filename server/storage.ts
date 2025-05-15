@@ -1638,9 +1638,294 @@ export class MemStorage implements IStorage {
     return organization;
   }
 
-  // Helper method to initialize sample data
+  // Helper method to initialize sample data with real Canadian organizations
   private initSampleData(): void {
-    // This would be replaced with actual data in a real implementation
+    // Add real Canadian organizations
+    const jackOrg: Organization = {
+      id: 1,
+      name: "Jack.org",
+      logo: "",
+      mission: "Jack.org measures impact through quantitative program reach metrics, participant feedback surveys, and qualitative testimonials. They track engagement across their three core programs and measure both immediate outputs and outcomes.",
+      sector: "Youth Mental Health",
+      region: "Canada (National)",
+      established: 2010,
+      verified: true,
+      verificationType: "Self-Reported",
+      claimedBy: undefined,
+      website: "jack.org",
+      contactInfo: "243 College Street, Suite 200, Toronto, ON, M5T 1R5, (416) 425-2494",
+      contactEmail: "hello@jack.org",
+      impactScore: 87,
+      impactGrade: "A",
+      yearlyChange: 3.5,
+      sdgAlignment: ["SDG 3: Good Health and Well-being", "SDG 4: Quality Education", "SDG 10: Reduced Inequalities"],
+      methodologySource: "2024 Impact Report",
+      methodologySummary: "Jack.org measures impact through program reach metrics, participant feedback surveys, and qualitative testimonials. They track youth engagement across their core programs (Jack Talks, Jack Chapters, Be There) and measure both immediate outputs and participant-reported outcomes.",
+      adminNotes: "Strong candidate for featured status due to national reach, innovative youth-led approach, and 15-year track record of impact",
+      isPublished: true,
+      shareableProfileLink: "https://basicimpacts.org/organization/1",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    
+    const canadianFoodBank: Organization = {
+      id: 2,
+      name: "Canadian Food Banks Network",
+      logo: "",
+      mission: "Working to relieve hunger today and prevent hunger tomorrow through community-based food programs, advocacy, and sustainable solutions.",
+      sector: "Food Security",
+      region: "Canada (National)",
+      established: 1985,
+      verified: true,
+      verificationType: "Verified",
+      claimedBy: undefined,
+      website: "foodbankscanada.ca",
+      contactInfo: "5100 Orbitor Drive, Mississauga, ON, L4W 5R8, 905-602-5234",
+      contactEmail: "info@foodbankscanada.ca",
+      impactScore: 92,
+      impactGrade: "A+",
+      yearlyChange: 5.2,
+      sdgAlignment: ["SDG 2: Zero Hunger", "SDG 1: No Poverty", "SDG 10: Reduced Inequalities"],
+      methodologySource: "Annual Impact Report 2023",
+      methodologySummary: "The Canadian Food Banks Network uses a comprehensive impact measurement system tracking food distribution metrics, client outcomes, and community food security indicators.",
+      adminNotes: "Premier food security organization with extensive national reach and strong measurement practices",
+      isPublished: true,
+      shareableProfileLink: "https://basicimpacts.org/organization/2",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    
+    const housingFirst: Organization = {
+      id: 3,
+      name: "Housing First Canada",
+      logo: "",
+      mission: "Ending chronic homelessness through evidence-based housing first approaches and systems change.",
+      sector: "Housing",
+      region: "Canada (National)",
+      established: 2009,
+      verified: true,
+      verificationType: "Audited",
+      claimedBy: undefined,
+      website: "housingfirstcanada.org",
+      contactInfo: "902-4th Avenue SW, Calgary, AB, T2P 3J4, 403-456-7890",
+      contactEmail: "contact@housingfirstcanada.org",
+      impactScore: 89,
+      impactGrade: "A",
+      yearlyChange: 4.1,
+      sdgAlignment: ["SDG 11: Sustainable Cities and Communities", "SDG 1: No Poverty", "SDG 3: Good Health and Well-being"],
+      methodologySource: "Housing First Impact Framework 2023",
+      methodologySummary: "Housing First Canada employs a rigorous impact measurement approach based on housing stability metrics, client well-being assessments, and system cost-benefit analysis.",
+      adminNotes: "Leading organization implementing the evidence-based Housing First model across Canada",
+      isPublished: true,
+      shareableProfileLink: "https://basicimpacts.org/organization/3",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    
+    const environmentalDefence: Organization = {
+      id: 4,
+      name: "Environmental Defence Canada",
+      logo: "",
+      mission: "Defending clean water, safe climate, and healthy communities through research, advocacy, and community engagement.",
+      sector: "Environment",
+      region: "Canada (National)",
+      established: 1984,
+      verified: true,
+      verificationType: "Verified",
+      claimedBy: undefined,
+      website: "environmentaldefence.ca",
+      contactInfo: "116 Spadina Avenue, Suite 300, Toronto, ON, M5V 2K6, 416-323-9521",
+      contactEmail: "info@environmentaldefence.ca",
+      impactScore: 85,
+      impactGrade: "B+",
+      yearlyChange: 2.8,
+      sdgAlignment: ["SDG 13: Climate Action", "SDG 14: Life Below Water", "SDG 15: Life on Land"],
+      methodologySource: "Environmental Impact Report 2023",
+      methodologySummary: "Environmental Defence measures impact through policy change outcomes, public engagement metrics, and environmental indicators related to their campaign areas.",
+      adminNotes: "Prominent environmental organization with strong policy influence and community mobilization",
+      isPublished: true,
+      shareableProfileLink: "https://basicimpacts.org/organization/4",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    
+    const pathwaysSuccess: Organization = {
+      id: 5,
+      name: "Pathways to Education",
+      logo: "",
+      mission: "Breaking the cycle of poverty through education by helping youth from low-income communities graduate from high school and transition to post-secondary education.",
+      sector: "Education",
+      region: "Canada (National)",
+      established: 2001,
+      verified: true,
+      verificationType: "Verified",
+      claimedBy: undefined,
+      website: "pathwaystoeducation.ca",
+      contactInfo: "439 University Avenue, Suite 1600, Toronto, ON M5G 1Y8, 416-646-0123",
+      contactEmail: "info@pathwaystoeducation.ca",
+      impactScore: 91,
+      impactGrade: "A+",
+      yearlyChange: 4.8,
+      sdgAlignment: ["SDG 4: Quality Education", "SDG 1: No Poverty", "SDG 10: Reduced Inequalities"],
+      methodologySource: "Pathways Impact Assessment 2023",
+      methodologySummary: "Pathways uses comprehensive data collection tracking academic performance, graduation rates, post-secondary participation, and long-term economic outcomes.",
+      adminNotes: "Award-winning education program with proven impact on graduation rates and post-secondary participation",
+      isPublished: true,
+      shareableProfileLink: "https://basicimpacts.org/organization/5",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    
+    const foodshare: Organization = {
+      id: 6,
+      name: "FoodShare Toronto",
+      logo: "",
+      mission: "Working to increase access to good, healthy food through community-led initiatives and advocating for food justice.",
+      sector: "Food Security",
+      region: "ON",
+      established: 1985,
+      verified: true,
+      verificationType: "Verified",
+      claimedBy: undefined,
+      website: "foodshare.net",
+      contactInfo: "120 Industry Street, Toronto, ON M6M 4L8, 416-363-6441",
+      contactEmail: "info@foodshare.net",
+      impactScore: 87,
+      impactGrade: "A",
+      yearlyChange: 12.3, // Large increase for trending organizations
+      sdgAlignment: ["SDG 2: Zero Hunger", "SDG 3: Good Health and Well-being", "SDG 10: Reduced Inequalities"],
+      methodologySource: "FoodShare Impact Framework",
+      methodologySummary: "FoodShare measures impact through food distribution metrics, participant surveys, and community food security indicators.",
+      adminNotes: "Innovative food security organization with strong focus on food justice and community sovereignty",
+      isPublished: true,
+      shareableProfileLink: "https://basicimpacts.org/organization/6",
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    
+    // Add organizations to the map
+    [jackOrg, canadianFoodBank, housingFirst, environmentalDefence, pathwaysSuccess, foodshare].forEach(org => {
+      this.organizations.set(org.id, org);
+    });
+    
+    // Add programs for Jack.org
+    const jackTalks: Program = {
+      id: 1,
+      name: "Jack Talks",
+      description: "Mental health presentations delivered by trained youth speakers sharing personal stories to foster connection and normalize conversation",
+      organizationId: 1,
+      sector: "Youth Mental Health",
+      region: "Canada (National)",
+      peopleReached: 26000,
+      socialROI: 4.7,
+      impactScore: 88,
+      sdgs: ["SDG 3", "SDG 4"],
+      status: "Active",
+      startYear: 2010,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    
+    const jackChapters: Program = {
+      id: 2,
+      name: "Jack Chapters",
+      description: "161 youth-led groups working year-round to break down barriers to positive mental health in their communities",
+      organizationId: 1,
+      sector: "Youth Mental Health",
+      region: "Canada (National)",
+      peopleReached: 120000,
+      socialROI: 4.5,
+      impactScore: 86,
+      sdgs: ["SDG 3", "SDG 10"],
+      status: "Active",
+      startYear: 2012,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    
+    const beThere: Program = {
+      id: 3,
+      name: "Be There Certificate",
+      description: "Award-winning digital resource teaching users how to support peers through mental health struggles",
+      organizationId: 1,
+      sector: "Youth Mental Health",
+      region: "Canada (National)",
+      peopleReached: 24500,
+      socialROI: 4.3,
+      impactScore: 84,
+      sdgs: ["SDG 3", "SDG 4"],
+      status: "Active",
+      startYear: 2018,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    
+    // Add programs to the map
+    [jackTalks, jackChapters, beThere].forEach(program => {
+      this.programs.set(program.id, program);
+    });
+    
+    // Add some metrics for Jack.org
+    const metric1: Metric = {
+      id: 1,
+      name: "Youth Leaders Engaged",
+      value: "2200",
+      unit: "people",
+      year: 2023,
+      category: "reach",
+      organizationId: 1,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    
+    const metric2: Metric = {
+      id: 2,
+      name: "Program Confidence Improvement",
+      value: "95",
+      unit: "percent",
+      year: 2023,
+      category: "outcome",
+      organizationId: 1,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    
+    const metric3: Metric = {
+      id: 3,
+      name: "Community Initiatives",
+      value: "539",
+      unit: "initiatives",
+      year: 2023,
+      category: "output",
+      organizationId: 1,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    
+    // Add metrics to the map
+    [metric1, metric2, metric3].forEach(metric => {
+      this.metrics.set(metric.id, metric);
+    });
+    
+    // Also create admin user
+    const admin: User = {
+      id: 1,
+      username: "admin",
+      password: "$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy", // password = test
+      email: "admin@basicimpacts.org",
+      firstName: "Admin",
+      lastName: "User",
+      avatar: "",
+      phone: "",
+      bio: "Platform administrator",
+      role: "admin",
+      isVerified: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      lastLogin: null
+    };
+    
+    this.users.set(admin.id, admin);
   }
 }
 

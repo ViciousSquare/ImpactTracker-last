@@ -121,21 +121,23 @@ const OrganizationProfileSection = () => {
   );
 
   return (
-    <section className="py-8 md:py-12 bg-neutral-50 border-t border-b border-neutral-200">
+    <section className="py-16 md:py-24 bg-gradient-to-br from-amber-50/60 via-white to-teal-50/60 border-t border-b border-amber-100">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12">
           <div>
-            <h2 className="text-2xl font-bold text-neutral-900 mb-1">{t('org.featuredTitle')}</h2>
-            <p className="text-neutral-600">{t('org.featuredSubtitle')}</p>
+            <div className="inline-block px-3 py-1 rounded-full bg-amber-100/60 mb-3">
+              <span className="text-xs font-medium text-amber-800">Featured Organizations</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold gradient-heading gradient-heading-primary mb-2">{t('org.featuredTitle')}</h2>
+            <p className="text-neutral-600 text-lg max-w-xl">{t('org.featuredSubtitle')}</p>
           </div>
           
-          <div 
-            className="mt-2 md:mt-0 inline-flex items-center text-primary-500 hover:text-primary-600 font-medium cursor-pointer"
-            onClick={() => window.location.href = "/organizations"}
-          >
-            {t('org.viewAll')}
-            <span className="material-icons ml-1 text-sm">arrow_forward</span>
-          </div>
+          <Link href="/organizations">
+            <div className="mt-4 md:mt-0 inline-flex items-center bg-white hover:bg-amber-50 text-amber-700 font-medium px-5 py-2 rounded-full shadow-sm border border-amber-200 cursor-pointer transition-all duration-300">
+              {t('org.viewAll')}
+              <span className="material-icons ml-1 text-sm">arrow_forward</span>
+            </div>
+          </Link>
         </div>
         
         {/* Organization Selection Carousel */}
