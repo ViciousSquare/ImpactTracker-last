@@ -505,7 +505,7 @@ export class MemStorage implements IStorage {
       },
       {
         id: 1,
-        rank: 4,
+        rank: 7,
         name: 'Jack.org',
         sector: 'Youth Mental Health',
         impactScore: 87,
@@ -529,7 +529,7 @@ export class MemStorage implements IStorage {
       },
       {
         id: 4,
-        rank: 6,
+        rank: 8,
         name: 'Environmental Defence Canada',
         sector: 'Environment',
         impactScore: 85,
@@ -1472,7 +1472,7 @@ export class MemStorage implements IStorage {
     demographic: string;
     page: number;
   }): Promise<SolutionItem[]> {
-    // Mock solutions data
+    // Solutions data based on JSON file
     const mockSolutions: SolutionItem[] = [
       {
         id: 1,
@@ -1489,6 +1489,38 @@ export class MemStorage implements IStorage {
         verificationType: VerificationType.Audited,
         effectiveness: 92,
         tags: ['Food Security', 'Rural', 'SDG 2']
+      },
+      {
+        id: 10,
+        name: 'World of Difference Education Initiative',
+        organizationName: 'Aga Khan Foundation Canada',
+        icon: 'school',
+        sector: 'International Development',
+        businessType: 'Non-Profit',
+        region: 'National',
+        description: 'Promotes significant improvements in literacy, numeracy, and school retention rates, particularly for girls, with a focus on teacher training and resource provision.',
+        peopleReached: 500000,
+        socialROI: 5.5,
+        impactGrade: ImpactGrade.A,
+        verificationType: VerificationType.Audited,
+        effectiveness: 89,
+        tags: ['Education', 'Gender Equality', 'SDG 4', 'SDG 5']
+      },
+      {
+        id: 11,
+        name: 'MaRS Venture Services',
+        organizationName: 'MaRS Discovery District',
+        icon: 'trending_up',
+        sector: 'Innovation & Entrepreneurship',
+        businessType: 'Non-Profit',
+        region: 'Ontario',
+        description: 'Provides startups with critical advisory, connections, and resources to scale their businesses, leading to job creation, innovation, and economic growth.',
+        peopleReached: 1400,
+        socialROI: 5.5,
+        impactGrade: ImpactGrade.A,
+        verificationType: VerificationType.Verified,
+        effectiveness: 90,
+        tags: ['Innovation', 'Economic Growth', 'SDG 8', 'SDG 9']
       },
       {
         id: 2,
