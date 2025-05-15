@@ -516,7 +516,7 @@ export class MemStorage implements IStorage {
     ];
 
     // Apply filters (simple implementation for demo)
-    let filtered = [...mockLeaderboard];
+    let filtered = [...leaderboard];
 
     if (filters.sector) {
       filtered = filtered.filter(item => item.sector === filters.sector);
@@ -574,35 +574,35 @@ export class MemStorage implements IStorage {
   async getFeaturedOrganization(): Promise<OrganizationProfile[]> {
     return [
       {
-        id: 1,
-        name: 'Canadian Food Bank Network',
+        id: 2,
+        name: 'Canadian Food Banks Network',
         logo: undefined,
-        mission: 'The Canadian Food Bank Network is dedicated to providing food security to vulnerable communities across Canada through an integrated network of local food banks, community programs, and partnerships with food producers.',
+        mission: 'Working to relieve hunger today and prevent hunger tomorrow through community-based food programs, advocacy, and sustainable solutions.',
         sector: 'Food Security',
         region: 'National',
-        established: 2002,
-        impactScore: 95,
+        established: 1985,
+        impactScore: 92,
         impactGrade: ImpactGrade.APlus,
-        verificationType: VerificationType.Audited,
-        yearlyChange: 3.2,
+        verificationType: VerificationType.Verified,
+        yearlyChange: 5.2,
         sdgAlignment: [
           'SDG 2: Zero Hunger',
-          'SDG 3: Good Health',
-          'SDG 12: Responsible Consumption'
+          'SDG 1: No Poverty',
+          'SDG 10: Reduced Inequalities'
         ],
         metrics: {
-          reportingQuality: 19,
+          reportingQuality: 18,
           reach: 18,
-          socialROI: 20,
-          outcomeEffectiveness: 19,
-          transparencyGovernance: 19
+          socialROI: 19,
+          outcomeEffectiveness: 18,
+          transparencyGovernance: 18
         },
         stats: {
-          peopleReached: '1.2M annually',
-          socialROI: 9.35,
-          programs: 14,
-          funding: '$24.5M',
-          programAllocation: 87
+          peopleReached: '1.1M annually',
+          socialROI: 8.7,
+          programs: 12,
+          funding: '$22.5M',
+          programAllocation: 85
         },
         yearlyTrend: [82, 85, 89, 92, 95],
         topPrograms: [
