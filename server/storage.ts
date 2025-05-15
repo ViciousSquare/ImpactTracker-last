@@ -419,10 +419,12 @@ export class MemStorage implements IStorage {
   async getTrendingOrganizations(): Promise<TrendingItem[]> {
     return [
       { id: 6, name: 'FoodShare Toronto', change: 12.3 },
+      { id: 14, name: 'The Narwhal', change: 7.2 },
       { id: 1, name: 'Jack.org', change: 8.5 },
-      { id: 5, name: 'Pathways to Education', change: 4.8 },
-      { id: 3, name: 'Housing First Canada', change: 4.1 },
-      { id: 2, name: 'Canadian Food Banks Network', change: 5.2 }
+      { id: 10, name: 'Aga Khan Foundation Canada', change: 6.3 },
+      { id: 12, name: 'Indspire', change: 5.4 },
+      { id: 2, name: 'Canadian Food Banks Network', change: 5.2 },
+      { id: 11, name: 'MaRS Discovery District', change: 4.7 }
     ];
   }
 
@@ -439,7 +441,7 @@ export class MemStorage implements IStorage {
     items: LeaderboardItem[];
     total: number;
   }> {
-    // Real leaderboard data based on organizations
+    // Enhanced leaderboard data based on organizations from JSON file
     const leaderboard: LeaderboardItem[] = [
       {
         id: 2,
@@ -454,8 +456,32 @@ export class MemStorage implements IStorage {
         verificationType: VerificationType.Verified
       },
       {
-        id: 5,
+        id: 10,
         rank: 2,
+        name: 'Aga Khan Foundation Canada',
+        sector: 'International Development',
+        impactScore: 92,
+        yearlyChange: 6.3,
+        socialROI: 5.2,
+        region: 'National',
+        impactGrade: ImpactGrade.A,
+        verificationType: VerificationType.Audited
+      },
+      {
+        id: 11,
+        rank: 3,
+        name: 'MaRS Discovery District',
+        sector: 'Innovation & Entrepreneurship',
+        impactScore: 90,
+        yearlyChange: 4.7,
+        socialROI: 5.0,
+        region: 'Ontario',
+        impactGrade: ImpactGrade.A,
+        verificationType: VerificationType.Verified
+      },
+      {
+        id: 5,
+        rank: 4,
         name: 'Pathways to Education',
         sector: 'Education',
         impactScore: 91,
@@ -467,7 +493,7 @@ export class MemStorage implements IStorage {
       },
       {
         id: 3,
-        rank: 3,
+        rank: 5,
         name: 'Housing First Canada',
         sector: 'Housing',
         impactScore: 89,
