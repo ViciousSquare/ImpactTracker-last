@@ -1169,21 +1169,21 @@ export class MemStorage implements IStorage {
     // Return showcase organizations as success stories
     return [
       {
-        id: 2,
-        name: 'Housing First Initiative',
+        id: 3,
+        name: 'Housing First Canada',
         logo: undefined,
-        mission: 'Housing First Initiative aims to end homelessness by providing immediate access to permanent housing with supportive services, following the principle that stable housing is the foundation for recovery and wellbeing.',
+        mission: 'Ending chronic homelessness through evidence-based housing first approaches and systems change.',
         sector: 'Housing',
-        region: 'Ontario',
-        established: 2008,
-        impactScore: 92,
+        region: 'National',
+        established: 2009,
+        impactScore: 89,
         impactGrade: ImpactGrade.A,
         verificationType: VerificationType.Audited,
-        yearlyChange: 5.7,
+        yearlyChange: 4.1,
         sdgAlignment: [
-          'SDG 1: No Poverty',
           'SDG 11: Sustainable Cities and Communities',
-          'SDG 3: Good Health'
+          'SDG 1: No Poverty',
+          'SDG 3: Good Health and Well-being'
         ],
         metrics: {
           reportingQuality: 18,
@@ -1222,73 +1222,73 @@ export class MemStorage implements IStorage {
         ]
       },
       {
-        id: 3,
-        name: 'Youth STEM Foundation',
+        id: 5,
+        name: 'Pathways to Education',
         logo: undefined,
-        mission: 'Youth STEM Foundation is dedicated to inspiring and preparing the next generation of Canadian innovators through accessible, engaging, and inclusive STEM education programs for underrepresented youth.',
+        mission: 'Breaking the cycle of poverty through education by helping youth from low-income communities graduate from high school and transition to post-secondary education.',
         sector: 'Education',
-        region: 'Quebec',
-        established: 2011,
-        impactScore: 88,
-        impactGrade: ImpactGrade.AMinus,
+        region: 'National',
+        established: 2001,
+        impactScore: 91,
+        impactGrade: ImpactGrade.APlus,
         verificationType: VerificationType.Verified,
-        yearlyChange: -1.2,
+        yearlyChange: 4.8,
         sdgAlignment: [
           'SDG 4: Quality Education',
-          'SDG 5: Gender Equality',
+          'SDG 1: No Poverty',
           'SDG 10: Reduced Inequalities'
         ],
         metrics: {
-          reportingQuality: 16,
-          reach: 18,
-          socialROI: 17,
-          outcomeEffectiveness: 19,
-          transparencyGovernance: 18
+          reportingQuality: 18,
+          reach: 19,
+          socialROI: 19,
+          outcomeEffectiveness: 18,
+          transparencyGovernance: 17
         },
         stats: {
-          peopleReached: '78,000 annually',
-          socialROI: 5.93,
-          programs: 12,
-          funding: '$12.8M',
-          programAllocation: 82
+          peopleReached: '25,000 annually',
+          socialROI: 24.5,
+          programs: 4,
+          funding: '$31.9M',
+          programAllocation: 83
         },
-        yearlyTrend: [82, 86, 90, 89, 88],
+        yearlyTrend: [81, 84, 87, 89, 91],
         topPrograms: [
           {
-            name: 'Girls in STEM',
-            peopleReached: 32000,
-            socialROI: 7.25,
+            name: 'Student Parent Support Program',
+            peopleReached: 10500,
+            socialROI: 25.6,
+            impactGrade: ImpactGrade.APlus
+          },
+          {
+            name: 'Academic Support & Tutoring',
+            peopleReached: 8700,
+            socialROI: 22.8,
+            impactGrade: ImpactGrade.APlus
+          },
+          {
+            name: 'Post-Secondary & Career Transition',
+            peopleReached: 5800,
+            socialROI: 19.5,
             impactGrade: ImpactGrade.A
-          },
-          {
-            name: 'Coding Bootcamps',
-            peopleReached: 28000,
-            socialROI: 5.12,
-            impactGrade: ImpactGrade.AMinus
-          },
-          {
-            name: 'Science Center Outreach',
-            peopleReached: 18000,
-            socialROI: 4.56,
-            impactGrade: ImpactGrade.BPlus
           }
         ]
       },
       {
         id: 4,
-        name: 'Clean Energy Alliance',
+        name: 'Environmental Defence Canada',
         logo: undefined,
-        mission: 'Clean Energy Alliance works to accelerate Canada\'s transition to renewable energy through community-driven projects, policy advocacy, and public education initiatives.',
+        mission: 'Defending environmental rights, creating sustainable communities and protecting Canadians from toxic pollution through research, education and advocacy.',
         sector: 'Environment',
-        region: 'British Columbia',
-        established: 2010,
-        impactScore: 91,
+        region: 'National',
+        established: 1984,
+        impactScore: 87,
         impactGrade: ImpactGrade.A,
         verificationType: VerificationType.Audited,
-        yearlyChange: 4.3,
+        yearlyChange: 3.2,
         sdgAlignment: [
-          'SDG 7: Affordable and Clean Energy',
           'SDG 13: Climate Action',
+          'SDG 12: Responsible Consumption and Production',
           'SDG 11: Sustainable Cities and Communities'
         ],
         metrics: {
