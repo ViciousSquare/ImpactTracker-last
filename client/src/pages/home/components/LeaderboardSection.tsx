@@ -55,7 +55,103 @@ const LeaderboardSection = () => {
     queryKey: ['/api/leaderboard', 'all', region, sdg, 1],
   });
 
-  // Generate additional test data for demonstration purposes
+  // Function to get real organization names by sector (moved outside the component for accessibility throughout the file)
+const getOrganizationNameBySector = (sector: string, index: number): string => {
+    const sectorOrganizations: Record<string, string[]> = {
+      'Food Security': [
+        'Canadian Food Bank Network', 
+        'FoodShare Toronto', 
+        'Community Food Centres Canada', 
+        'Daily Bread Food Bank', 
+        'Second Harvest'
+      ],
+      'Housing': [
+        'Housing First Canada', 
+        'Habitat for Humanity Canada', 
+        'Homeless Hub', 
+        'Canada Mortgage and Housing Corporation', 
+        'Raising the Roof'
+      ],
+      'Youth Mental Health': [
+        'Jack.org', 
+        'Youth Mental Health Collective', 
+        'Kids Help Phone', 
+        'Centre for Addiction and Mental Health', 
+        'Canadian Mental Health Association'
+      ],
+      'Education': [
+        'Pathways to Education', 
+        'Indspire', 
+        'Let\'s Talk Science', 
+        'Frontier College', 
+        'Learning Disabilities Association of Canada'
+      ],
+      'Environment': [
+        'Environmental Defence Canada', 
+        'Evergreen', 
+        'The Narwhal', 
+        'Ecojustice', 
+        'David Suzuki Foundation'
+      ],
+      'Indigenous Services': [
+        'Indspire', 
+        'Native Women\'s Association of Canada', 
+        'Assembly of First Nations', 
+        'National Association of Friendship Centres', 
+        'Inuit Tapiriit Kanatami'
+      ],
+      'International Development': [
+        'Aga Khan Foundation Canada', 
+        'CARE Canada', 
+        'Plan International Canada', 
+        'Save the Children Canada', 
+        'World Vision Canada'
+      ],
+      'Innovation & Entrepreneurship': [
+        'MaRS Discovery District', 
+        'Communitech', 
+        'Startup Canada', 
+        'Digital Main Street', 
+        'Futurpreneur Canada'
+      ],
+      'Health & Wellbeing': [
+        'Heart & Stroke Foundation', 
+        'Canadian Cancer Society', 
+        'Canadian Diabetes Association', 
+        'Alzheimer Society of Canada', 
+        'YMCA Canada'
+      ],
+      'Social Services': [
+        'United Way Centraide Canada', 
+        'YWCA Canada', 
+        'The Salvation Army Canada', 
+        'Canadian Red Cross', 
+        'Big Brothers Big Sisters of Canada'
+      ],
+      'Arts & Culture': [
+        'Canada Council for the Arts', 
+        'Banff Centre for Arts and Creativity', 
+        'Art Gallery of Ontario', 
+        'National Film Board of Canada', 
+        'Centaur Theatre Company'
+      ],
+      'Economic Development': [
+        'Community Futures Network of Canada', 
+        'Economic Development Association of Canada', 
+        'Canadian Community Economic Development Network', 
+        'Canadian Council for Aboriginal Business', 
+        'Business Development Bank of Canada'
+      ]
+    };
+    
+    if (sectorOrganizations[sector] && index < sectorOrganizations[sector].length) {
+      return sectorOrganizations[sector][index];
+    }
+    
+    return `${sector} Organization ${index+1}`;
+  };
+
+  // Generate data for sectors that don't have enough organizations
   const generateMockOrganizationsForSectors = () => {
     if (!leaderboardData || !leaderboardData.items) return {};
     
@@ -90,13 +186,13 @@ const LeaderboardSection = () => {
             
             sectorData[sector].push({
               ...baseItem,
-              id: baseItem.id + 1000 + i, // Create a unique ID
-              name: `${sector} Organization ${i+1}`,
+              id: baseItem.id + 1000 + (Math.floor(Math.random() * 9000) + i), // Create a unique ID
+              name: getOrganizationNameBySector(sector, i),
               sector: sector,
               rank: i + 1, // Assign sequential ranks
-              impactScore: Math.floor(70 + Math.random() * 30),
+              impactScore: Math.floor(75 + Math.random() * 20),
               impactGrade: randomGrade,
-              yearlyChange: Math.floor(Math.random() * 20) - 5,
+              yearlyChange: Math.floor(Math.random() * 12) - 2,
             });
           }
         }
