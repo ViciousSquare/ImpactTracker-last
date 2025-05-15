@@ -627,55 +627,55 @@ export class MemStorage implements IStorage {
         ]
       },
       {
-        id: 7,
-        name: 'Clean Energy Coalition',
+        id: 1,
+        name: 'Jack.org',
         logo: undefined,
-        mission: 'The Clean Energy Coalition advances sustainable energy solutions through innovative projects, policy advocacy, and community engagement to accelerate Canada\'s transition to a low-carbon future.',
-        sector: 'Environment',
-        region: 'British Columbia',
-        established: 2008,
-        impactScore: 93,
-        impactGrade: ImpactGrade.APlus,
-        verificationType: VerificationType.Audited,
-        yearlyChange: 4.5,
+        mission: 'Jack.org trains and empowers young leaders to revolutionize mental health in Canada through peer-to-peer education, community building, and advocacy initiatives.',
+        sector: 'Youth Mental Health',
+        region: 'National',
+        established: 2010,
+        impactScore: 87,
+        impactGrade: ImpactGrade.A,
+        verificationType: VerificationType.SelfReported,
+        yearlyChange: 8.5,
         sdgAlignment: [
-          'SDG 7: Affordable and Clean Energy',
-          'SDG 13: Climate Action',
-          'SDG 11: Sustainable Cities and Communities'
+          'SDG 3: Good Health and Well-being',
+          'SDG 4: Quality Education',
+          'SDG 10: Reduced Inequalities'
         ],
         metrics: {
-          reportingQuality: 19,
+          reportingQuality: 17,
           reach: 18,
-          socialROI: 19,
-          outcomeEffectiveness: 19,
-          transparencyGovernance: 18
+          socialROI: 16,
+          outcomeEffectiveness: 17,
+          transparencyGovernance: 16
         },
         stats: {
-          peopleReached: '850,000 annually',
-          socialROI: 10.25,
-          programs: 11,
-          funding: '$22.8M',
-          programAllocation: 86
+          peopleReached: '170,500 annually',
+          socialROI: 6.2,
+          programs: 5,
+          funding: '$9.26M',
+          programAllocation: 65.8
         },
-        yearlyTrend: [80, 84, 88, 91, 93],
+        yearlyTrend: [78, 79, 82, 85, 87],
         topPrograms: [
           {
-            name: 'Community Solar Initiative',
-            peopleReached: 325000,
-            socialROI: 11.85,
-            impactGrade: ImpactGrade.APlus
-          },
-          {
-            name: 'Building Retrofit Program',
-            peopleReached: 285000,
-            socialROI: 9.45,
+            name: 'Jack Chapters',
+            peopleReached: 120000,
+            socialROI: 6.8,
             impactGrade: ImpactGrade.A
           },
           {
-            name: 'Clean Transport Network',
-            peopleReached: 215000,
-            socialROI: 8.95,
+            name: 'Jack Talks',
+            peopleReached: 26000,
+            socialROI: 7.2,
             impactGrade: ImpactGrade.A
+          },
+          {
+            name: 'Be There Certificate',
+            peopleReached: 24500,
+            socialROI: 5.8,
+            impactGrade: ImpactGrade.AMinus
           }
         ]
       },
