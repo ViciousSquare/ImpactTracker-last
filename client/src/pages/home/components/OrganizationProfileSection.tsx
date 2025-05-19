@@ -344,7 +344,7 @@ const OrganizationProfileSection = () => {
                               text={sdg}
                               className="bg-gradient-to-r from-amber-100 to-amber-50 text-amber-800 border border-amber-200"
                             />
-                          )) || null}
+                          ))}
                         </div>
                     </div>
 
