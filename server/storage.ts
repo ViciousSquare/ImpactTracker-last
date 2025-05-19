@@ -51,11 +51,61 @@ import {
 // Mock data for development
 const mockLeaderboardData = {
   items: [
-    // Food Security Organizations
+    // Education Organizations
     {
       id: 1,
-      name: "Daily Bread Food Bank",
+      name: "Indspire",
+      impactScore: 95,
+      impactGrade: ImpactGrade.APlus,
+      yearlyChange: 8,
+      sector: "Education",
+      region: "National",
+      verificationStatus: VerificationType.Audited,
+      socialROI: 4.9,
+      rank: 1
+    },
+    {
+      id: 2,
+      name: "Pathways to Education",
       impactScore: 92,
+      impactGrade: ImpactGrade.A,
+      yearlyChange: 5,
+      sector: "Education",
+      region: "National",
+      verificationStatus: VerificationType.Verified,
+      socialROI: 4.5,
+      rank: 2
+    },
+    // Health & Wellbeing Organizations
+    {
+      id: 3,
+      name: "Jack.org",
+      impactScore: 94,
+      impactGrade: ImpactGrade.APlus,
+      yearlyChange: 15,
+      sector: "Health & Wellbeing",
+      region: "National",
+      verificationStatus: VerificationType.Audited,
+      socialROI: 5.2,
+      rank: 1
+    },
+    {
+      id: 4,
+      name: "Kids Help Phone",
+      impactScore: 91,
+      impactGrade: ImpactGrade.A,
+      yearlyChange: 7,
+      sector: "Health & Wellbeing",
+      region: "National",
+      verificationStatus: VerificationType.Verified,
+      socialROI: 4.8,
+      rank: 2
+    },
+    // Food Security Organizations
+    {
+      id: 5,
+      name: "Daily Bread Food Bank",
+      impactScore: 93,
       impactGrade: ImpactGrade.APlus,
       yearlyChange: 12,
       sector: "Food Security",
@@ -64,6 +114,43 @@ const mockLeaderboardData = {
       socialROI: 4.8,
       rank: 1
     },
+    {
+      id: 6,
+      name: "Second Harvest",
+      impactScore: 90,
+      impactGrade: ImpactGrade.A,
+      yearlyChange: 6,
+      sector: "Food Security",
+      region: "National",
+      verificationStatus: VerificationType.Verified,
+      socialROI: 4.5,
+      rank: 2
+    },
+    // Housing Organizations
+    {
+      id: 7,
+      name: "Habitat for Humanity Canada",
+      impactScore: 91,
+      impactGrade: ImpactGrade.A,
+      yearlyChange: 9,
+      sector: "Housing",
+      region: "National",
+      verificationStatus: VerificationType.Audited,
+      socialROI: 4.7,
+      rank: 1
+    },
+    {
+      id: 8,
+      name: "Covenant House Toronto",
+      impactScore: 89,
+      impactGrade: ImpactGrade.A,
+      yearlyChange: 5,
+      sector: "Housing",
+      region: "Ontario",
+      verificationStatus: VerificationType.Verified,
+      socialROI: 4.3,
+      rank: 2
+    }
     {
       id: 2,
       name: "Food Security Organization 1",
