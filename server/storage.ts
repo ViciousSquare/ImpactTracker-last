@@ -53,42 +53,66 @@ const mockLeaderboardData = {
   items: [
     {
       id: 1,
-      name: "FoodShare Toronto",
+      name: "Jack.org",
+      impactScore: 94,
+      impactGrade: ImpactGrade.APlus,
+      yearlyChange: 15,
+      sector: "Health & Wellbeing",
+      region: "National",
+      verificationStatus: VerificationType.Audited,
+      socialROI: 5.2,
+      rank: 1
+    },
+    {
+      id: 2,
+      name: "Daily Bread Food Bank",
       impactScore: 92,
       impactGrade: ImpactGrade.APlus,
       yearlyChange: 12,
       sector: "Food Security",
       region: "Ontario",
       verificationStatus: VerificationType.Audited,
-      socialROI: 4.5,
-      rank: 1
-    },
-    {
-      id: 2, 
-      name: "Habitat for Humanity Canada",
-      impactScore: 88,
-      impactGrade: ImpactGrade.A,
-      yearlyChange: 5,
-      sector: "Housing",
-      region: "National",
-      verificationStatus: VerificationType.Verified,
-      socialROI: 3.8,
+      socialROI: 4.8,
       rank: 2
     },
     {
       id: 3,
-      name: "Environmental Defence",
-      impactScore: 85,
-      impactGrade: ImpactGrade.AMinus,
+      name: "Pathways to Education",
+      impactScore: 90,
+      impactGrade: ImpactGrade.A,
       yearlyChange: 8,
-      sector: "Environment", 
+      sector: "Education",
       region: "National",
       verificationStatus: VerificationType.Verified,
-      socialROI: 3.2,
+      socialROI: 4.5,
       rank: 3
+    },
+    {
+      id: 4,
+      name: "Quest Food Exchange",
+      impactScore: 89,
+      impactGrade: ImpactGrade.A,
+      yearlyChange: 10,
+      sector: "Food Security",
+      region: "British Columbia",
+      verificationStatus: VerificationType.Verified,
+      socialROI: 4.2,
+      rank: 4
+    },
+    {
+      id: 5,
+      name: "Eva's Initiatives",
+      impactScore: 88,
+      impactGrade: ImpactGrade.A,
+      yearlyChange: 7,
+      sector: "Housing",
+      region: "Ontario",
+      verificationStatus: VerificationType.Verified,
+      socialROI: 4.0,
+      rank: 5
     }
   ],
-  total: 3
+  total: 5
 };
 
 export const storage = {
@@ -98,9 +122,11 @@ export const storage = {
 
   getTrendingOrganizations: async () => {
     return [
-      { id: 1, name: "FoodShare Toronto", change: 12 },
-      { id: 2, name: "Environmental Defence", change: 8 },
-      { id: 3, name: "Habitat for Humanity", change: 5 }
+      { id: 1, name: "Jack.org", change: 15 },
+      { id: 2, name: "Daily Bread Food Bank", change: 12 },
+      { id: 3, name: "Quest Food Exchange", change: 10 },
+      { id: 4, name: "Pathways to Education", change: 8 },
+      { id: 5, name: "Eva's Initiatives", change: 7 }
     ];
   },
 
@@ -115,10 +141,15 @@ export const storage = {
   getFeaturedOrganization: async () => {
     return [{
       id: 1,
-      name: "Canadian Food Banks",
-      description: "Leading the fight against hunger",
-      impactScore: 95,
-      sector: "Food Security"
+      name: "Jack.org",
+      description: "Canada's only charity training and empowering young leaders to revolutionize mental health",
+      impactScore: 94,
+      sector: "Health & Wellbeing",
+      stats: {
+        programs: 15,
+        peopleReached: "250000",
+        socialROI: 5.2
+      }
     }];
   },
 
