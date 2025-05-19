@@ -51,20 +51,9 @@ import {
 // Mock data for development
 const mockLeaderboardData = {
   items: [
+    // Food Security Organizations
     {
       id: 1,
-      name: "Jack.org",
-      impactScore: 94,
-      impactGrade: ImpactGrade.APlus,
-      yearlyChange: 15,
-      sector: "Health & Wellbeing",
-      region: "National",
-      verificationStatus: VerificationType.Audited,
-      socialROI: 5.2,
-      rank: 1
-    },
-    {
-      id: 2,
       name: "Daily Bread Food Bank",
       impactScore: 92,
       impactGrade: ImpactGrade.APlus,
@@ -73,18 +62,30 @@ const mockLeaderboardData = {
       region: "Ontario",
       verificationStatus: VerificationType.Audited,
       socialROI: 4.8,
+      rank: 1
+    },
+    {
+      id: 2,
+      name: "Food Security Organization 1",
+      impactScore: 92,
+      impactGrade: ImpactGrade.A,
+      yearlyChange: 0,
+      sector: "Food Security",
+      region: "National",
+      verificationStatus: VerificationType.Verified,
+      socialROI: 4.2,
       rank: 2
     },
     {
       id: 3,
-      name: "Pathways to Education",
-      impactScore: 90,
+      name: "Food Security Organization 2",
+      impactScore: 91,
       impactGrade: ImpactGrade.A,
-      yearlyChange: 8,
-      sector: "Education",
+      yearlyChange: 4,
+      sector: "Food Security",
       region: "National",
       verificationStatus: VerificationType.Verified,
-      socialROI: 4.5,
+      socialROI: 4.0,
       rank: 3
     },
     {
@@ -96,22 +97,206 @@ const mockLeaderboardData = {
       sector: "Food Security",
       region: "British Columbia",
       verificationStatus: VerificationType.Verified,
-      socialROI: 4.2,
+      socialROI: 4.1,
       rank: 4
     },
     {
       id: 5,
+      name: "Food Security Organization 3",
+      impactScore: 80,
+      impactGrade: ImpactGrade.B,
+      yearlyChange: -4,
+      sector: "Food Security",
+      region: "National",
+      verificationStatus: VerificationType.Verified,
+      socialROI: 3.5,
+      rank: 5
+    },
+    // Housing Organizations
+    {
+      id: 6,
+      name: "Housing Organization 4",
+      impactScore: 99,
+      impactGrade: ImpactGrade.APlus,
+      yearlyChange: 1,
+      sector: "Housing",
+      region: "National",
+      verificationStatus: VerificationType.Audited,
+      socialROI: 5.0,
+      rank: 1
+    },
+    {
+      id: 7,
       name: "Eva's Initiatives",
       impactScore: 88,
       impactGrade: ImpactGrade.A,
-      yearlyChange: 7,
+      yearlyChange: 4,
       sector: "Housing",
       region: "Ontario",
       verificationStatus: VerificationType.Verified,
       socialROI: 4.0,
+      rank: 2
+    },
+    {
+      id: 8,
+      name: "Housing Organization 2",
+      impactScore: 83,
+      impactGrade: ImpactGrade.B,
+      yearlyChange: 14,
+      sector: "Housing",
+      region: "National",
+      verificationStatus: VerificationType.Verified,
+      socialROI: 3.8,
+      rank: 3
+    },
+    {
+      id: 9,
+      name: "Housing Organization 3",
+      impactScore: 83,
+      impactGrade: ImpactGrade.B,
+      yearlyChange: 0,
+      sector: "Housing",
+      region: "National",
+      verificationStatus: VerificationType.Verified,
+      socialROI: 3.7,
+      rank: 4
+    },
+    {
+      id: 10,
+      name: "Housing Organization 1",
+      impactScore: 78,
+      impactGrade: ImpactGrade.B,
+      yearlyChange: 14,
+      sector: "Housing",
+      region: "National",
+      verificationStatus: VerificationType.SelfReported,
+      socialROI: 3.5,
+      rank: 5
+    },
+    // Education Organizations
+    {
+      id: 11,
+      name: "Education Organization 3",
+      impactScore: 98,
+      impactGrade: ImpactGrade.APlus,
+      yearlyChange: 10,
+      sector: "Education",
+      region: "National",
+      verificationStatus: VerificationType.Audited,
+      socialROI: 5.1,
+      rank: 1
+    },
+    {
+      id: 12,
+      name: "Pathways to Education",
+      impactScore: 90,
+      impactGrade: ImpactGrade.A,
+      yearlyChange: 8,
+      sector: "Education",
+      region: "National",
+      verificationStatus: VerificationType.Verified,
+      socialROI: 4.5,
+      rank: 2
+    },
+    {
+      id: 13,
+      name: "Education Organization 1",
+      impactScore: 88,
+      impactGrade: ImpactGrade.A,
+      yearlyChange: 7,
+      sector: "Education",
+      region: "National",
+      verificationStatus: VerificationType.Verified,
+      socialROI: 4.2,
+      rank: 3
+    },
+    {
+      id: 14,
+      name: "Education Organization 4",
+      impactScore: 85,
+      impactGrade: ImpactGrade.B,
+      yearlyChange: 1,
+      sector: "Education",
+      region: "National",
+      verificationStatus: VerificationType.Verified,
+      socialROI: 4.0,
+      rank: 4
+    },
+    {
+      id: 15,
+      name: "Education Organization 2",
+      impactScore: 78,
+      impactGrade: ImpactGrade.B,
+      yearlyChange: 10,
+      sector: "Education",
+      region: "National",
+      verificationStatus: VerificationType.SelfReported,
+      socialROI: 3.5,
+      rank: 5
+    },
+    // Environment Organizations
+    {
+      id: 16,
+      name: "Environment Organization 3",
+      impactScore: 95,
+      impactGrade: ImpactGrade.APlus,
+      yearlyChange: 2,
+      sector: "Environment",
+      region: "National",
+      verificationStatus: VerificationType.Audited,
+      socialROI: 4.9,
+      rank: 1
+    },
+    {
+      id: 17,
+      name: "Environment Organization 5",
+      impactScore: 92,
+      impactGrade: ImpactGrade.A,
+      yearlyChange: 12,
+      sector: "Environment",
+      region: "National",
+      verificationStatus: VerificationType.Verified,
+      socialROI: 4.5,
+      rank: 2
+    },
+    {
+      id: 18,
+      name: "Environment Organization 2",
+      impactScore: 91,
+      impactGrade: ImpactGrade.A,
+      yearlyChange: 7,
+      sector: "Environment",
+      region: "National",
+      verificationStatus: VerificationType.Verified,
+      socialROI: 4.3,
+      rank: 3
+    },
+    {
+      id: 19,
+      name: "Environment Organization 1",
+      impactScore: 80,
+      impactGrade: ImpactGrade.B,
+      yearlyChange: 10,
+      sector: "Environment",
+      region: "National",
+      verificationStatus: VerificationType.Verified,
+      socialROI: 3.8,
+      rank: 4
+    },
+    {
+      id: 20,
+      name: "Environment Organization 4",
+      impactScore: 72,
+      impactGrade: ImpactGrade.B,
+      yearlyChange: 6,
+      sector: "Environment",
+      region: "National",
+      verificationStatus: VerificationType.SelfReported,
+      socialROI: 3.2,
       rank: 5
     }
   ],
+  total: 20
   total: 5
 };
 
