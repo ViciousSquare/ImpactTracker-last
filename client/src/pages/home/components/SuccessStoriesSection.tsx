@@ -28,6 +28,20 @@ const SuccessStoriesSection = () => {
     queryKey: ['/api/organizations/success-stories'],
     staleTime: 30000,
     retry: 3,
+    select: (data) => data?.map(org => ({
+      ...org,
+      stats: {
+        programs: org.stats?.programs || 0,
+        peopleReached: org.stats?.peopleReached || 0,
+        socialROI: org.stats?.socialROI || 0
+      },
+      topPrograms: org.topPrograms?.map(prog => ({
+        ...prog,
+        peopleReached: prog.peopleReached || 0,
+        socialROI: prog.socialROI || 0,
+        impactGrade: prog.impactGrade || 'N/A'
+      })) || []
+    }))
   });
 
   // No need for mouse drag functionality as we now use natural overflow scrolling

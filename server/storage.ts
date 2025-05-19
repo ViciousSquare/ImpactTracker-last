@@ -128,7 +128,32 @@ export const storage = {
       name: "Housing First Initiative",
       description: "Innovative approach to ending homelessness",
       impactScore: 89,
-      impactGrade: ImpactGrade.A
+      impactGrade: "A",
+      sector: "Housing",
+      region: "National",
+      verificationType: "verified",
+      stats: {
+        programs: 12,
+        peopleReached: 5000,
+        socialROI: 3.5
+      },
+      sdgAlignment: ["No Poverty", "Sustainable Cities"],
+      topPrograms: [
+        {
+          name: "Rapid Housing",
+          peopleReached: 2000,
+          socialROI: 4.2,
+          impactGrade: "A"
+        }
+      ],
+      metrics: {
+        reportingQuality: 18,
+        reach: 16,
+        socialROI: 17,
+        outcomeEffectiveness: 19,
+        transparencyGovernance: 19
+      },
+      mission: "Providing sustainable housing solutions"
     }];
   },
 
