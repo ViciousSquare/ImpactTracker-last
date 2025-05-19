@@ -456,6 +456,18 @@ export const storage = {
           outcomeEffectiveness: 18,
           transparencyGovernance: 19
         }
+      },
+      {
+        id: 8,
+        name: "Covenant House Toronto",
+        impactScore: 89,
+        impactGrade: ImpactGrade.A,
+        yearlyChange: 5,
+        sector: "Housing",
+        region: "Ontario",
+        verificationStatus: VerificationType.Verified,
+        socialROI: 4.3,
+        rank: 2
       }
     ];
   },
