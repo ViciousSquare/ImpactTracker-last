@@ -338,13 +338,17 @@ const OrganizationProfileSection = () => {
                         {t('org.sdgAlignment')}
                       </h4>
                       <div className="flex flex-wrap gap-2">
-                          {organization?.sdgAlignment?.map((sdg, index) => (
-                            <BadgeWithIcon
-                              key={index}
-                              text={sdg}
-                              className="bg-gradient-to-r from-amber-100 to-amber-50 text-amber-800 border border-amber-200"
-                            />
-                          ))}
+                          {organization?.sdgAlignment ? (
+                            organization.sdgAlignment.map((sdg, index) => (
+                              <BadgeWithIcon
+                                key={index}
+                                text={sdg}
+                                className="bg-gradient-to-r from-amber-100 to-amber-50 text-amber-800 border border-amber-200"
+                              />
+                            ))
+                          ) : (
+                            <span className="text-neutral-500">No SDG alignment data available</span>
+                          )}
                         </div>
                     </div>
 
@@ -360,7 +364,7 @@ const OrganizationProfileSection = () => {
                             {t('org.stats.peopleReached')}
                           </span>
                           <span className="font-semibold text-teal-700 bg-teal-50 px-2.5 py-1 rounded-md">
-                            {organization.stats.peopleReached}
+                            {organization?.stats?.peopleReached || 'N/A'}
                           </span>
                         </div>
                         <div className="flex justify-between text-sm items-center pb-2 border-b border-amber-100">
@@ -389,7 +393,7 @@ const OrganizationProfileSection = () => {
                             {t('org.stats.funding')}
                           </span>
                           <span className="font-semibold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-md">
-                            {organization.stats.funding} (2023)
+                            {organization?.stats?.funding ? `${organization.stats.funding} (2023)` : 'N/A'}
                           </span>
                         </div>
                         <div className="flex justify-between text-sm items-center">
@@ -398,7 +402,7 @@ const OrganizationProfileSection = () => {
                             {t('org.stats.programAllocation')}
                           </span>
                           <span className="font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md">
-                            {organization.stats.programAllocation}% of funds
+                            {organization?.stats?.programAllocation ? `${organization.stats.programAllocation}% of funds` : 'N/A'}
                           </span>
                         </div>
                       </div>
@@ -417,7 +421,7 @@ const OrganizationProfileSection = () => {
                         <div className="space-y-4">
                           <ProgressWithLabel
                             label={t('org.metrics.reportingQuality')}
-                            value={organization.metrics.reportingQuality}
+                            value={organization?.metrics?.reportingQuality || 0}
                             max={20}
                             color="bg-gradient-to-r from-teal-400 to-teal-500"
                           />
