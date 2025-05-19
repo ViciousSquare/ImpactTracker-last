@@ -375,7 +375,7 @@ const OrganizationProfileSection = () => {
                             </span>
                           </MetricTooltip>
                           <span className="font-semibold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-md">
-                            ${organization.stats.socialROI} per $1
+                            ${organization?.stats?.socialROI || 'N/A'} {organization?.stats?.socialROI ? 'per $1' : ''}
                           </span>
                         </div>
                         <div className="flex justify-between text-sm items-center pb-2 border-b border-amber-100">
@@ -384,7 +384,7 @@ const OrganizationProfileSection = () => {
                             {t('org.stats.programs')}
                           </span>
                           <span className="font-semibold text-orange-700 bg-orange-50 px-2.5 py-1 rounded-md">
-                            {organization.stats.programs} nationwide
+                            {organization?.stats?.programs ? `${organization.stats.programs} nationwide` : 'N/A'}
                           </span>
                         </div>
                         <div className="flex justify-between text-sm items-center pb-2 border-b border-amber-100">
@@ -428,28 +428,28 @@ const OrganizationProfileSection = () => {
 
                           <ProgressWithLabel
                             label={t('org.metrics.reach')}
-                            value={organization.metrics.reach}
+                            value={organization?.metrics?.reach || 0}
                             max={20}
                             color="bg-gradient-to-r from-amber-400 to-amber-500"
                           />
 
                           <ProgressWithLabel
                             label={t('org.metrics.socialROI')}
-                            value={organization.metrics.socialROI}
+                            value={organization?.metrics?.socialROI || 0}
                             max={20}
                             color="bg-gradient-to-r from-orange-400 to-orange-500"
                           />
 
                           <ProgressWithLabel
                             label={t('org.metrics.outcomeEffectiveness')}
-                            value={organization.metrics.outcomeEffectiveness}
+                            value={organization?.metrics?.outcomeEffectiveness || 0}
                             max={20}
                             color="bg-gradient-to-r from-indigo-400 to-indigo-500"
                           />
 
                           <ProgressWithLabel
                             label={t('org.metrics.transparencyGovernance')}
-                            value={organization.metrics.transparencyGovernance}
+                            value={organization?.metrics?.transparencyGovernance || 0}
                             max={20}
                             color="bg-gradient-to-r from-emerald-400 to-emerald-500"
                           />
@@ -478,25 +478,31 @@ const OrganizationProfileSection = () => {
                               </tr>
                             </thead>
                             <tbody className="divide-y divide-neutral-200 bg-white">
-                              {organization.topPrograms.map((program, index) => (
+                              {organization?.topPrograms?.map((program, index) => (
                                 <tr key={index}>
-                                  <td className="px-3 py-2 text-sm text-neutral-900">{program.name}</td>
-                                  <td className="px-3 py-2 text-sm text-neutral-900">{program.peopleReached.toLocaleString()}</td>
+                                  <td className="px-3 py-2 text-sm text-neutral-900">{program?.name || 'N/A'}</td>
+                                  <td className="px-3 py-2 text-sm text-neutral-900">{program?.peopleReached?.toLocaleString() || 'N/A'}</td>
                                   <td className="px-3 py-2 text-sm text-neutral-900">
                                     <MetricTooltip metric="socialROI">
-                                      ${program.socialROI.toFixed(2)}
+                                      ${program?.socialROI?.toFixed(2) || 'N/A'}
                                     </MetricTooltip>
                                   </td>
                                   <td className="px-3 py-2">
                                     <MetricTooltip metric="impactGrade">
                                       <BadgeWithIcon 
-                                        text={program.impactGrade}
+                                        text={program?.impactGrade || 'N/A'}
                                         variant="success"
                                       />
                                     </MetricTooltip>
                                   </td>
                                 </tr>
-                              ))}
+                              )) || (
+                                <tr>
+                                  <td colSpan={4} className="px-3 py-4 text-center text-neutral-500">
+                                    No program data available
+                                  </td>
+                                </tr>
+                              )}
                             </tbody>
                           </table>
                         </div>
