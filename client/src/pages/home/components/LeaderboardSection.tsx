@@ -356,6 +356,9 @@ const getOrganizationNameBySector = (sector: string, index: number): string => {
                           <table className="min-w-full divide-y divide-neutral-200">
                             <thead className="bg-neutral-50">
                               <tr>
+                                <th className="px-4 py-2 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider w-16">
+                                  Rank
+                                </th>
                                 <th className="px-4 py-2 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
                                   {t('impactboard.table.organization')}
                                 </th>
@@ -376,7 +379,9 @@ const getOrganizationNameBySector = (sector: string, index: number): string => {
                                 ?.slice(0, 5)
                                 .map((item) => (
                                   <tr key={item.id} className="hover:bg-neutral-50">
-                                    
+                                    <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-neutral-600">
+                                      #{item.rank}
+                                    </td>
                                     <td className="px-4 py-3 whitespace-nowrap">
                                       <Link 
                                         href={`/organization/${item.id}`} 
