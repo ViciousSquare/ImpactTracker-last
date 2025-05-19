@@ -16,6 +16,8 @@ const OrganizationProfileSection = () => {
 
   const { data: organizations, isLoading } = useQuery<OrganizationProfile[]>({
     queryKey: ['/api/organizations/featured'],
+    retry: 3,
+    staleTime: 30000,
   });
 
   // Add horizontal scrolling with mouse drag
@@ -509,9 +511,9 @@ const OrganizationProfileSection = () => {
                         <div className="mt-3 text-center">
                           <span 
                             className="text-sm text-primary-500 hover:text-primary-600 font-medium cursor-pointer"
-                            onClick={() => window.location.href = `/organization/${organization.id}/programs`}
+                            onClick={() => organization?.id && (window.location.href = `/organization/${organization.id}/programs`)}
                           >
-                            {t('org.viewAllPrograms').replace('{count}', organization.stats.programs.toString())}
+                            {t('org.viewAllPrograms').replace('{count}', (organization?.stats?.programs || 0).toString())}
                           </span>
                         </div>
                       </div>
