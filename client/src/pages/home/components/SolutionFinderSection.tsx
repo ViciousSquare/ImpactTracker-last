@@ -45,7 +45,7 @@ const SolutionFinderSection = () => {
   });
   const [appliedFilters, setAppliedFilters] = useState<{ key: string; value: string }[]>([]);
   const [searchInput, setSearchInput] = useState('');
-  
+
   // Carousel ref for scrolling
   const carouselRef = useRef<HTMLDivElement>(null);
 
@@ -64,7 +64,7 @@ const SolutionFinderSection = () => {
 
   const handleFilterChange = (key: keyof SolutionSearchValues, value: string) => {
     setSearchValues(prev => ({ ...prev, [key]: value }));
-    
+
     // If this is a new filter and it has a value, add it to applied filters
     if (value && !appliedFilters.some(f => f.key === key)) {
       const label = getFilterLabel(key, value);
@@ -96,7 +96,7 @@ const SolutionFinderSection = () => {
   // Helper to get display label for filter value
   const getFilterLabel = (key: string, value: string): string => {
     if (key === 'query') return value;
-    
+
     let options;
     switch (key) {
       case 'sector':
@@ -117,7 +117,7 @@ const SolutionFinderSection = () => {
       default:
         return value;
     }
-    
+
     const option = options.find(opt => opt.value === value);
     return option ? option.label : value;
   };
@@ -142,7 +142,7 @@ const SolutionFinderSection = () => {
             <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-700 to-primary-500 mb-1">{t('solution.title')}</h2>
             <p className="text-neutral-600">{t('solution.subtitle')}</p>
           </div>
-          
+
           <Link
             href="/solution-finder"
             className="mt-2 md:mt-0 inline-flex items-center text-primary-500 hover:text-primary-600 font-medium cursor-pointer"
@@ -151,7 +151,7 @@ const SolutionFinderSection = () => {
             <span className="material-icons ml-1 text-sm">tune</span>
           </Link>
         </div>
-        
+
         {/* Search and filters */}
         <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-4 sm:p-6 mb-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -165,7 +165,7 @@ const SolutionFinderSection = () => {
                 onChange={(e) => setSearchInput(e.target.value)}
               />
             </form>
-            
+
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:col-span-2">
               <Select 
                 value={searchValues.sector} 
@@ -214,7 +214,7 @@ const SolutionFinderSection = () => {
                   ))}
                 </SelectContent>
               </Select>
-              
+
               <Select 
                 value={searchValues.sdg} 
                 onValueChange={(value) => handleFilterChange('sdg', value)}
@@ -230,7 +230,7 @@ const SolutionFinderSection = () => {
                   ))}
                 </SelectContent>
               </Select>
-              
+
               <Select 
                 value={searchValues.demographic} 
                 onValueChange={(value) => handleFilterChange('demographic', value)}
@@ -248,7 +248,7 @@ const SolutionFinderSection = () => {
               </Select>
             </div>
           </div>
-          
+
           {/* Applied filters */}
           {appliedFilters.length > 0 && (
             <div className="mt-4 flex flex-wrap gap-2">
@@ -269,7 +269,7 @@ const SolutionFinderSection = () => {
             </div>
           )}
         </div>
-        
+
         {/* Solutions carousel */}
         <div className="mb-6">
           <div className="mb-4 flex items-center justify-between">
@@ -280,7 +280,7 @@ const SolutionFinderSection = () => {
               <MetricTooltip metric="effectiveness">Effectiveness</MetricTooltip>
             </div>
           </div>
-          
+
           <Carousel
             opts={{
               align: "start",
@@ -299,7 +299,7 @@ const SolutionFinderSection = () => {
               ) : solutions && solutions.length > 0 ? (
                 solutions.map((solution) => {
                   const verificationDetails = getVerificationDetails(solution.verificationType);
-                  
+
                   return (
                     <CarouselItem key={solution.id} className="pl-4 md:basis-1/2 lg:basis-1/3">
                       <div className="h-full bg-white rounded-lg shadow-sm border border-neutral-200 overflow-hidden flex flex-col">
@@ -313,29 +313,29 @@ const SolutionFinderSection = () => {
                               variant="success"
                             />
                           </div>
-                          
+
                           <h4 className="font-semibold text-neutral-900 mb-1">{solution.name}</h4>
                           <p className="text-sm text-neutral-600 mb-2">{solution.organizationName}</p>
-                          
+
                           <p className="text-sm text-neutral-700 mb-4 line-clamp-3">
                             {solution.description}
                           </p>
-                          
+
                           <div className="flex flex-wrap gap-2 mb-4">
-                            {solution.tags.slice(0, 3).map((tag, index) => (
+                            {solution.tags?.slice(0, 3)?.map((tag, index) => (
                               <BadgeWithIcon
                                 key={index}
                                 text={tag}
                                 className="bg-primary-100 text-primary-800"
                               />
                             ))}
-                            {solution.tags.length > 3 && (
+                            {solution.tags && solution.tags.length > 3 && (
                               <span className="text-xs text-neutral-500 flex items-center">
                                 +{solution.tags.length - 3} more
                               </span>
                             )}
                           </div>
-                          
+
                           <div className="flex justify-between text-sm mb-1">
                             <span className="text-neutral-600">{t('org.stats.peopleReached')}</span>
                             <span className="font-medium text-neutral-900">{solution.peopleReached.toLocaleString()}</span>
@@ -345,7 +345,7 @@ const SolutionFinderSection = () => {
                             <span className="font-medium text-neutral-900">${solution.socialROI.toFixed(2)} per $1</span>
                           </div>
                         </div>
-                        
+
                         <div className="bg-neutral-50 p-4 border-t border-neutral-200 flex justify-between items-center">
                           <div className="flex items-center text-sm text-neutral-700">
                             <span className="flex items-center">
@@ -358,7 +358,7 @@ const SolutionFinderSection = () => {
                               <span className="ml-1">{verificationDetails.text}</span>
                             </span>
                           </div>
-                          
+
                           <Link 
                             href={`/solution/${solution.id}`}
                             className="text-primary-500 hover:text-primary-600 font-medium text-sm"
@@ -380,7 +380,7 @@ const SolutionFinderSection = () => {
             </CarouselContent>
           </Carousel>
         </div>
-        
+
         {/* View more button */}
         {solutions && solutions.length > 0 && (
           <div className="mt-8 text-center">
@@ -406,20 +406,20 @@ const SolutionCardSkeleton = () => (
         <Skeleton className="h-12 w-12 rounded-md" />
         <Skeleton className="h-6 w-10 rounded-full" />
       </div>
-      
+
       <Skeleton className="h-5 w-3/4 mb-1" />
       <Skeleton className="h-4 w-1/2 mb-3" />
-      
+
       <Skeleton className="h-4 w-full mb-1" />
       <Skeleton className="h-4 w-full mb-1" />
       <Skeleton className="h-4 w-2/3 mb-4" />
-      
+
       <div className="flex flex-wrap gap-2 mb-4">
         <Skeleton className="h-6 w-20 rounded-full" />
         <Skeleton className="h-6 w-24 rounded-full" />
         <Skeleton className="h-6 w-16 rounded-full" />
       </div>
-      
+
       <div className="space-y-2">
         <div className="flex justify-between">
           <Skeleton className="h-4 w-32" />
@@ -431,7 +431,7 @@ const SolutionCardSkeleton = () => (
         </div>
       </div>
     </div>
-    
+
     <div className="bg-neutral-50 p-4 border-t border-neutral-200 flex justify-between items-center">
       <Skeleton className="h-4 w-32" />
       <Skeleton className="h-4 w-16" />
