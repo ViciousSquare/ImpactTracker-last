@@ -328,35 +328,137 @@ export const storage = {
   },
 
   getFeaturedOrganization: async () => {
-    return [{
-      id: 1,
-      name: "Jack.org",
-      description: "Canada's only charity training and empowering young leaders to revolutionize mental health",
-      impactScore: 94,
-      sector: "Health & Wellbeing",
-      stats: {
-        programs: 15,
-        peopleReached: "250000",
-        socialROI: 5.2
+    return [
+      {
+        id: 1,
+        name: "Jack.org",
+        description: "Canada's only charity training and empowering young leaders to revolutionize mental health",
+        impactScore: 94,
+        sector: "Health & Wellbeing",
+        stats: {
+          programs: 15,
+          peopleReached: "250000",
+          socialROI: 5.2,
+          metrics: {
+            reportingQuality: 18,
+            reach: 16,
+            socialROI: 17,
+            outcomeEffectiveness: 19,
+            transparencyGovernance: 19
+          }
+        }
+      },
+      {
+        id: 2,
+        name: "Daily Bread Food Bank",
+        description: "Leading organization in the fight against hunger in Canada",
+        impactScore: 93,
+        sector: "Food Security",
+        stats: {
+          programs: 12,
+          peopleReached: "120000",
+          socialROI: 4.8,
+          metrics: {
+            reportingQuality: 17,
+            reach: 18,
+            socialROI: 16,
+            outcomeEffectiveness: 18,
+            transparencyGovernance: 18
+          }
+        }
+      },
+      {
+        id: 3,
+        name: "Indspire",
+        description: "Indigenous-led charity investing in Indigenous education",
+        impactScore: 95,
+        sector: "Education",
+        stats: {
+          programs: 18,
+          peopleReached: "180000",
+          socialROI: 4.9,
+          metrics: {
+            reportingQuality: 19,
+            reach: 17,
+            socialROI: 18,
+            outcomeEffectiveness: 18,
+            transparencyGovernance: 19
+          }
+        }
       }
-    }];
+    ];
   },
 
   getSuccessStories: async () => {
-    return [{
-      id: 2,
-      name: "Housing First Initiative",
-      description: "Innovative approach to ending homelessness",
-      impactScore: 89,
-      impactGrade: "A",
-      sector: "Housing",
-      region: "National",
-      verificationType: "verified",
-      stats: {
-        programs: 12,
-        peopleReached: 5000,
-        socialROI: 3.5
+    return [
+      {
+        id: 1,
+        name: "Housing First Initiative",
+        description: "Innovative approach to ending homelessness",
+        impactScore: 89,
+        impactGrade: "A",
+        sector: "Housing",
+        region: "National",
+        verificationType: "verified",
+        stats: {
+          programs: 12,
+          peopleReached: 5000,
+          socialROI: 3.5
+        },
+        metrics: {
+          reportingQuality: 18,
+          reach: 16,
+          socialROI: 17,
+          outcomeEffectiveness: 19,
+          transparencyGovernance: 19
+        }
       },
+      {
+        id: 2,
+        name: "Second Harvest Food Recovery",
+        description: "Canada's largest food rescue organization",
+        impactScore: 92,
+        impactGrade: "A",
+        sector: "Food Security",
+        region: "National",
+        verificationType: "audited",
+        stats: {
+          programs: 8,
+          peopleReached: 4500,
+          socialROI: 4.2
+        },
+        metrics: {
+          reportingQuality: 17,
+          reach: 18,
+          socialROI: 18,
+          outcomeEffectiveness: 17,
+          transparencyGovernance: 18
+        }
+      },
+      {
+        id: 3,
+        name: "Pathways to Education",
+        description: "Breaking the cycle of poverty through education",
+        impactScore: 94,
+        impactGrade: "A+",
+        sector: "Education",
+        region: "National",
+        verificationType: "audited",
+        stats: {
+          programs: 15,
+          peopleReached: 6000,
+          socialROI: 4.8
+        },
+        metrics: {
+          reportingQuality: 19,
+          reach: 18,
+          socialROI: 19,
+          outcomeEffectiveness: 18,
+          transparencyGovernance: 19
+        }
+      }
+    ];
+  },
       sdgAlignment: ["No Poverty", "Sustainable Cities"],
       topPrograms: [
         {
@@ -378,12 +480,43 @@ export const storage = {
   },
 
   getSolutions: async () => {
-    return [{
-      id: 1,
-      name: "Rural Food Security Initiative",
-      description: "Connecting rural communities with fresh food",
-      sector: "Food Security"
-    }];
+    return [
+      {
+        id: 1,
+        name: "Rural Food Security Initiative",
+        description: "Connecting rural communities with fresh food",
+        sector: "Food Security",
+        impactScore: 88
+      },
+      {
+        id: 2,
+        name: "Youth Mental Health First Aid",
+        description: "Training programs for early mental health intervention",
+        sector: "Health & Wellbeing",
+        impactScore: 92
+      },
+      {
+        id: 3,
+        name: "Indigenous Education Access",
+        description: "Removing barriers to education for Indigenous youth",
+        sector: "Education",
+        impactScore: 90
+      },
+      {
+        id: 4,
+        name: "Sustainable Housing Development",
+        description: "Eco-friendly affordable housing solutions",
+        sector: "Housing",
+        impactScore: 87
+      },
+      {
+        id: 5,
+        name: "Digital Literacy for Seniors",
+        description: "Bridging the digital divide for older adults",
+        sector: "Education",
+        impactScore: 85
+      }
+    ];
   },
     getUser: async (id: number) => {
         return undefined;
