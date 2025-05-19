@@ -351,14 +351,15 @@ const LeaderboardSection = () => {
         </div>
 
         {/* View more link */}
-        <div className="mt-6 text-center">
-          <Link 
-            href="/leaderboard"
-            className="inline-flex items-center text-primary-500 hover:text-primary-600 font-medium cursor-pointer"
-          >
-            View full leaderboard
-            <span className="material-icons ml-1 text-sm">arrow_forward</span>
-          </Link>
+          <div className="mt-6 text-center">
+            <Link 
+              href="/leaderboard"
+              className="inline-flex items-center text-primary-500 hover:text-primary-600 font-medium cursor-pointer"
+            >
+              View full leaderboard
+              <span className="material-icons ml-1 text-sm">arrow_forward</span>
+            </Link>
+          </div>
         </div>
       </div>
     </section>
