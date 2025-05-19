@@ -390,7 +390,7 @@ export const storage = {
   },
 
   getSuccessStories: async () => {
-    return [
+    const successStories = [
       {
         id: 1,
         name: "Housing First Initiative",
@@ -470,8 +470,10 @@ export const storage = {
         rank: 2
       }
     ];
+    return successStories;
   },
-      sdgAlignment: ["No Poverty", "Sustainable Cities"],
+
+  sdgAlignment: ["No Poverty", "Sustainable Cities"],
       topPrograms: [
         {
           name: "Rapid Housing",
