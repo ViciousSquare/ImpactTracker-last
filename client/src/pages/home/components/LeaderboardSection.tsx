@@ -361,8 +361,7 @@ const LeaderboardSection = () => {
             </Link>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
   );
 };
 
