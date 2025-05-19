@@ -297,7 +297,6 @@ const mockLeaderboardData = {
     }
   ],
   total: 20
-  total: 5
 };
 
 export const storage = {
