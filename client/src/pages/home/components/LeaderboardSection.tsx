@@ -232,8 +232,8 @@ const getOrganizationNameBySector = (sector: string, index: number): string => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
           <div>
-            <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-primary-800 mb-1">{t('leaderboard.title')}</h2>
-            <p className="text-neutral-600">{t('leaderboard.subtitle')}</p>
+            <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-primary-800 mb-1">{t('impactboard.title')}</h2>
+            <p className="text-neutral-600">{t('impactboard.subtitle')}</p>
           </div>
           
           {/* Filter controls */}
@@ -357,19 +357,16 @@ const getOrganizationNameBySector = (sector: string, index: number): string => {
                             <thead className="bg-neutral-50">
                               <tr>
                                 <th className="px-4 py-2 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
-                                  {t('leaderboard.table.rank')}
-                                </th>
-                                <th className="px-4 py-2 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
-                                  {t('leaderboard.table.organization')}
+                                  {t('impactboard.table.organization')}
                                 </th>
                                 <th className="px-4 py-2 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
                                   <MetricTooltip metric="impactScore">
-                                    {t('leaderboard.table.impactIQ')}
+                                    {t('impactboard.table.impactIQ')}
                                   </MetricTooltip>
                                 </th>
                                 <th className="px-4 py-2 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
                                   <MetricTooltip metric="impactGrade">
-                                    {t('leaderboard.table.grade')}
+                                    {t('impactboard.table.grade')}
                                   </MetricTooltip>
                                 </th>
                               </tr>
@@ -379,9 +376,7 @@ const getOrganizationNameBySector = (sector: string, index: number): string => {
                                 ?.slice(0, 5)
                                 .map((item) => (
                                   <tr key={item.id} className="hover:bg-neutral-50">
-                                    <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-neutral-900">
-                                      {item.rank}
-                                    </td>
+                                    
                                     <td className="px-4 py-3 whitespace-nowrap">
                                       <Link 
                                         href={`/organization/${item.id}`} 
