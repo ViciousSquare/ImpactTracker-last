@@ -360,7 +360,6 @@ const LeaderboardSection = () => {
               <span className="material-icons ml-1 text-sm">arrow_forward</span>
             </Link>
           </div>
-        </div>
       </section>
   );
 };
