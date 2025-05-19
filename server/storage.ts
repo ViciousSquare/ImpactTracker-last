@@ -341,11 +341,26 @@ export const storage = {
           socialROI: 5.2,
           metrics: {
             reportingQuality: 18,
-            reach: 16,
-            socialROI: 17,
-            outcomeEffectiveness: 19,
-            transparencyGovernance: 19
-          }
+            reach: 17,
+            socialROI: 19,
+            outcomeEffectiveness: 20,
+            transparencyGovernance: 20
+          },
+          mission: "Revolutionizing youth mental health through peer support and education",
+          topPrograms: [
+            {
+              name: "School Mental Health Workshops",
+              peopleReached: 35000,
+              socialROI: 4.5,
+              impactGrade: "A"
+            },
+            {
+              name: "Digital Support Platform",
+              peopleReached: 10000,
+              socialROI: 3.8,
+              impactGrade: "A-"
+            }
+          ]
         }
       },
       {
@@ -468,6 +483,50 @@ export const storage = {
         verificationStatus: VerificationType.Verified,
         socialROI: 4.3,
         rank: 2
+      },
+      {
+        id: 5,
+        name: "AGO Community Access",
+        description: "Breaking down barriers to arts access",
+        impactScore: 91,
+        impactGrade: "A",
+        sector: "Arts & Culture",
+        region: "Ontario",
+        verificationType: "audited",
+        stats: {
+          programs: 8,
+          peopleReached: 75000,
+          socialROI: 3.9
+        },
+        metrics: {
+          reportingQuality: 18,
+          reach: 19,
+          socialROI: 17,
+          outcomeEffectiveness: 18,
+          transparencyGovernance: 19
+        }
+      },
+      {
+        id: 6,
+        name: "Microfinance Montreal",
+        description: "Empowering entrepreneurs through accessible finance",
+        impactScore: 88,
+        impactGrade: "A",
+        sector: "Economic Development",
+        region: "Quebec",
+        verificationType: "verified",
+        stats: {
+          programs: 5,
+          peopleReached: 2500,
+          socialROI: 4.5
+        },
+        metrics: {
+          reportingQuality: 17,
+          reach: 16,
+          socialROI: 19,
+          outcomeEffectiveness: 18,
+          transparencyGovernance: 18
+        }
       }
     ];
   },
