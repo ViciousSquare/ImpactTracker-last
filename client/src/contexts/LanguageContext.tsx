@@ -19,7 +19,7 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.reports': 'Reports',
     'nav.about': 'About',
     'nav.signIn': 'Sign In',
-    
+
     // Hero Section
     'hero.title': 'Discover Real Impact',
     'hero.subtitle': 'Track, compare, and validate the social impact of Canadian organizations across sectors.',
@@ -28,17 +28,17 @@ const translations: Record<Language, Record<string, string>> = {
     'hero.stats.organizations': 'Organizations',
     'hero.stats.programs': 'Programs',
     'hero.stats.impactValue': 'Impact Value',
-    
+
     // Leaderboard
-    'leaderboard.title': 'Impact Leaderboard',
-    'leaderboard.subtitle': 'Top performing organizations by Impact IQ score',
-    'leaderboard.allSectors': 'All Sectors',
-    'leaderboard.allRegions': 'All Regions',
-    'leaderboard.allSDGs': 'All SDGs',
-    'leaderboard.bySector': 'By Sector',
-    'leaderboard.exploreBySector': 'Explore top organizations across different sectors',
-    'leaderboard.viewAll': 'View All',
-    'leaderboard.seeMoreInSector': 'See more in this sector',
+    'impactboard.title': 'Impactboard',
+    'impactboard.subtitle': 'Top organizations by Impact IQ score',
+    'impactboard.allSectors': 'All sectors',
+    'impactboard.allRegions': 'All regions',
+    'impactboard.allSDGs': 'All SDGs',
+    'impactboard.bySector': 'By Sector',
+    'impactboard.exploreBySector': 'Explore top organizations in different sectors',
+    'impactboard.viewAll': 'View All',
+    'impactboard.seeMoreInSector': 'See more in this sector',
     'leaderboard.table.rank': 'Rank',
     'leaderboard.table.organization': 'Organization',
     'leaderboard.table.impactIQ': 'Impact IQ',
@@ -53,7 +53,7 @@ const translations: Record<Language, Record<string, string>> = {
     'leaderboard.pagination.to': 'to',
     'leaderboard.pagination.of': 'of',
     'leaderboard.pagination.results': 'results',
-    
+
     // Organization Profile
     'org.featuredTitle': 'Featured Organization',
     'org.featuredSubtitle': 'Detailed performance insights and impact metrics',
@@ -82,13 +82,13 @@ const translations: Record<Language, Record<string, string>> = {
     'org.program.socialROI': 'Social ROI',
     'org.program.score': 'Score',
     'org.viewAllPrograms': 'View all {count} programs',
-    
+
     // Success Stories
     'successStories.title': 'Impact Success Stories',
     'successStories.subtitle': 'Learn how organizations are making measurable impacts across Canada',
     'successStories.viewAll': 'View All Stories',
     'successStories.viewFullProfile': 'View Full Organization Profile',
-    
+
     // Solution Finder
     'solution.title': 'Solution Finder',
     'solution.subtitle': 'Find effective programs addressing specific social needs',
@@ -100,7 +100,7 @@ const translations: Record<Language, Record<string, string>> = {
     'solution.allSDGs': 'All SDGs',
     'solution.allDemographics': 'All Demographics',
     'solution.viewMore': 'View More Solutions',
-    
+
     // CTA Section
     'cta.title': 'Is your organization making an impact?',
     'cta.subtitle': 'Join Basic Impacts to showcase your organization\'s impact, improve transparency, and connect with funders and partners.',
@@ -116,7 +116,7 @@ const translations: Record<Language, Record<string, string>> = {
     'cta.updateMetrics': 'Update Impact Metrics',
     'cta.managePrograms': 'Manage Programs',
     'cta.requestVerification': 'Request Verification',
-    
+
     // Footer
     'footer.tagline': 'Setting a new global standard for transparency, usability, and data-driven social impact measurement.',
     'footer.platform': 'Platform',
@@ -126,12 +126,12 @@ const translations: Record<Language, Record<string, string>> = {
     'footer.privacyPolicy': 'Privacy Policy',
     'footer.cookiePolicy': 'Cookie Policy',
     'footer.copyright': '© 2023 Basic Impacts. All rights reserved.',
-    
+
     // Verification types
     'verification.audited': 'Audited',
     'verification.verified': 'Verified',
     'verification.selfReported': 'Self-Reported',
-    
+
     // About page
     'about.title': 'Why Basic Impacts Exists',
     'about.subtitle': 'We\'re building a future where social impact is transparent, measurable, and accountable — addressing the critical gaps in Canada\'s social sector.',
@@ -149,7 +149,7 @@ const translations: Record<Language, Record<string, string>> = {
     'about.cta.subtitle': 'Together, we can transform how social impact is measured, reported, and improved across Canada.',
     'about.cta.register': 'Register Your Organization',
     'about.cta.learnMore': 'Learn More About Our Methodology',
-    
+
     // Common terms
     'common.fromLastYear': 'from last year',
     'common.annually': 'annually',
@@ -166,7 +166,7 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.reports': 'Rapports',
     'nav.about': 'À propos',
     'nav.signIn': 'Se connecter',
-    
+
     // Hero Section
     'hero.title': 'Découvrez l\'impact réel',
     'hero.subtitle': 'Suivez, comparez et validez l\'impact social des organisations canadiennes dans tous les secteurs.',
@@ -175,7 +175,7 @@ const translations: Record<Language, Record<string, string>> = {
     'hero.stats.organizations': 'Organisations',
     'hero.stats.programs': 'Programmes',
     'hero.stats.impactValue': 'Valeur d\'impact',
-    
+
     // Leaderboard
     'leaderboard.title': 'Tableau d\'impact',
     'leaderboard.subtitle': 'Les meilleures organisations par score d\'impact IQ',
@@ -200,7 +200,7 @@ const translations: Record<Language, Record<string, string>> = {
     'leaderboard.pagination.to': 'à',
     'leaderboard.pagination.of': 'sur',
     'leaderboard.pagination.results': 'résultats',
-    
+
     // Organization Profile
     'org.featuredTitle': 'Organisation en vedette',
     'org.featuredSubtitle': 'Aperçus détaillés des performances et métriques d\'impact',
@@ -229,13 +229,13 @@ const translations: Record<Language, Record<string, string>> = {
     'org.program.socialROI': 'RSI social',
     'org.program.score': 'Score',
     'org.viewAllPrograms': 'Voir tous les {count} programmes',
-    
+
     // Success Stories
     'successStories.title': 'Histoires de réussite d\'impact',
     'successStories.subtitle': 'Découvrez comment les organisations créent des impacts mesurables au Canada',
     'successStories.viewAll': 'Voir toutes les histoires',
     'successStories.viewFullProfile': 'Voir le profil complet de l\'organisation',
-    
+
     // Solution Finder
     'solution.title': 'Chercheur de solutions',
     'solution.subtitle': 'Trouvez des programmes efficaces répondant à des besoins sociaux spécifiques',
@@ -247,7 +247,7 @@ const translations: Record<Language, Record<string, string>> = {
     'solution.allSDGs': 'Tous les ODD',
     'solution.allDemographics': 'Toutes les démographies',
     'solution.viewMore': 'Voir plus de solutions',
-    
+
     // CTA Section
     'cta.title': 'Votre organisation a-t-elle un impact?',
     'cta.subtitle': 'Rejoignez Basic Impacts pour présenter l\'impact de votre organisation, améliorer la transparence et vous connecter avec des bailleurs de fonds et des partenaires.',
@@ -263,7 +263,7 @@ const translations: Record<Language, Record<string, string>> = {
     'cta.updateMetrics': 'Mettre à jour les métriques',
     'cta.managePrograms': 'Gérer les programmes',
     'cta.requestVerification': 'Demander une vérification',
-    
+
     // Footer
     'footer.tagline': 'Établir une nouvelle norme mondiale pour la transparence, la convivialité et la mesure de l\'impact social basée sur les données.',
     'footer.platform': 'Plateforme',
@@ -273,12 +273,12 @@ const translations: Record<Language, Record<string, string>> = {
     'footer.privacyPolicy': 'Politique de confidentialité',
     'footer.cookiePolicy': 'Politique des cookies',
     'footer.copyright': '© 2023 Basic Impacts. Tous droits réservés.',
-    
+
     // Verification types
     'verification.audited': 'Audité',
     'verification.verified': 'Vérifié',
     'verification.selfReported': 'Auto-déclaré',
-    
+
     // About page
     'about.title': 'Pourquoi Basic Impacts Existe',
     'about.subtitle': 'Nous construisons un avenir où l\'impact social est transparent, mesurable et responsable — en comblant les lacunes critiques du secteur social canadien.',
@@ -296,7 +296,7 @@ const translations: Record<Language, Record<string, string>> = {
     'about.cta.subtitle': 'Ensemble, nous pouvons transformer la façon dont l\'impact social est mesuré, rapporté et amélioré à travers le Canada.',
     'about.cta.register': 'Enregistrez Votre Organisation',
     'about.cta.learnMore': 'En Savoir Plus Sur Notre Méthodologie',
-    
+
     // Common terms
     'common.fromLastYear': 'par rapport à l\'année dernière',
     'common.annually': 'annuellement',

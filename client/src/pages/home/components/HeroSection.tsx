@@ -39,15 +39,15 @@ const HeroSection = ({ stats, loading }: HeroSectionProps) => {
     <section className="relative overflow-hidden text-white py-12 md:py-16">
       {/* Warm gradient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-amber-600 via-orange-500 to-amber-700 z-0"></div>
-      
+
       {/* Decorative pattern overlay */}
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0djZoNnYtNmgtNnptMCAwdi02aC02djZoNnptNiAwaDZ2LTZoLTZ2NnptLTEyIDBoLTZ2Nmg2di02eiIvPjwvZz48L2c+PC9zdmc+Cg==')]
         opacity-20 z-0"></div>
-      
+
       {/* Warm decorative elements */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-yellow-500 opacity-10 rounded-full translate-x-1/3 -translate-y-1/3"></div>
       <div className="absolute bottom-0 left-0 w-64 h-64 bg-orange-500 opacity-10 rounded-full -translate-x-1/3 translate-y-1/3"></div>
-      
+
       <div className="container relative mx-auto px-4 sm:px-6 lg:px-8 z-10">
         <div className="flex flex-col md:flex-row items-center justify-between">
           <div className="mb-8 md:mb-0 md:w-1/2">
@@ -80,16 +80,12 @@ const HeroSection = ({ stats, loading }: HeroSectionProps) => {
             </form>
             <div className="flex gap-3 mt-3">
               <span className="text-white/70 text-xs flex items-center">
-                <span className="h-1.5 w-1.5 rounded-full bg-amber-300 inline-block mr-1"></span>
-                Trusted by 2400+ organizations
-              </span>
-              <span className="text-white/70 text-xs flex items-center">
-                <span className="h-1.5 w-1.5 rounded-full bg-orange-300 inline-block mr-1"></span>
-                100% transparent
+                {/* Simplified Trust Section */}
+                Trusted by leading Canadian organizations
               </span>
             </div>
           </div>
-          
+
           <div className="md:w-5/12">
             <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl py-6 px-4 sm:px-6 flex justify-between shadow-lg">
               {loading ? (
@@ -109,7 +105,7 @@ const HeroSection = ({ stats, loading }: HeroSectionProps) => {
                     </p>
                     <p className="text-xs sm:text-sm font-medium text-white/80">{t('hero.stats.organizations')}</p>
                   </div>
-                  
+
                   <div className="text-center px-1 sm:px-3">
                     <div className="bg-orange-500/20 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
                       <span className="text-orange-100 material-icons">dashboard</span>
@@ -119,7 +115,7 @@ const HeroSection = ({ stats, loading }: HeroSectionProps) => {
                     </p>
                     <p className="text-xs sm:text-sm font-medium text-white/80">{t('hero.stats.programs')}</p>
                   </div>
-                  
+
                   <div className="text-center px-1 sm:px-3">
                     <div className="bg-teal-500/20 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
                       <span className="text-teal-100 material-icons">attach_money</span>

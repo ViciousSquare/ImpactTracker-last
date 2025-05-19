@@ -38,7 +38,7 @@ const LeaderboardSection = () => {
   const [region, setRegion] = useState('all');
   const [sdg, setSdg] = useState('all');
   const [size, setSize] = useState('all');
-  
+
   // Carousel ref for manual scrolling
   const carouselRef = useRef<HTMLDivElement>(null);
 
@@ -58,9 +58,9 @@ const LeaderboardSection = () => {
   // Generate additional test data for demonstration purposes
   const generateMockOrganizationsForSectors = () => {
     if (!leaderboardData || !leaderboardData.items) return {};
-    
+
     const sectorData: Record<string, LeaderboardItem[]> = {};
-    
+
     // Group existing items by sector
     leaderboardData.items.forEach(item => {
       if (!sectorData[item.sector]) {
@@ -68,7 +68,7 @@ const LeaderboardSection = () => {
       }
       sectorData[item.sector].push(item);
     });
-    
+
     // Make sure each sector has at least 5 items by creating variations of existing items
     SECTOR_OPTIONS.filter(s => s.value !== 'all').forEach(sectorOption => {
       const sector = sectorOption.value as Sector; // Type assertion to Sector
@@ -76,18 +76,18 @@ const LeaderboardSection = () => {
         // Use items from other sectors if this sector has no items
         const sourceItems = sectorData[sector] || leaderboardData.items;
         const neededItems = 5 - (sectorData[sector]?.length || 0);
-        
+
         if (!sectorData[sector]) {
           sectorData[sector] = [];
         }
-        
+
         for (let i = 0; i < neededItems; i++) {
           const baseItem = sourceItems[i % sourceItems.length];
           if (baseItem) {
             // Get valid ImpactGrade and ensure type safety
             const gradeOptions: ImpactGrade[] = [ImpactGrade.APlus, ImpactGrade.A, ImpactGrade.AMinus, ImpactGrade.BPlus, ImpactGrade.B];
             const randomGrade = gradeOptions[Math.floor(Math.random() * gradeOptions.length)];
-            
+
             sectorData[sector].push({
               ...baseItem,
               id: baseItem.id + 1000 + i, // Create a unique ID
@@ -102,7 +102,7 @@ const LeaderboardSection = () => {
         }
       }
     });
-    
+
     // Sort organizations within each sector by impact score in descending order and update ranks
     Object.keys(sectorData).forEach(sector => {
       sectorData[sector].sort((a, b) => b.impactScore - a.impactScore);
@@ -111,10 +111,10 @@ const LeaderboardSection = () => {
         org.rank = index + 1;
       });
     });
-    
+
     return sectorData;
   };
-  
+
   const sectorData = generateMockOrganizationsForSectors();
 
   // Define verification type icon and text
@@ -128,7 +128,7 @@ const LeaderboardSection = () => {
         return { icon: 'description', text: t('verification.selfReported'), className: 'text-neutral-500' };
     }
   };
-  
+
   // No need for mouse drag functionality as we now use natural overflow scrolling
 
   return (
@@ -139,7 +139,7 @@ const LeaderboardSection = () => {
             <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-primary-800 mb-1">{t('leaderboard.title')}</h2>
             <p className="text-neutral-600">{t('leaderboard.subtitle')}</p>
           </div>
-          
+
           {/* Filter controls */}
           <div className="mt-4 md:mt-0 flex flex-wrap gap-2">
             <Select value={region} onValueChange={setRegion}>
@@ -167,7 +167,7 @@ const LeaderboardSection = () => {
                 ))}
               </SelectContent>
             </Select>
-            
+
             <Select value={sdg} onValueChange={setSdg}>
               <SelectTrigger className="bg-white border border-neutral-300 rounded-md px-3 py-2 text-sm text-neutral-700 h-auto w-auto">
                 <SelectValue placeholder={t('leaderboard.allSDGs')} />
@@ -182,7 +182,7 @@ const LeaderboardSection = () => {
             </Select>
           </div>
         </div>
-        
+
         {/* Trending tickers */}
         {trendingLoading ? (
           <div className="mb-6 bg-neutral-900 text-white rounded-md p-4 h-10">
@@ -195,10 +195,10 @@ const LeaderboardSection = () => {
             No trending data available
           </div>
         )}
-        
+
         {/* Sector-based horizontal scrolling leaderboards */}
         <div className="bg-white rounded-lg shadow-sm border border-neutral-200 overflow-hidden">
-          
+
           {/* Sector Lists - Horizontal Scrolling */}
           <div className="py-6 border-t border-neutral-200">
             <div className="mb-4 flex items-center justify-between">
@@ -214,7 +214,7 @@ const LeaderboardSection = () => {
                 <ChevronRight className="h-4 w-4 ml-1" />
               </Link>
             </div>
-            
+
             <Carousel
               opts={{
                 align: "start",
@@ -253,7 +253,7 @@ const LeaderboardSection = () => {
                           </Link>
                         </div>
                       </div>
-                      
+
                       {/* Vertical List of Organizations */}
                       {leaderboardData ? (
                         <div className="overflow-hidden">
@@ -261,10 +261,7 @@ const LeaderboardSection = () => {
                             <thead className="bg-neutral-50">
                               <tr>
                                 <th className="px-4 py-2 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
-                                  {t('leaderboard.table.rank')}
-                                </th>
-                                <th className="px-4 py-2 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
-                                  {t('leaderboard.table.organization')}
+                                  {t('impactboard.table.organization')}
                                 </th>
                                 <th className="px-4 py-2 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
                                   <MetricTooltip metric="impactScore">
@@ -283,9 +280,6 @@ const LeaderboardSection = () => {
                                 ?.slice(0, 5)
                                 .map((item) => (
                                   <tr key={item.id} className="hover:bg-neutral-50">
-                                    <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-neutral-900">
-                                      {item.rank}
-                                    </td>
                                     <td className="px-4 py-3 whitespace-nowrap">
                                       <Link 
                                         href={`/organization/${item.id}`} 
@@ -336,7 +330,7 @@ const LeaderboardSection = () => {
                           ))}
                         </div>
                       )}
-                      
+
                       {/* View More Link */}
                       <div className="px-4 py-3 bg-neutral-50 border-t border-neutral-200 mt-auto">
                         <Link 
@@ -353,10 +347,10 @@ const LeaderboardSection = () => {
               </CarouselContent>
             </Carousel>
           </div>
-          
+
           {/* No pagination needed as we're showing all sectors in horizontal scroll */}
         </div>
-        
+
         {/* View more link */}
         <div className="mt-6 text-center">
           <Link 
