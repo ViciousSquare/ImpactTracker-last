@@ -375,7 +375,7 @@ const OrganizationProfileSection = () => {
                             </span>
                           </MetricTooltip>
                           <span className="font-semibold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-md">
-                            ${organization?.stats?.socialROI || 'N/A'} {organization?.stats?.socialROI ? 'per $1' : ''}
+                            {organization?.stats?.socialROI ? `$${organization.stats.socialROI} per $1` : 'N/A'}
                           </span>
                         </div>
                         <div className="flex justify-between text-sm items-center pb-2 border-b border-amber-100">
