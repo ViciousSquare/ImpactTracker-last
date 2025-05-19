@@ -1,9 +1,9 @@
 import { 
-  users, 
-  organizations, 
-  programs, 
-  metrics, 
-  reports, 
+  users,
+  organizations,
+  programs,
+  metrics,
+  reports,
   statistics,
   invitations,
   verificationRequests,
@@ -11,8 +11,8 @@ import {
   targetPartners,
   activityLogs,
   workflows,
-  type User, 
-  type InsertUser, 
+  type User,
+  type InsertUser,
   type Organization,
   type InsertOrganization,
   type Program,
@@ -34,198 +34,21 @@ import {
   type Workflow,
   type InsertWorkflow,
   type Statistic
-} from "@shared/schema";
+} from "../shared/schema";
+
 import { 
-  LeaderboardItem, 
-  TrendingItem, 
-  OrganizationProfile,
-  SolutionItem,
+  type LeaderboardItem,
+  type TrendingItem,
+  type OrganizationProfile,
+  type SolutionItem,
   VerificationType,
   ImpactGrade,
-  Sector,
-  Region,
-  SDG,
-  Demographic
-} from "@/lib/types";
+  type Sector,
+  type Region,
+  type SDG
+} from "../client/src/lib/types";
 
-// Interface for storage operations
-export interface IStorage {
-  // User operations
-  getUser(id: number): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
-  updateUser(id: number, userData: Partial<InsertUser>): Promise<User | undefined>;
-  listUsers(filters?: { role?: string, query?: string, page?: number, limit?: number }): Promise<{ users: User[], total: number }>;
-
-  // Statistics
-  getStatistics(): Promise<{
-    organizationCount: number;
-    programCount: number;
-    impactValue: number;
-    pendingInvites?: number;
-    pendingVerifications?: number;
-    activeUsers?: number;
-  }>;
-  updateStatistics(data: Partial<Statistic>): Promise<Statistic>;
-
-  // Trending
-  getTrendingOrganizations(): Promise<TrendingItem[]>;
-
-  // Leaderboard
-  getLeaderboard(filters: {
-    sector: string;
-    region: string;
-    sdg: string;
-    query: string;
-    page: number;
-    sortBy: string;
-    sortOrder: string;
-  }): Promise<{
-    items: LeaderboardItem[];
-    total: number;
-  }>;
-
-  // Organizations
-  getFeaturedOrganization(): Promise<OrganizationProfile[]>;
-  getOrganizationById(id: number): Promise<OrganizationProfile | undefined>;
-  createOrganization(organization: InsertOrganization): Promise<Organization>;
-  updateOrganization(id: number, data: Partial<InsertOrganization>): Promise<Organization | undefined>;
-  deleteOrganization(id: number): Promise<boolean>;
-  listOrganizations(filters?: { 
-    sector?: string, 
-    region?: string, 
-    verificationType?: string, 
-    query?: string, 
-    page?: number, 
-    limit?: number 
-  }): Promise<{ organizations: Organization[], total: number }>;
-  importOrganizations(organizations: InsertOrganization[]): Promise<{ 
-    successful: number, 
-    failed: number, 
-    errors: Array<{ index: number, error: string }> 
-  }>;
-  generateProfileLink(organizationId: number): Promise<string>;
-  getSuccessStories(): Promise<OrganizationProfile[]>;
-
-  // Solutions
-  getSolutions(filters: {
-    query: string;
-    sector: string;
-    region: string;
-    businessType: string;
-    sdg: string;
-    demographic: string;
-    page: number;
-  }): Promise<SolutionItem[]>;
-
-  // Programs
-  getProgramsByOrganization(organizationId: number): Promise<Program[]>;
-  createProgram(program: InsertProgram): Promise<Program>;
-  updateProgram(id: number, data: Partial<InsertProgram>): Promise<Program | undefined>;
-  deleteProgram(id: number): Promise<boolean>;
-
-  // Metrics
-  getMetric(id: number): Promise<Metric | undefined>;
-  getMetricsByOrganization(organizationId: number): Promise<Metric[]>;
-  createMetric(metric: InsertMetric): Promise<Metric>;
-  updateMetric(id: number, data: Partial<InsertMetric>): Promise<Metric | undefined>;
-
-  // Reports
-  getReportsByOrganization(organizationId: number): Promise<Report[]>;
-  createReport(report: InsertReport): Promise<Report>;
-  updateReport(id: number, data: Partial<InsertReport>): Promise<Report | undefined>;
-  deleteReport(id: number): Promise<boolean>;
-  extractReportData(reportId: number): Promise<any>;
-
-  // Invitations
-  createInvitation(invitation: InsertInvitation): Promise<Invitation>;
-  getInvitationByToken(token: string): Promise<Invitation | undefined>;
-  getInvitationsByOrganization(organizationId: number): Promise<Invitation[]>;
-  listInvitations(filters?: { 
-    status?: string, 
-    page?: number, 
-    limit?: number 
-  }): Promise<{ invitations: Invitation[], total: number }>;
-  updateInvitation(id: number, data: Partial<InsertInvitation>): Promise<Invitation | undefined>;
-
-  // Verification Requests
-  createVerificationRequest(request: InsertVerificationRequest): Promise<VerificationRequest>;
-  getVerificationRequestsByOrganization(organizationId: number): Promise<VerificationRequest[]>;
-  listVerificationRequests(filters?: { 
-    status?: string, 
-    requestType?: string, 
-    page?: number, 
-    limit?: number 
-  }): Promise<{ requests: VerificationRequest[], total: number }>;
-  updateVerificationRequest(id: number, data: Partial<InsertVerificationRequest>): Promise<VerificationRequest | undefined>;
-
-  // Notifications
-  createNotification(notification: InsertNotification): Promise<Notification>;
-  getNotificationsByUser(userId: number): Promise<Notification[]>;
-  markNotificationAsRead(id: number): Promise<boolean>;
-  deleteNotification(id: number): Promise<boolean>;
-
-  // Target Partners
-  createTargetPartner(partner: InsertTargetPartner): Promise<TargetPartner>;
-  getTargetPartnersByOrganization(organizationId: number): Promise<TargetPartner[]>;
-  updateTargetPartner(id: number, data: Partial<InsertTargetPartner>): Promise<TargetPartner | undefined>;
-  deleteTargetPartner(id: number): Promise<boolean>;
-
-  // Activity Logs
-  createActivityLog(log: InsertActivityLog): Promise<ActivityLog>;
-  getActivityLogsByUser(userId: number): Promise<ActivityLog[]>;
-  getActivityLogsByEntity(entityType: string, entityId: number): Promise<ActivityLog[]>;
-  listActivityLogs(filters?: { 
-    userId?: number, 
-    action?: string, 
-    entityType?: string, 
-    page?: number, 
-    limit?: number 
-  }): Promise<{ logs: ActivityLog[], total: number }>;
-
-  // Workflows
-  createWorkflow(workflow: InsertWorkflow): Promise<Workflow>;
-  getWorkflowById(id: number): Promise<Workflow | undefined>;
-  updateWorkflow(id: number, data: Partial<InsertWorkflow>): Promise<Workflow | undefined>;
-  deleteWorkflow(id: number): Promise<boolean>;
-  listWorkflows(filters?: { 
-    isActive?: boolean, 
-    createdBy?: number, 
-    page?: number, 
-    limit?: number 
-  }): Promise<{ workflows: Workflow[], total: number }>;
-
-  // AI and Data Processing
-  parseOrganizationJson(jsonData: string): Promise<{ 
-    parsed: boolean, 
-    data?: Partial<InsertOrganization>, 
-    metrics?: Partial<InsertMetric>,
-    programs?: Partial<InsertProgram>[],
-    targetPartners?: Partial<InsertTargetPartner>[],
-    error?: string 
-  }>;
-  getRecommendedOrganizationsToAdd(limit?: number): Promise<{ 
-    name: string, 
-    sector: string, 
-    region: string, 
-    potentialImpact: string 
-  }[]>;
-  getRecommendationsForOrganization(organizationId: number): Promise<{ 
-    title: string, 
-    description: string, 
-    impactPotential: string,
-    difficulty: string 
-  }[]>;
-  getPotentialPartnersForOrganization(organizationId: number): Promise<{ 
-    organizationId: number, 
-    name: string, 
-    sector: string, 
-    compatibilityScore: number 
-  }[]>;
-}
-
-import { ImpactGrade } from '../shared/types';
-
+// Mock data for development
 const mockLeaderboardData = {
   items: [
     {
@@ -236,17 +59,21 @@ const mockLeaderboardData = {
       yearlyChange: 12,
       sector: "Food Security",
       region: "Ontario",
-      verificationStatus: "audited"
+      verificationStatus: VerificationType.Audited,
+      socialROI: 4.5,
+      rank: 1
     },
     {
-      id: 2,
+      id: 2, 
       name: "Habitat for Humanity Canada",
       impactScore: 88,
       impactGrade: ImpactGrade.A,
       yearlyChange: 5,
       sector: "Housing",
       region: "National",
-      verificationStatus: "verified"
+      verificationStatus: VerificationType.Verified,
+      socialROI: 3.8,
+      rank: 2
     },
     {
       id: 3,
@@ -254,9 +81,11 @@ const mockLeaderboardData = {
       impactScore: 85,
       impactGrade: ImpactGrade.AMinus,
       yearlyChange: 8,
-      sector: "Environment",
+      sector: "Environment", 
       region: "National",
-      verificationStatus: "verified"
+      verificationStatus: VerificationType.Verified,
+      socialROI: 3.2,
+      rank: 3
     }
   ],
   total: 3
