@@ -28,20 +28,31 @@ const SuccessStoriesSection = () => {
     queryKey: ['/api/organizations/success-stories'],
     staleTime: 30000,
     retry: 3,
-    select: (data) => data?.map(org => ({
-      ...org,
-      stats: {
-        programs: org.stats?.programs || 0,
-        peopleReached: org.stats?.peopleReached || 0,
-        socialROI: org.stats?.socialROI || 0
-      },
-      topPrograms: org.topPrograms?.map(prog => ({
-        ...prog,
-        peopleReached: prog.peopleReached || 0,
-        socialROI: prog.socialROI || 0,
-        impactGrade: prog.impactGrade || 'N/A'
-      })) || []
-    }))
+    select: (data) => {
+      if (!data) return [];
+      return data.map(org => ({
+        ...org,
+        stats: {
+          programs: org.stats?.programs || 0,
+          peopleReached: org.stats?.peopleReached || '0',
+          socialROI: org.stats?.socialROI || 0
+        },
+        metrics: org.metrics || {
+          reportingQuality: 0,
+          reach: 0,
+          socialROI: 0,
+          outcomeEffectiveness: 0,
+          transparencyGovernance: 0
+        },
+        sdgAlignment: org.sdgAlignment || [],
+        topPrograms: org.topPrograms?.map(prog => ({
+          ...prog,
+          peopleReached: prog.peopleReached || 0,
+          socialROI: prog.socialROI || 0,
+          impactGrade: prog.impactGrade || 'N/A'
+        })) || []
+      }));
+    }
   });
 
   // No need for mouse drag functionality as we now use natural overflow scrolling
@@ -83,7 +94,12 @@ const SuccessStoriesSection = () => {
     return null;
   }
 
-  const activeStory = organizations[activeStoryIndex];
+  // Make sure we have valid data before accessing activeStory
+  const activeStory = organizations && organizations.length > 0 ? organizations[activeStoryIndex] : null;
+
+  if (!activeStory && !isLoading) {
+    return null;
+  }
 
   return (
     <section className="py-6 md:py-10 bg-gradient-to-b from-white to-primary-50 border-t border-b border-neutral-200">
