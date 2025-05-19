@@ -121,21 +121,23 @@ const OrganizationProfileSection = () => {
   );
 
   return (
-    <section className="py-8 md:py-12 bg-neutral-50 border-t border-b border-neutral-200">
+    <section className="py-16 md:py-24 bg-gradient-to-br from-amber-50/60 via-white to-teal-50/60 border-t border-b border-amber-100">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12">
           <div>
-            <h2 className="text-2xl font-bold text-neutral-900 mb-1">{t('org.featuredTitle')}</h2>
-            <p className="text-neutral-600">{t('org.featuredSubtitle')}</p>
+            <div className="inline-block px-3 py-1 rounded-full bg-amber-100/60 mb-3">
+              <span className="text-xs font-medium text-amber-800">Featured Organizations</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold gradient-heading gradient-heading-primary mb-2">{t('org.featuredTitle')}</h2>
+            <p className="text-neutral-600 text-lg max-w-xl">{t('org.featuredSubtitle')}</p>
           </div>
           
-          <div 
-            className="mt-2 md:mt-0 inline-flex items-center text-primary-500 hover:text-primary-600 font-medium cursor-pointer"
-            onClick={() => window.location.href = "/organizations"}
-          >
-            {t('org.viewAll')}
-            <span className="material-icons ml-1 text-sm">arrow_forward</span>
-          </div>
+          <Link href="/organizations">
+            <div className="mt-4 md:mt-0 inline-flex items-center bg-white hover:bg-amber-50 text-amber-700 font-medium px-5 py-2 rounded-full shadow-sm border border-amber-200 cursor-pointer transition-all duration-300">
+              {t('org.viewAll')}
+              <span className="material-icons ml-1 text-sm">arrow_forward</span>
+            </div>
+          </Link>
         </div>
         
         {/* Organization Selection Carousel */}
@@ -145,25 +147,35 @@ const OrganizationProfileSection = () => {
               {organizations.map((org, index) => (
                 <div 
                   key={org.id}
-                  className={`flex-none cursor-pointer transition-all duration-300 rounded-lg p-4 border-2 ${
+                  className={`flex-none cursor-pointer transition-all duration-300 rounded-xl p-5 border ${
                     organization?.id === org.id 
-                      ? 'border-primary-500 bg-primary-50' 
-                      : 'border-transparent hover:bg-neutral-50'
+                      ? 'border-amber-500 bg-gradient-to-br from-amber-50 to-amber-100/50 shadow-md' 
+                      : 'border-transparent hover:bg-white hover:shadow-sm hover:border-amber-200/50'
                   }`}
                   onClick={() => {
                     setSelectedOrgId(org.id);
                   }}
-                  style={{ width: '200px' }}
+                  style={{ width: '220px' }}
                 >
                   <div className="flex items-center">
-                    <div className="bg-primary-100 rounded-md w-10 h-10 flex items-center justify-center">
-                      <span className="material-icons text-primary-500">
+                    <div className={`rounded-xl w-12 h-12 flex items-center justify-center 
+                      ${organization?.id === org.id 
+                        ? 'bg-gradient-to-br from-amber-500/20 to-orange-500/20' 
+                        : 'bg-amber-100'
+                      }`
+                    }>
+                      <span className={`material-icons text-xl 
+                        ${organization?.id === org.id ? 'text-amber-700' : 'text-amber-600'}`
+                      }>
                         {getSectorIcon(org.sector)}
                       </span>
                     </div>
                     <div className="ml-3 truncate">
                       <div className="font-medium text-sm text-neutral-900 truncate">{org.name}</div>
-                      <div className="text-xs text-neutral-500 truncate">{org.sector}</div>
+                      <div className="text-xs text-amber-700/80 truncate flex items-center">
+                        <span className="h-1.5 w-1.5 rounded-full bg-amber-500 inline-block mr-1.5"></span>
+                        {org.sector}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -172,19 +184,19 @@ const OrganizationProfileSection = () => {
           </div>
         )}
         
-        <div className="bg-white rounded-lg shadow-sm border border-neutral-200 overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-lg border border-amber-100 overflow-hidden">
           {isLoading ? (
             <OrganizationProfileSkeleton />
           ) : organization ? (
             <>
-              {/* Organization header */}
+              {/* Organization header with gradient banner */}
               <div className="relative">
-                <div className="bg-primary-600 h-16 md:h-24"></div>
-                <div className="absolute top-2 right-2">
+                <div className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-500 h-20 md:h-28"></div>
+                <div className="absolute top-3 right-3">
                   {organization.verificationType && (
                     <MetricTooltip metric="verificationType">
-                      <div className="bg-white bg-opacity-90 backdrop-blur-sm rounded-md px-3 py-1 text-xs font-medium text-primary-500 flex items-center">
-                        <span className="material-icons text-sm mr-1">
+                      <div className="bg-white/90 backdrop-blur-sm rounded-full px-4 py-1.5 text-xs font-medium text-amber-700 flex items-center shadow-glow-sm">
+                        <span className="material-icons text-sm mr-1.5">
                           {getVerificationBadge(organization.verificationType).icon}
                         </span>
                         {getVerificationBadge(organization.verificationType).text}
@@ -192,36 +204,52 @@ const OrganizationProfileSection = () => {
                     </MetricTooltip>
                   )}
                 </div>
-                <div className="px-4 sm:px-6 pb-4 relative -mt-12 flex flex-col md:flex-row">
-                  <div className="bg-white p-2 rounded-lg shadow-sm inline-block">
-                    <div className="h-24 w-24 bg-primary-100 rounded-md flex items-center justify-center">
-                      <span className="material-icons text-primary-500 text-4xl">
+                <div className="px-6 sm:px-8 pb-6 relative -mt-14 flex flex-col md:flex-row">
+                  <div className="bg-white p-2 rounded-xl shadow-md inline-block border border-amber-100">
+                    <div className="h-28 w-28 bg-gradient-to-br from-amber-50 to-amber-100 rounded-lg flex items-center justify-center">
+                      <span className="material-icons text-amber-600 text-5xl">
                         {getSectorIcon(organization.sector)}
                       </span>
                     </div>
                   </div>
                   
-                  <div className="mt-4 md:mt-0 md:ml-4 md:pt-12 flex-1">
+                  <div className="mt-5 md:mt-0 md:ml-6 md:pt-14 flex-1">
                     <div className="flex flex-col md:flex-row md:items-center justify-between">
                       <div>
-                        <h3 className="text-xl font-bold text-neutral-900">{organization.name}</h3>
-                        <p className="text-neutral-600 text-sm">
-                          {organization.sector} | {organization.region} {organization.established ? `| Est. ${organization.established}` : ''}
+                        <h3 className="text-2xl font-bold gradient-heading gradient-heading-primary">{organization.name}</h3>
+                        <p className="text-neutral-600 text-sm flex items-center flex-wrap gap-3 mt-1">
+                          <span className="flex items-center">
+                            <span className="h-1.5 w-1.5 rounded-full bg-amber-500 inline-block mr-1.5"></span>
+                            {organization.sector}
+                          </span>
+                          <span className="flex items-center">
+                            <span className="h-1.5 w-1.5 rounded-full bg-orange-500 inline-block mr-1.5"></span>
+                            {organization.region}
+                          </span>
+                          {organization.established && (
+                            <span className="flex items-center">
+                              <span className="h-1.5 w-1.5 rounded-full bg-teal-500 inline-block mr-1.5"></span>
+                              Est. {organization.established}
+                            </span>
+                          )}
                         </p>
                       </div>
                       
-                      <div className="flex items-center mt-2 md:mt-0">
-                        <MetricTooltip metric="impactScore">
-                          <span className="text-2xl font-serif font-bold text-neutral-900">{organization.impactScore}</span>
-                          <span className="ml-2 text-xs text-neutral-700 leading-tight">
-                            Impact IQ<br />Score
-                          </span>
-                        </MetricTooltip>
+                      <div className="flex items-center mt-4 md:mt-0">
+                        <div className="bg-gradient-to-br from-amber-50 to-amber-100 p-3 rounded-xl shadow-sm">
+                          <MetricTooltip metric="impactScore">
+                            <div className="flex items-end">
+                              <span className="text-3xl font-bold text-amber-700">{organization.impactScore}</span>
+                              <span className="ml-2 text-xs text-amber-700/80 leading-tight pb-1">
+                                Impact<br />Score
+                              </span>
+                            </div>
+                          </MetricTooltip>
+                        </div>
                         <MetricTooltip metric="impactGrade" className="ml-3">
-                          <BadgeWithIcon
-                            text={organization.impactGrade}
-                            variant="success"
-                          />
+                          <div className="bg-gradient-to-br from-teal-500 to-teal-600 text-white font-bold text-lg h-12 w-12 flex items-center justify-center rounded-full shadow-glow-teal">
+                            {organization.impactGrade}
+                          </div>
                         </MetricTooltip>
                       </div>
                     </div>
@@ -229,103 +257,149 @@ const OrganizationProfileSection = () => {
                 </div>
               </div>
               
-              {/* Organization tabs */}
-              <div className="border-t border-neutral-200">
-                <div className="px-4 sm:px-6">
-                  <nav className="flex -mb-px">
+              {/* Organization tabs - redesigned with warm colors */}
+              <div className="border-t border-amber-100 bg-gradient-to-r from-amber-50/60 to-white">
+                <div className="px-6 sm:px-8">
+                  <nav className="flex -mb-px overflow-x-auto scrollbar-hide">
                     <button 
                       onClick={() => setActiveTab('overview')}
-                      className={`whitespace-nowrap py-4 px-1 font-medium text-sm mr-8 border-b-2 ${
+                      className={`whitespace-nowrap py-4 px-4 font-medium text-sm mr-6 border-b-2 transition-all duration-200 ${
                         activeTab === 'overview'
-                          ? 'border-primary-500 text-primary-600'
-                          : 'border-transparent text-neutral-500 hover:text-neutral-700 hover:border-neutral-300'
+                          ? 'border-amber-500 text-amber-700 font-semibold'
+                          : 'border-transparent text-neutral-500 hover:text-amber-600 hover:border-amber-200'
                       }`}
                     >
-                      {t('org.tabs.overview')}
+                      <div className="flex items-center">
+                        <span className="material-icons text-base mr-1.5">info</span>
+                        {t('org.tabs.overview')}
+                      </div>
                     </button>
                     <button 
                       onClick={() => setActiveTab('impactMetrics')}
-                      className={`whitespace-nowrap py-4 px-1 font-medium text-sm mr-8 border-b-2 ${
+                      className={`whitespace-nowrap py-4 px-4 font-medium text-sm mr-6 border-b-2 transition-all duration-200 ${
                         activeTab === 'impactMetrics'
-                          ? 'border-primary-500 text-primary-600'
-                          : 'border-transparent text-neutral-500 hover:text-neutral-700 hover:border-neutral-300'
+                          ? 'border-amber-500 text-amber-700 font-semibold'
+                          : 'border-transparent text-neutral-500 hover:text-amber-600 hover:border-amber-200'
                       }`}
                     >
-                      {t('org.tabs.impactMetrics')}
+                      <div className="flex items-center">
+                        <span className="material-icons text-base mr-1.5">show_chart</span>
+                        {t('org.tabs.impactMetrics')}
+                      </div>
                     </button>
                     <button 
                       onClick={() => setActiveTab('programs')}
-                      className={`whitespace-nowrap py-4 px-1 font-medium text-sm mr-8 border-b-2 ${
+                      className={`whitespace-nowrap py-4 px-4 font-medium text-sm mr-6 border-b-2 transition-all duration-200 ${
                         activeTab === 'programs'
-                          ? 'border-primary-500 text-primary-600'
-                          : 'border-transparent text-neutral-500 hover:text-neutral-700 hover:border-neutral-300'
+                          ? 'border-amber-500 text-amber-700 font-semibold'
+                          : 'border-transparent text-neutral-500 hover:text-amber-600 hover:border-amber-200'
                       }`}
                     >
-                      {t('org.tabs.programs')}
+                      <div className="flex items-center">
+                        <span className="material-icons text-base mr-1.5">category</span>
+                        {t('org.tabs.programs')}
+                      </div>
                     </button>
                     <button 
                       onClick={() => setActiveTab('reports')}
-                      className={`whitespace-nowrap py-4 px-1 font-medium text-sm border-b-2 ${
+                      className={`whitespace-nowrap py-4 px-4 font-medium text-sm border-b-2 transition-all duration-200 ${
                         activeTab === 'reports'
-                          ? 'border-primary-500 text-primary-600'
-                          : 'border-transparent text-neutral-500 hover:text-neutral-700 hover:border-neutral-300'
+                          ? 'border-amber-500 text-amber-700 font-semibold'
+                          : 'border-transparent text-neutral-500 hover:text-amber-600 hover:border-amber-200'
                       }`}
                     >
-                      {t('org.tabs.reports')}
+                      <div className="flex items-center">
+                        <span className="material-icons text-base mr-1.5">description</span>
+                        {t('org.tabs.reports')}
+                      </div>
                     </button>
                   </nav>
                 </div>
               </div>
               
               {/* Organization content */}
-              <div className="p-4 sm:p-6">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="p-6 sm:p-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   {/* Left column - description */}
                   <div className="md:col-span-1">
-                    <div className="mb-6">
-                      <h4 className="font-medium text-neutral-900 mb-2">{t('org.mission')}</h4>
-                      <p className="text-sm text-neutral-700">
+                    <div className="mb-8 bg-white p-5 rounded-xl border border-amber-100 shadow-sm">
+                      <h4 className="font-semibold text-amber-800 flex items-center mb-3">
+                        <span className="material-icons text-amber-500 mr-2">auto_awesome</span>
+                        {t('org.mission')}
+                      </h4>
+                      <p className="text-sm text-neutral-700 leading-relaxed">
                         {organization.mission}
                       </p>
                     </div>
                     
-                    <div className="mb-6">
-                      <h4 className="font-medium text-neutral-900 mb-2">{t('org.sdgAlignment')}</h4>
+                    <div className="mb-8 bg-white p-5 rounded-xl border border-amber-100 shadow-sm">
+                      <h4 className="font-semibold text-amber-800 flex items-center mb-3">
+                        <span className="material-icons text-amber-500 mr-2">public</span>
+                        {t('org.sdgAlignment')}
+                      </h4>
                       <div className="flex flex-wrap gap-2">
                         {organization.sdgAlignment.map((sdg, index) => (
                           <BadgeWithIcon
                             key={index}
                             text={sdg}
-                            className="bg-primary-100 text-primary-800"
+                            className="bg-gradient-to-r from-amber-100 to-amber-50 text-amber-800 border border-amber-200"
                           />
                         ))}
                       </div>
                     </div>
                     
-                    <div>
-                      <h4 className="font-medium text-neutral-900 mb-2">{t('org.keyStats')}</h4>
-                      <div className="space-y-2">
-                        <div className="flex justify-between text-sm">
-                          <span className="text-neutral-600">{t('org.stats.peopleReached')}</span>
-                          <span className="font-medium text-neutral-900">{organization.stats.peopleReached}</span>
+                    <div className="bg-white p-5 rounded-xl border border-amber-100 shadow-sm">
+                      <h4 className="font-semibold text-amber-800 flex items-center mb-4">
+                        <span className="material-icons text-amber-500 mr-2">analytics</span>
+                        {t('org.keyStats')}
+                      </h4>
+                      <div className="space-y-3.5">
+                        <div className="flex justify-between text-sm items-center pb-2 border-b border-amber-100">
+                          <span className="text-neutral-700 flex items-center">
+                            <span className="h-1.5 w-1.5 rounded-full bg-teal-500 inline-block mr-1.5"></span>
+                            {t('org.stats.peopleReached')}
+                          </span>
+                          <span className="font-semibold text-teal-700 bg-teal-50 px-2.5 py-1 rounded-md">
+                            {organization.stats.peopleReached}
+                          </span>
                         </div>
-                        <div className="flex justify-between text-sm">
+                        <div className="flex justify-between text-sm items-center pb-2 border-b border-amber-100">
                           <MetricTooltip metric="socialROI">
-                            <span className="text-neutral-600">{t('org.stats.socialROI')}</span>
+                            <span className="text-neutral-700 flex items-center">
+                              <span className="h-1.5 w-1.5 rounded-full bg-amber-500 inline-block mr-1.5"></span>
+                              {t('org.stats.socialROI')}
+                            </span>
                           </MetricTooltip>
-                          <span className="font-medium text-neutral-900">${organization.stats.socialROI} per $1</span>
+                          <span className="font-semibold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-md">
+                            ${organization.stats.socialROI} per $1
+                          </span>
                         </div>
-                        <div className="flex justify-between text-sm">
-                          <span className="text-neutral-600">{t('org.stats.programs')}</span>
-                          <span className="font-medium text-neutral-900">{organization.stats.programs} nationwide</span>
+                        <div className="flex justify-between text-sm items-center pb-2 border-b border-amber-100">
+                          <span className="text-neutral-700 flex items-center">
+                            <span className="h-1.5 w-1.5 rounded-full bg-orange-500 inline-block mr-1.5"></span>
+                            {t('org.stats.programs')}
+                          </span>
+                          <span className="font-semibold text-orange-700 bg-orange-50 px-2.5 py-1 rounded-md">
+                            {organization.stats.programs} nationwide
+                          </span>
                         </div>
-                        <div className="flex justify-between text-sm">
-                          <span className="text-neutral-600">{t('org.stats.funding')}</span>
-                          <span className="font-medium text-neutral-900">{organization.stats.funding} (2023)</span>
+                        <div className="flex justify-between text-sm items-center pb-2 border-b border-amber-100">
+                          <span className="text-neutral-700 flex items-center">
+                            <span className="h-1.5 w-1.5 rounded-full bg-amber-500 inline-block mr-1.5"></span>
+                            {t('org.stats.funding')}
+                          </span>
+                          <span className="font-semibold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-md">
+                            {organization.stats.funding} (2023)
+                          </span>
                         </div>
-                        <div className="flex justify-between text-sm">
-                          <span className="text-neutral-600">{t('org.stats.programAllocation')}</span>
-                          <span className="font-medium text-neutral-900">{organization.stats.programAllocation}% of funds</span>
+                        <div className="flex justify-between text-sm items-center">
+                          <span className="text-neutral-700 flex items-center">
+                            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 inline-block mr-1.5"></span>
+                            {t('org.stats.programAllocation')}
+                          </span>
+                          <span className="font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md">
+                            {organization.stats.programAllocation}% of funds
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -333,41 +407,47 @@ const OrganizationProfileSection = () => {
                   
                   {/* Right columns - metrics */}
                   <div className="md:col-span-2">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       {/* Impact IQ Breakdown */}
-                      <div className="bg-neutral-50 p-4 rounded-lg border border-neutral-200">
-                        <h4 className="font-medium text-neutral-900 mb-3">
+                      <div className="bg-white p-5 rounded-xl border border-amber-100 shadow-sm">
+                        <h4 className="font-semibold text-amber-800 flex items-center mb-4">
+                          <span className="material-icons text-amber-500 mr-2">equalizer</span>
                           <MetricTooltip metric="impactBreakdown">{t('org.impactBreakdown')}</MetricTooltip>
                         </h4>
-                        <div className="space-y-3">
+                        <div className="space-y-4">
                           <ProgressWithLabel
                             label={t('org.metrics.reportingQuality')}
                             value={organization.metrics.reportingQuality}
                             max={20}
+                            color="bg-gradient-to-r from-teal-400 to-teal-500"
                           />
                           
                           <ProgressWithLabel
                             label={t('org.metrics.reach')}
                             value={organization.metrics.reach}
                             max={20}
+                            color="bg-gradient-to-r from-amber-400 to-amber-500"
                           />
                           
                           <ProgressWithLabel
                             label={t('org.metrics.socialROI')}
                             value={organization.metrics.socialROI}
                             max={20}
+                            color="bg-gradient-to-r from-orange-400 to-orange-500"
                           />
                           
                           <ProgressWithLabel
                             label={t('org.metrics.outcomeEffectiveness')}
                             value={organization.metrics.outcomeEffectiveness}
                             max={20}
+                            color="bg-gradient-to-r from-indigo-400 to-indigo-500"
                           />
                           
                           <ProgressWithLabel
                             label={t('org.metrics.transparencyGovernance')}
                             value={organization.metrics.transparencyGovernance}
                             max={20}
+                            color="bg-gradient-to-r from-emerald-400 to-emerald-500"
                           />
                         </div>
                       </div>
