@@ -55,103 +55,7 @@ const LeaderboardSection = () => {
     queryKey: ['/api/leaderboard', 'all', region, sdg, 1],
   });
 
-  // Function to get real organization names by sector (moved outside the component for accessibility throughout the file)
-const getOrganizationNameBySector = (sector: string, index: number): string => {
-    const sectorOrganizations: Record<string, string[]> = {
-      'Food Security': [
-        'Canadian Food Bank Network', 
-        'FoodShare Toronto', 
-        'Community Food Centres Canada', 
-        'Daily Bread Food Bank', 
-        'Second Harvest'
-      ],
-      'Housing': [
-        'Housing First Canada', 
-        'Habitat for Humanity Canada', 
-        'Homeless Hub', 
-        'Canada Mortgage and Housing Corporation', 
-        'Raising the Roof'
-      ],
-      'Youth Mental Health': [
-        'Jack.org', 
-        'Youth Mental Health Collective', 
-        'Kids Help Phone', 
-        'Centre for Addiction and Mental Health', 
-        'Canadian Mental Health Association'
-      ],
-      'Education': [
-        'Pathways to Education', 
-        'Indspire', 
-        'Let\'s Talk Science', 
-        'Frontier College', 
-        'Learning Disabilities Association of Canada'
-      ],
-      'Environment': [
-        'Environmental Defence Canada', 
-        'Evergreen', 
-        'The Narwhal', 
-        'Ecojustice', 
-        'David Suzuki Foundation'
-      ],
-      'Indigenous Services': [
-        'Indspire', 
-        'Native Women\'s Association of Canada', 
-        'Assembly of First Nations', 
-        'National Association of Friendship Centres', 
-        'Inuit Tapiriit Kanatami'
-      ],
-      'International Development': [
-        'Aga Khan Foundation Canada', 
-        'CARE Canada', 
-        'Plan International Canada', 
-        'Save the Children Canada', 
-        'World Vision Canada'
-      ],
-      'Innovation & Entrepreneurship': [
-        'MaRS Discovery District', 
-        'Communitech', 
-        'Startup Canada', 
-        'Digital Main Street', 
-        'Futurpreneur Canada'
-      ],
-      'Health & Wellbeing': [
-        'Heart & Stroke Foundation', 
-        'Canadian Cancer Society', 
-        'Canadian Diabetes Association', 
-        'Alzheimer Society of Canada', 
-        'YMCA Canada'
-      ],
-      'Social Services': [
-        'United Way Centraide Canada', 
-        'YWCA Canada', 
-        'The Salvation Army Canada', 
-        'Canadian Red Cross', 
-        'Big Brothers Big Sisters of Canada'
-      ],
-      'Arts & Culture': [
-        'Canada Council for the Arts', 
-        'Banff Centre for Arts and Creativity', 
-        'Art Gallery of Ontario', 
-        'National Film Board of Canada', 
-        'Centaur Theatre Company'
-      ],
-      'Economic Development': [
-        'Community Futures Network of Canada', 
-        'Economic Development Association of Canada', 
-        'Canadian Community Economic Development Network', 
-        'Canadian Council for Aboriginal Business', 
-        'Business Development Bank of Canada'
-      ]
-    };
-    
-    if (sectorOrganizations[sector] && index < sectorOrganizations[sector].length) {
-      return sectorOrganizations[sector][index];
-    }
-    
-    return `${sector} Organization ${index+1}`;
-  };
-
-  // Generate data for sectors that don't have enough organizations
+  // Generate additional test data for demonstration purposes
   const generateMockOrganizationsForSectors = () => {
     if (!leaderboardData || !leaderboardData.items) return {};
     
@@ -186,13 +90,13 @@ const getOrganizationNameBySector = (sector: string, index: number): string => {
             
             sectorData[sector].push({
               ...baseItem,
-              id: baseItem.id + 1000 + (Math.floor(Math.random() * 9000) + i), // Create a unique ID
-              name: getOrganizationNameBySector(sector, i),
+              id: baseItem.id + 1000 + i, // Create a unique ID
+              name: `${sector} Organization ${i+1}`,
               sector: sector,
               rank: i + 1, // Assign sequential ranks
-              impactScore: Math.floor(75 + Math.random() * 20),
+              impactScore: Math.floor(70 + Math.random() * 30),
               impactGrade: randomGrade,
-              yearlyChange: Math.floor(Math.random() * 12) - 2,
+              yearlyChange: Math.floor(Math.random() * 20) - 5,
             });
           }
         }
@@ -232,8 +136,8 @@ const getOrganizationNameBySector = (sector: string, index: number): string => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
           <div>
-            <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-primary-800 mb-1">{t('impactboard.title')}</h2>
-            <p className="text-neutral-600">{t('impactboard.subtitle')}</p>
+            <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-primary-800 mb-1">{t('leaderboard.title')}</h2>
+            <p className="text-neutral-600">{t('leaderboard.subtitle')}</p>
           </div>
           
           {/* Filter controls */}
@@ -356,20 +260,20 @@ const getOrganizationNameBySector = (sector: string, index: number): string => {
                           <table className="min-w-full divide-y divide-neutral-200">
                             <thead className="bg-neutral-50">
                               <tr>
-                                <th className="px-4 py-2 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider w-16">
-                                  Rank
+                                <th className="px-4 py-2 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
+                                  {t('leaderboard.table.rank')}
                                 </th>
                                 <th className="px-4 py-2 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
-                                  {t('impactboard.table.organization')}
+                                  {t('leaderboard.table.organization')}
                                 </th>
                                 <th className="px-4 py-2 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
                                   <MetricTooltip metric="impactScore">
-                                    {t('impactboard.table.impactIQ')}
+                                    {t('leaderboard.table.impactIQ')}
                                   </MetricTooltip>
                                 </th>
                                 <th className="px-4 py-2 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
                                   <MetricTooltip metric="impactGrade">
-                                    {t('impactboard.table.grade')}
+                                    {t('leaderboard.table.grade')}
                                   </MetricTooltip>
                                 </th>
                               </tr>
@@ -379,8 +283,8 @@ const getOrganizationNameBySector = (sector: string, index: number): string => {
                                 ?.slice(0, 5)
                                 .map((item) => (
                                   <tr key={item.id} className="hover:bg-neutral-50">
-                                    <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-neutral-600">
-                                      #{item.rank}
+                                    <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-neutral-900">
+                                      {item.rank}
                                     </td>
                                     <td className="px-4 py-3 whitespace-nowrap">
                                       <Link 

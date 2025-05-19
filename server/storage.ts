@@ -418,13 +418,10 @@ export class MemStorage implements IStorage {
   // Trending operations
   async getTrendingOrganizations(): Promise<TrendingItem[]> {
     return [
-      { id: 6, name: 'FoodShare Toronto', change: 12.3 },
-      { id: 20, name: 'The Narwhal', change: 7.2 },
-      { id: 1, name: 'Jack.org', change: 8.5 },
-      { id: 10, name: 'Aga Khan Foundation Canada', change: 6.3 },
-      { id: 12, name: 'Indspire', change: 5.4 },
-      { id: 2, name: 'Canadian Food Banks Network', change: 5.2 },
-      { id: 11, name: 'MaRS Discovery District', change: 4.7 }
+      { id: 1, name: 'FoodShare Toronto', change: 12 },
+      { id: 2, name: 'Green Energy Solutions', change: -4 },
+      { id: 3, name: 'Homeless Connect', change: 8 },
+      { id: 4, name: 'Literacy Alliance', change: 5 }
     ];
   }
 
@@ -441,108 +438,72 @@ export class MemStorage implements IStorage {
     items: LeaderboardItem[];
     total: number;
   }> {
-    // Enhanced leaderboard data based on organizations from JSON file
-    const leaderboard: LeaderboardItem[] = [
+    // Mock leaderboard data
+    const mockLeaderboard: LeaderboardItem[] = [
       {
-        id: 2,
+        id: 1,
         rank: 1,
-        name: 'Canadian Food Banks Network',
+        name: 'Canadian Food Bank Network',
         sector: 'Food Security',
-        impactScore: 92,
-        yearlyChange: 5.2,
-        socialROI: 8.7,
+        impactScore: 95,
+        yearlyChange: 3.2,
+        socialROI: 9.35,
         region: 'National',
         impactGrade: ImpactGrade.APlus,
-        verificationType: VerificationType.Verified
-      },
-      {
-        id: 10,
-        rank: 2,
-        name: 'Aga Khan Foundation Canada',
-        sector: 'International Development',
-        impactScore: 92,
-        yearlyChange: 6.3,
-        socialROI: 5.2,
-        region: 'National',
-        impactGrade: ImpactGrade.A,
         verificationType: VerificationType.Audited
       },
       {
-        id: 11,
-        rank: 3,
-        name: 'MaRS Discovery District',
-        sector: 'Innovation & Entrepreneurship',
-        impactScore: 90,
-        yearlyChange: 4.7,
-        socialROI: 5.0,
+        id: 2,
+        rank: 2,
+        name: 'Housing First Initiative',
+        sector: 'Housing',
+        impactScore: 92,
+        yearlyChange: 5.7,
+        socialROI: 7.26,
         region: 'Ontario',
         impactGrade: ImpactGrade.A,
-        verificationType: VerificationType.Verified
-      },
-      {
-        id: 5,
-        rank: 4,
-        name: 'Pathways to Education',
-        sector: 'Education',
-        impactScore: 91,
-        yearlyChange: 4.8,
-        socialROI: 7.9,
-        region: 'National',
-        impactGrade: ImpactGrade.APlus,
-        verificationType: VerificationType.Verified
+        verificationType: VerificationType.Audited
       },
       {
         id: 3,
-        rank: 6,
-        name: 'Housing First Canada',
-        sector: 'Housing',
-        impactScore: 89,
-        yearlyChange: 4.1,
-        socialROI: 6.8,
-        region: 'National',
-        impactGrade: ImpactGrade.A,
-        verificationType: VerificationType.Audited
-      },
-      {
-        id: 1,
-        rank: 7,
-        name: 'Jack.org',
-        sector: 'Youth Mental Health',
-        impactScore: 87,
-        yearlyChange: 8.5,
-        socialROI: 6.2,
-        region: 'National',
-        impactGrade: ImpactGrade.A,
-        verificationType: VerificationType.SelfReported
-      },
-      {
-        id: 6,
-        rank: 5,
-        name: 'FoodShare Toronto',
-        sector: 'Food Security',
-        impactScore: 87,
-        yearlyChange: 12.3,
-        socialROI: 6.4,
-        region: 'Ontario',
-        impactGrade: ImpactGrade.A,
+        rank: 3,
+        name: 'Youth STEM Foundation',
+        sector: 'Education',
+        impactScore: 88,
+        yearlyChange: -1.2,
+        socialROI: 5.93,
+        region: 'Quebec',
+        impactGrade: ImpactGrade.AMinus,
         verificationType: VerificationType.Verified
       },
       {
         id: 4,
-        rank: 8,
-        name: 'Environmental Defence Canada',
+        rank: 4,
+        name: 'Climate Action Coalition',
         sector: 'Environment',
-        impactScore: 85,
-        yearlyChange: 2.8,
-        socialROI: 5.7,
-        region: 'National',
+        impactScore: 86,
+        yearlyChange: 2.4,
+        socialROI: 4.82,
+        region: 'British Columbia',
+        impactGrade: ImpactGrade.BPlus,
+        verificationType: VerificationType.Verified
+      },
+      {
+        id: 5,
+        rank: 5,
+        name: 'Mental Health Alliance',
+        sector: 'Health & Wellbeing',
+        impactScore: 84,
+        yearlyChange: 3.8,
+        socialROI: 6.15,
+        region: 'Alberta',
         impactGrade: ImpactGrade.BPlus,
         verificationType: VerificationType.Verified
       }
     ];
 
     // Apply filters (simple implementation for demo)
-    let filtered = [...leaderboard];
+    let filtered = [...mockLeaderboard];
 
     if (filters.sector) {
       filtered = filtered.filter(item => item.sector === filters.sector);
@@ -600,35 +561,35 @@ export class MemStorage implements IStorage {
   async getFeaturedOrganization(): Promise<OrganizationProfile[]> {
     return [
       {
-        id: 2,
-        name: 'Canadian Food Banks Network',
+        id: 1,
+        name: 'Canadian Food Bank Network',
         logo: undefined,
-        mission: 'Working to relieve hunger today and prevent hunger tomorrow through community-based food programs, advocacy, and sustainable solutions.',
+        mission: 'The Canadian Food Bank Network is dedicated to providing food security to vulnerable communities across Canada through an integrated network of local food banks, community programs, and partnerships with food producers.',
         sector: 'Food Security',
         region: 'National',
-        established: 1985,
-        impactScore: 92,
+        established: 2002,
+        impactScore: 95,
         impactGrade: ImpactGrade.APlus,
-        verificationType: VerificationType.Verified,
-        yearlyChange: 5.2,
+        verificationType: VerificationType.Audited,
+        yearlyChange: 3.2,
         sdgAlignment: [
           'SDG 2: Zero Hunger',
-          'SDG 1: No Poverty',
-          'SDG 10: Reduced Inequalities'
+          'SDG 3: Good Health',
+          'SDG 12: Responsible Consumption'
         ],
         metrics: {
-          reportingQuality: 18,
+          reportingQuality: 19,
           reach: 18,
-          socialROI: 19,
-          outcomeEffectiveness: 18,
-          transparencyGovernance: 18
+          socialROI: 20,
+          outcomeEffectiveness: 19,
+          transparencyGovernance: 19
         },
         stats: {
-          peopleReached: '1.1M annually',
-          socialROI: 8.7,
-          programs: 12,
-          funding: '$22.5M',
-          programAllocation: 85
+          peopleReached: '1.2M annually',
+          socialROI: 9.35,
+          programs: 14,
+          funding: '$24.5M',
+          programAllocation: 87
         },
         yearlyTrend: [82, 85, 89, 92, 95],
         topPrograms: [
@@ -653,55 +614,55 @@ export class MemStorage implements IStorage {
         ]
       },
       {
-        id: 1,
-        name: 'Jack.org',
+        id: 7,
+        name: 'Clean Energy Coalition',
         logo: undefined,
-        mission: 'Jack.org trains and empowers young leaders to revolutionize mental health in Canada through peer-to-peer education, community building, and advocacy initiatives.',
-        sector: 'Youth Mental Health',
-        region: 'National',
-        established: 2010,
-        impactScore: 87,
-        impactGrade: ImpactGrade.A,
-        verificationType: VerificationType.SelfReported,
-        yearlyChange: 8.5,
+        mission: 'The Clean Energy Coalition advances sustainable energy solutions through innovative projects, policy advocacy, and community engagement to accelerate Canada\'s transition to a low-carbon future.',
+        sector: 'Environment',
+        region: 'British Columbia',
+        established: 2008,
+        impactScore: 93,
+        impactGrade: ImpactGrade.APlus,
+        verificationType: VerificationType.Audited,
+        yearlyChange: 4.5,
         sdgAlignment: [
-          'SDG 3: Good Health and Well-being',
-          'SDG 4: Quality Education',
-          'SDG 10: Reduced Inequalities'
+          'SDG 7: Affordable and Clean Energy',
+          'SDG 13: Climate Action',
+          'SDG 11: Sustainable Cities and Communities'
         ],
         metrics: {
-          reportingQuality: 17,
+          reportingQuality: 19,
           reach: 18,
-          socialROI: 16,
-          outcomeEffectiveness: 17,
-          transparencyGovernance: 16
+          socialROI: 19,
+          outcomeEffectiveness: 19,
+          transparencyGovernance: 18
         },
         stats: {
-          peopleReached: '170,500 annually',
-          socialROI: 6.2,
-          programs: 5,
-          funding: '$9.26M',
-          programAllocation: 65.8
+          peopleReached: '850,000 annually',
+          socialROI: 10.25,
+          programs: 11,
+          funding: '$22.8M',
+          programAllocation: 86
         },
-        yearlyTrend: [78, 79, 82, 85, 87],
+        yearlyTrend: [80, 84, 88, 91, 93],
         topPrograms: [
           {
-            name: 'Jack Chapters',
-            peopleReached: 120000,
-            socialROI: 6.8,
+            name: 'Community Solar Initiative',
+            peopleReached: 325000,
+            socialROI: 11.85,
+            impactGrade: ImpactGrade.APlus
+          },
+          {
+            name: 'Building Retrofit Program',
+            peopleReached: 285000,
+            socialROI: 9.45,
             impactGrade: ImpactGrade.A
           },
           {
-            name: 'Jack Talks',
-            peopleReached: 26000,
-            socialROI: 7.2,
+            name: 'Clean Transport Network',
+            peopleReached: 215000,
+            socialROI: 8.95,
             impactGrade: ImpactGrade.A
-          },
-          {
-            name: 'Be There Certificate',
-            peopleReached: 24500,
-            socialROI: 5.8,
-            impactGrade: ImpactGrade.AMinus
           }
         ]
       },
@@ -1024,7 +985,7 @@ export class MemStorage implements IStorage {
         ]
       },
       {
-        id: 21,
+        id: 14,
         name: 'Youth Mental Health Collective',
         logo: undefined,
         mission: 'Youth Mental Health Collective promotes mental wellness among young Canadians through peer support networks, digital wellness resources, and mental health education in schools.',
@@ -1195,21 +1156,21 @@ export class MemStorage implements IStorage {
     // Return showcase organizations as success stories
     return [
       {
-        id: 3,
-        name: 'Housing First Canada',
+        id: 2,
+        name: 'Housing First Initiative',
         logo: undefined,
-        mission: 'Ending chronic homelessness through evidence-based housing first approaches and systems change.',
+        mission: 'Housing First Initiative aims to end homelessness by providing immediate access to permanent housing with supportive services, following the principle that stable housing is the foundation for recovery and wellbeing.',
         sector: 'Housing',
-        region: 'National',
-        established: 2009,
-        impactScore: 89,
+        region: 'Ontario',
+        established: 2008,
+        impactScore: 92,
         impactGrade: ImpactGrade.A,
         verificationType: VerificationType.Audited,
-        yearlyChange: 4.1,
+        yearlyChange: 5.7,
         sdgAlignment: [
-          'SDG 11: Sustainable Cities and Communities',
           'SDG 1: No Poverty',
-          'SDG 3: Good Health and Well-being'
+          'SDG 11: Sustainable Cities and Communities',
+          'SDG 3: Good Health'
         ],
         metrics: {
           reportingQuality: 18,
@@ -1248,213 +1209,212 @@ export class MemStorage implements IStorage {
         ]
       },
       {
-        id: 5,
-        name: 'Pathways to Education',
+        id: 3,
+        name: 'Youth STEM Foundation',
         logo: undefined,
-        mission: 'Breaking the cycle of poverty through education by helping youth from low-income communities graduate from high school and transition to post-secondary education.',
+        mission: 'Youth STEM Foundation is dedicated to inspiring and preparing the next generation of Canadian innovators through accessible, engaging, and inclusive STEM education programs for underrepresented youth.',
         sector: 'Education',
-        region: 'National',
-        established: 2001,
-        impactScore: 91,
-        impactGrade: ImpactGrade.APlus,
+        region: 'Quebec',
+        established: 2011,
+        impactScore: 88,
+        impactGrade: ImpactGrade.AMinus,
         verificationType: VerificationType.Verified,
-        yearlyChange: 4.8,
+        yearlyChange: -1.2,
         sdgAlignment: [
           'SDG 4: Quality Education',
-          'SDG 1: No Poverty',
+          'SDG 5: Gender Equality',
           'SDG 10: Reduced Inequalities'
         ],
         metrics: {
-          reportingQuality: 18,
-          reach: 19,
-          socialROI: 19,
-          outcomeEffectiveness: 18,
-          transparencyGovernance: 17
+          reportingQuality: 16,
+          reach: 18,
+          socialROI: 17,
+          outcomeEffectiveness: 19,
+          transparencyGovernance: 18
         },
         stats: {
-          peopleReached: '25,000 annually',
-          socialROI: 24.5,
-          programs: 4,
-          funding: '$31.9M',
-          programAllocation: 83
+          peopleReached: '78,000 annually',
+          socialROI: 5.93,
+          programs: 12,
+          funding: '$12.8M',
+          programAllocation: 82
         },
-        yearlyTrend: [81, 84, 87, 89, 91],
+        yearlyTrend: [82, 86, 90, 89, 88],
         topPrograms: [
           {
-            name: 'Student Parent Support Program',
-            peopleReached: 10500,
-            socialROI: 25.6,
-            impactGrade: ImpactGrade.APlus
-          },
-          {
-            name: 'Academic Support & Tutoring',
-            peopleReached: 8700,
-            socialROI: 22.8,
-            impactGrade: ImpactGrade.APlus
-          },
-          {
-            name: 'Post-Secondary & Career Transition',
-            peopleReached: 5800,
-            socialROI: 19.5,
+            name: 'Girls in STEM',
+            peopleReached: 32000,
+            socialROI: 7.25,
             impactGrade: ImpactGrade.A
+          },
+          {
+            name: 'Coding Bootcamps',
+            peopleReached: 28000,
+            socialROI: 5.12,
+            impactGrade: ImpactGrade.AMinus
+          },
+          {
+            name: 'Science Center Outreach',
+            peopleReached: 18000,
+            socialROI: 4.56,
+            impactGrade: ImpactGrade.BPlus
           }
         ]
       },
       {
         id: 4,
-        name: 'Environmental Defence Canada',
+        name: 'Clean Energy Alliance',
         logo: undefined,
-        mission: 'Defending environmental rights, creating sustainable communities and protecting Canadians from toxic pollution through research, education and advocacy.',
+        mission: 'Clean Energy Alliance works to accelerate Canada\'s transition to renewable energy through community-driven projects, policy advocacy, and public education initiatives.',
         sector: 'Environment',
-        region: 'National',
-        established: 1984,
-        impactScore: 87,
+        region: 'British Columbia',
+        established: 2010,
+        impactScore: 91,
         impactGrade: ImpactGrade.A,
         verificationType: VerificationType.Audited,
-        yearlyChange: 3.2,
+        yearlyChange: 4.3,
         sdgAlignment: [
+          'SDG 7: Affordable and Clean Energy',
           'SDG 13: Climate Action',
-          'SDG 12: Responsible Consumption and Production',
           'SDG 11: Sustainable Cities and Communities'
         ],
         metrics: {
-          reportingQuality: 17,
-          reach: 16,
+          reportingQuality: 19,
+          reach: 18,
           socialROI: 18,
           outcomeEffectiveness: 19,
           transparencyGovernance: 17
         },
         stats: {
-          peopleReached: '580,000 annually',
-          socialROI: 7.4,
-          programs: 12,
-          funding: '$8.3M',
-          programAllocation: 79
+          peopleReached: '120,000 annually',
+          socialROI: 8.47,
+          programs: 9,
+          funding: '$21.5M',
+          programAllocation: 86
         },
-        yearlyTrend: [79, 82, 85, 86, 87],
+        yearlyTrend: [80, 84, 87, 89, 91],
         topPrograms: [
           {
-            name: 'Toxics Program',
-            peopleReached: 210000,
-            socialROI: 8.6,
+            name: 'Community Solar Projects',
+            peopleReached: 45000,
+            socialROI: 9.85,
+            impactGrade: ImpactGrade.APlus
+          },
+          {
+            name: 'Clean Energy Education',
+            peopleReached: 38000,
+            socialROI: 7.92,
             impactGrade: ImpactGrade.A
           },
           {
-            name: 'Climate Change Campaign',
-            peopleReached: 185000,
-            socialROI: 7.3,
+            name: 'Green Building Transformation',
+            peopleReached: 23000,
+            socialROI: 7.65,
             impactGrade: ImpactGrade.A
-          },
-          {
-            name: 'Plastics Reduction Initiative',
-            peopleReached: 165000,
-            socialROI: 6.8,
-            impactGrade: ImpactGrade.AMinus
           }
         ]
       },
       {
-        id: 7,
-        name: 'Indspire',
+        id: 5,
+        name: 'Indigenous Health Network',
         logo: undefined,
-        mission: 'Indspire invests in the education of Indigenous people through financial awards, resources, and role models, delivering programs that support educators, and partnering with communities and other stakeholders.',
-        sector: 'Education',
-        region: 'National',
-        established: 1985,
-        impactScore: 89,
+        mission: 'Indigenous Health Network is committed to improving health outcomes in Indigenous communities through culturally-responsive care, traditional healing practices, and community-based health programs.',
+        sector: 'Health',
+        region: 'Northern',
+        established: 2005,
+        impactScore: 85,
         impactGrade: ImpactGrade.A,
         verificationType: VerificationType.Verified,
-        yearlyChange: 4.1,
+        yearlyChange: 3.2,
         sdgAlignment: [
-          'SDG 4: Quality Education',
-          'SDG 10: Reduced Inequalities',
-          'SDG 8: Decent Work and Economic Growth'
+          'SDG 3: Good Health',
+          'SDG 10: Reduced Inequalities'
         ],
         metrics: {
-          reportingQuality: 18,
-          reach: 18,
+          reportingQuality: 17,
+          reach: 16,
           socialROI: 17,
           outcomeEffectiveness: 18,
-          transparencyGovernance: 18
+          transparencyGovernance: 17
         },
         stats: {
-          peopleReached: '130,000 annually',
-          socialROI: 7.8,
-          programs: 6,
-          funding: '$25.4M',
-          programAllocation: 84
+          peopleReached: '42,000 annually',
+          socialROI: 7.65,
+          programs: 12,
+          funding: '$15.8M',
+          programAllocation: 85
         },
-        yearlyTrend: [81, 84, 86, 88, 89],
+        yearlyTrend: [76, 79, 82, 84, 85],
         topPrograms: [
           {
-            name: 'Building Brighter Futures Scholarships',
-            peopleReached: 62500,
-            socialROI: 8.3,
+            name: 'Community Health Representatives',
+            peopleReached: 18000,
+            socialROI: 8.35,
             impactGrade: ImpactGrade.A
           },
           {
-            name: 'Rivers to Success Mentorship',
-            peopleReached: 38700,
-            socialROI: 7.2,
+            name: 'Traditional Healing Integration',
+            peopleReached: 14000,
+            socialROI: 7.82,
             impactGrade: ImpactGrade.A
           },
           {
-            name: 'Indspire Awards',
-            peopleReached: 21000,
-            socialROI: 6.9,
+            name: 'Maternal & Child Health',
+            peopleReached: 8500,
+            socialROI: 6.75,
             impactGrade: ImpactGrade.AMinus
           }
         ]
       },
       {
         id: 6,
-        name: 'FoodShare Toronto',
+        name: 'Rural Economic Innovation',
         logo: undefined,
-        mission: 'Working to increase access to good, healthy food through community-led initiatives and advocating for food justice.',
-        sector: 'Food Security',
-        region: 'Ontario',
-        established: 1985,
-        impactScore: 85,
-        impactGrade: ImpactGrade.A,
-        verificationType: VerificationType.Audited,
-        yearlyChange: 6.2,
+        mission: 'Rural Economic Innovation supports economic resilience in rural communities through entrepreneurship development, digital inclusion, and sustainable local economies.',
+        sector: 'Economic Development',
+        region: 'Prairies',
+        established: 2012,
+        impactScore: 81,
+        impactGrade: ImpactGrade.AMinus,
+        verificationType: VerificationType.Verified,
+        yearlyChange: 6.5,
         sdgAlignment: [
-          'SDG 2: Zero Hunger',
-          'SDG 10: Reduced Inequalities',
+          'SDG 8: Decent Work and Economic Growth',
+          'SDG 9: Industry, Innovation and Infrastructure',
           'SDG 11: Sustainable Cities and Communities'
         ],
         metrics: {
-          reportingQuality: 17,
-          reach: 17,
-          socialROI: 16,
-          outcomeEffectiveness: 17,
-          transparencyGovernance: 18
+          reportingQuality: 16,
+          reach: 16,
+          socialROI: 17,
+          outcomeEffectiveness: 16,
+          transparencyGovernance: 16
         },
         stats: {
-          peopleReached: '260,000 annually',
-          socialROI: 5.7,
-          programs: 11,
-          funding: '$7.8M',
-          programAllocation: 81
+          peopleReached: '32,000 annually',
+          socialROI: 6.92,
+          programs: 8,
+          funding: '$12.3M',
+          programAllocation: 83
         },
-        yearlyTrend: [75, 78, 80, 82, 85],
+        yearlyTrend: [68, 72, 75, 78, 81],
         topPrograms: [
           {
-            name: 'Good Food Markets',
-            peopleReached: 95000,
-            socialROI: 6.1,
+            name: 'Rural Business Accelerator',
+            peopleReached: 15000,
+            socialROI: 7.65,
             impactGrade: ImpactGrade.A
           },
           {
-            name: 'School Grown',
-            peopleReached: 62000,
-            socialROI: 5.8,
+            name: 'Digital Skills Initiative',
+            peopleReached: 11000,
+            socialROI: 6.45,
             impactGrade: ImpactGrade.AMinus
           },
           {
-            name: 'FoodShare Warehouse & Distribution',
-            peopleReached: 45000,
-            socialROI: 5.2,
+            name: 'Local Value Chain Development',
+            peopleReached: 6000,
+            socialROI: 6.15,
             impactGrade: ImpactGrade.AMinus
           }
         ]
@@ -1472,7 +1432,7 @@ export class MemStorage implements IStorage {
     demographic: string;
     page: number;
   }): Promise<SolutionItem[]> {
-    // Solutions data based on JSON file
+    // Mock solutions data
     const mockSolutions: SolutionItem[] = [
       {
         id: 1,
@@ -1489,38 +1449,6 @@ export class MemStorage implements IStorage {
         verificationType: VerificationType.Audited,
         effectiveness: 92,
         tags: ['Food Security', 'Rural', 'SDG 2']
-      },
-      {
-        id: 10,
-        name: 'World of Difference Education Initiative',
-        organizationName: 'Aga Khan Foundation Canada',
-        icon: 'school',
-        sector: 'International Development',
-        businessType: 'Non-Profit',
-        region: 'National',
-        description: 'Promotes significant improvements in literacy, numeracy, and school retention rates, particularly for girls, with a focus on teacher training and resource provision.',
-        peopleReached: 500000,
-        socialROI: 5.5,
-        impactGrade: ImpactGrade.A,
-        verificationType: VerificationType.Audited,
-        effectiveness: 89,
-        tags: ['Education', 'Gender Equality', 'SDG 4', 'SDG 5']
-      },
-      {
-        id: 11,
-        name: 'MaRS Venture Services',
-        organizationName: 'MaRS Discovery District',
-        icon: 'trending_up',
-        sector: 'Innovation & Entrepreneurship',
-        businessType: 'Non-Profit',
-        region: 'Ontario',
-        description: 'Provides startups with critical advisory, connections, and resources to scale their businesses, leading to job creation, innovation, and economic growth.',
-        peopleReached: 1400,
-        socialROI: 5.5,
-        impactGrade: ImpactGrade.A,
-        verificationType: VerificationType.Verified,
-        effectiveness: 90,
-        tags: ['Innovation', 'Economic Growth', 'SDG 8', 'SDG 9']
       },
       {
         id: 2,
@@ -1710,294 +1638,9 @@ export class MemStorage implements IStorage {
     return organization;
   }
 
-  // Helper method to initialize sample data with real Canadian organizations
+  // Helper method to initialize sample data
   private initSampleData(): void {
-    // Add real Canadian organizations
-    const jackOrg: Organization = {
-      id: 1,
-      name: "Jack.org",
-      logo: "",
-      mission: "Jack.org measures impact through quantitative program reach metrics, participant feedback surveys, and qualitative testimonials. They track engagement across their three core programs and measure both immediate outputs and outcomes.",
-      sector: "Youth Mental Health",
-      region: "Canada (National)",
-      established: 2010,
-      verified: true,
-      verificationType: "Self-Reported",
-      claimedBy: undefined,
-      website: "jack.org",
-      contactInfo: "243 College Street, Suite 200, Toronto, ON, M5T 1R5, (416) 425-2494",
-      contactEmail: "hello@jack.org",
-      impactScore: 87,
-      impactGrade: "A",
-      yearlyChange: 3.5,
-      sdgAlignment: ["SDG 3: Good Health and Well-being", "SDG 4: Quality Education", "SDG 10: Reduced Inequalities"],
-      methodologySource: "2024 Impact Report",
-      methodologySummary: "Jack.org measures impact through program reach metrics, participant feedback surveys, and qualitative testimonials. They track youth engagement across their core programs (Jack Talks, Jack Chapters, Be There) and measure both immediate outputs and participant-reported outcomes.",
-      adminNotes: "Strong candidate for featured status due to national reach, innovative youth-led approach, and 15-year track record of impact",
-      isPublished: true,
-      shareableProfileLink: "https://basicimpacts.org/organization/1",
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
-    
-    const canadianFoodBank: Organization = {
-      id: 2,
-      name: "Canadian Food Banks Network",
-      logo: "",
-      mission: "Working to relieve hunger today and prevent hunger tomorrow through community-based food programs, advocacy, and sustainable solutions.",
-      sector: "Food Security",
-      region: "Canada (National)",
-      established: 1985,
-      verified: true,
-      verificationType: "Verified",
-      claimedBy: undefined,
-      website: "foodbankscanada.ca",
-      contactInfo: "5100 Orbitor Drive, Mississauga, ON, L4W 5R8, 905-602-5234",
-      contactEmail: "info@foodbankscanada.ca",
-      impactScore: 92,
-      impactGrade: "A+",
-      yearlyChange: 5.2,
-      sdgAlignment: ["SDG 2: Zero Hunger", "SDG 1: No Poverty", "SDG 10: Reduced Inequalities"],
-      methodologySource: "Annual Impact Report 2023",
-      methodologySummary: "The Canadian Food Banks Network uses a comprehensive impact measurement system tracking food distribution metrics, client outcomes, and community food security indicators.",
-      adminNotes: "Premier food security organization with extensive national reach and strong measurement practices",
-      isPublished: true,
-      shareableProfileLink: "https://basicimpacts.org/organization/2",
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
-    
-    const housingFirst: Organization = {
-      id: 3,
-      name: "Housing First Canada",
-      logo: "",
-      mission: "Ending chronic homelessness through evidence-based housing first approaches and systems change.",
-      sector: "Housing",
-      region: "Canada (National)",
-      established: 2009,
-      verified: true,
-      verificationType: "Audited",
-      claimedBy: undefined,
-      website: "housingfirstcanada.org",
-      contactInfo: "902-4th Avenue SW, Calgary, AB, T2P 3J4, 403-456-7890",
-      contactEmail: "contact@housingfirstcanada.org",
-      impactScore: 89,
-      impactGrade: "A",
-      yearlyChange: 4.1,
-      sdgAlignment: ["SDG 11: Sustainable Cities and Communities", "SDG 1: No Poverty", "SDG 3: Good Health and Well-being"],
-      methodologySource: "Housing First Impact Framework 2023",
-      methodologySummary: "Housing First Canada employs a rigorous impact measurement approach based on housing stability metrics, client well-being assessments, and system cost-benefit analysis.",
-      adminNotes: "Leading organization implementing the evidence-based Housing First model across Canada",
-      isPublished: true,
-      shareableProfileLink: "https://basicimpacts.org/organization/3",
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
-    
-    const environmentalDefence: Organization = {
-      id: 4,
-      name: "Environmental Defence Canada",
-      logo: "",
-      mission: "Defending clean water, safe climate, and healthy communities through research, advocacy, and community engagement.",
-      sector: "Environment",
-      region: "Canada (National)",
-      established: 1984,
-      verified: true,
-      verificationType: "Verified",
-      claimedBy: undefined,
-      website: "environmentaldefence.ca",
-      contactInfo: "116 Spadina Avenue, Suite 300, Toronto, ON, M5V 2K6, 416-323-9521",
-      contactEmail: "info@environmentaldefence.ca",
-      impactScore: 85,
-      impactGrade: "B+",
-      yearlyChange: 2.8,
-      sdgAlignment: ["SDG 13: Climate Action", "SDG 14: Life Below Water", "SDG 15: Life on Land"],
-      methodologySource: "Environmental Impact Report 2023",
-      methodologySummary: "Environmental Defence measures impact through policy change outcomes, public engagement metrics, and environmental indicators related to their campaign areas.",
-      adminNotes: "Prominent environmental organization with strong policy influence and community mobilization",
-      isPublished: true,
-      shareableProfileLink: "https://basicimpacts.org/organization/4",
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
-    
-    const pathwaysSuccess: Organization = {
-      id: 5,
-      name: "Pathways to Education",
-      logo: "",
-      mission: "Breaking the cycle of poverty through education by helping youth from low-income communities graduate from high school and transition to post-secondary education.",
-      sector: "Education",
-      region: "Canada (National)",
-      established: 2001,
-      verified: true,
-      verificationType: "Verified",
-      claimedBy: undefined,
-      website: "pathwaystoeducation.ca",
-      contactInfo: "439 University Avenue, Suite 1600, Toronto, ON M5G 1Y8, 416-646-0123",
-      contactEmail: "info@pathwaystoeducation.ca",
-      impactScore: 91,
-      impactGrade: "A+",
-      yearlyChange: 4.8,
-      sdgAlignment: ["SDG 4: Quality Education", "SDG 1: No Poverty", "SDG 10: Reduced Inequalities"],
-      methodologySource: "Pathways Impact Assessment 2023",
-      methodologySummary: "Pathways uses comprehensive data collection tracking academic performance, graduation rates, post-secondary participation, and long-term economic outcomes.",
-      adminNotes: "Award-winning education program with proven impact on graduation rates and post-secondary participation",
-      isPublished: true,
-      shareableProfileLink: "https://basicimpacts.org/organization/5",
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
-    
-    const foodshare: Organization = {
-      id: 6,
-      name: "FoodShare Toronto",
-      logo: "",
-      mission: "Working to increase access to good, healthy food through community-led initiatives and advocating for food justice.",
-      sector: "Food Security",
-      region: "ON",
-      established: 1985,
-      verified: true,
-      verificationType: "Verified",
-      claimedBy: undefined,
-      website: "foodshare.net",
-      contactInfo: "120 Industry Street, Toronto, ON M6M 4L8, 416-363-6441",
-      contactEmail: "info@foodshare.net",
-      impactScore: 87,
-      impactGrade: "A",
-      yearlyChange: 12.3, // Large increase for trending organizations
-      sdgAlignment: ["SDG 2: Zero Hunger", "SDG 3: Good Health and Well-being", "SDG 10: Reduced Inequalities"],
-      methodologySource: "FoodShare Impact Framework",
-      methodologySummary: "FoodShare measures impact through food distribution metrics, participant surveys, and community food security indicators.",
-      adminNotes: "Innovative food security organization with strong focus on food justice and community sovereignty",
-      isPublished: true,
-      shareableProfileLink: "https://basicimpacts.org/organization/6",
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
-    
-    // Add organizations to the map
-    [jackOrg, canadianFoodBank, housingFirst, environmentalDefence, pathwaysSuccess, foodshare].forEach(org => {
-      this.organizations.set(org.id, org);
-    });
-    
-    // Add programs for Jack.org
-    const jackTalks: Program = {
-      id: 1,
-      name: "Jack Talks",
-      description: "Mental health presentations delivered by trained youth speakers sharing personal stories to foster connection and normalize conversation",
-      organizationId: 1,
-      sector: "Youth Mental Health",
-      region: "Canada (National)",
-      peopleReached: 26000,
-      socialROI: 4.7,
-      impactScore: 88,
-      sdgs: ["SDG 3", "SDG 4"],
-      status: "Active",
-      startYear: 2010,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
-    
-    const jackChapters: Program = {
-      id: 2,
-      name: "Jack Chapters",
-      description: "161 youth-led groups working year-round to break down barriers to positive mental health in their communities",
-      organizationId: 1,
-      sector: "Youth Mental Health",
-      region: "Canada (National)",
-      peopleReached: 120000,
-      socialROI: 4.5,
-      impactScore: 86,
-      sdgs: ["SDG 3", "SDG 10"],
-      status: "Active",
-      startYear: 2012,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
-    
-    const beThere: Program = {
-      id: 3,
-      name: "Be There Certificate",
-      description: "Award-winning digital resource teaching users how to support peers through mental health struggles",
-      organizationId: 1,
-      sector: "Youth Mental Health",
-      region: "Canada (National)",
-      peopleReached: 24500,
-      socialROI: 4.3,
-      impactScore: 84,
-      sdgs: ["SDG 3", "SDG 4"],
-      status: "Active",
-      startYear: 2018,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
-    
-    // Add programs to the map
-    [jackTalks, jackChapters, beThere].forEach(program => {
-      this.programs.set(program.id, program);
-    });
-    
-    // Add some metrics for Jack.org
-    const metric1: Metric = {
-      id: 1,
-      name: "Youth Leaders Engaged",
-      value: "2200",
-      unit: "people",
-      year: 2023,
-      category: "reach",
-      organizationId: 1,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
-    
-    const metric2: Metric = {
-      id: 2,
-      name: "Program Confidence Improvement",
-      value: "95",
-      unit: "percent",
-      year: 2023,
-      category: "outcome",
-      organizationId: 1,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
-    
-    const metric3: Metric = {
-      id: 3,
-      name: "Community Initiatives",
-      value: "539",
-      unit: "initiatives",
-      year: 2023,
-      category: "output",
-      organizationId: 1,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
-    
-    // Add metrics to the map
-    [metric1, metric2, metric3].forEach(metric => {
-      this.metrics.set(metric.id, metric);
-    });
-    
-    // Also create admin user
-    const admin: User = {
-      id: 1,
-      username: "admin",
-      password: "$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy", // password = test
-      email: "admin@basicimpacts.org",
-      firstName: "Admin",
-      lastName: "User",
-      avatar: "",
-      phone: "",
-      bio: "Platform administrator",
-      role: "admin",
-      isVerified: true,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      lastLogin: null
-    };
-    
-    this.users.set(admin.id, admin);
+    // This would be replaced with actual data in a real implementation
   }
 }
 
