@@ -51,10 +51,10 @@ import {
 // Mock data for development
 const mockLeaderboardData = {
   items: [
-    // Education Organizations
+    // Health & Wellbeing Organizations  
     {
-      id: 1,
-      name: "Indspire",
+      id: 1001,
+      name: "Canadian Mental Health Association",
       impactScore: 95,
       impactGrade: ImpactGrade.APlus,
       yearlyChange: 8,
@@ -382,8 +382,26 @@ export const storage = {
   getFeaturedOrganization: async () => {
     return [
       {
-        id: 1,
+        id: 1001,
         name: "United Way Centraide Canada",
+        description: "Canada's largest non-governmental funder of community services",
+        impactScore: 96,
+        sector: "Social Services",
+        sdgAlignment: ["No Poverty", "Good Health", "Quality Education", "Reduced Inequalities"],
+        verificationStatus: "Audited",
+        impactGrade: "A+",
+        stats: {
+          programs: 25,
+          peopleReached: "2500000",
+          socialROI: 5.2,
+          metrics: {
+            reportingQuality: 19,
+            reach: 20,
+            socialROI: 19,
+            outcomeEffectiveness: 19,
+            transparencyGovernance: 19
+          }
+        },
         description: "Canada's largest non-governmental funder of community services",
         impactScore: 96,
         sector: "Social Services",
@@ -497,8 +515,43 @@ export const storage = {
   getSuccessStories: async () => {
     return [
       {
-        id: 1,
-        name: "United Way Centraide Canada",
+        id: 1001,
+        name: "Canadian Mental Health Association",
+        description: "Leading provider of mental health support and advocacy",
+        impactScore: 96,
+        impactGrade: "A+",
+        sector: "Health & Wellbeing",
+        region: "National",
+        verificationType: "audited",
+        stats: {
+          programs: 35,
+          peopleReached: 1500000,
+          socialROI: 5.4
+        },
+        metrics: {
+          reportingQuality: 19,
+          reach: 20,
+          socialROI: 19,
+          outcomeEffectiveness: 19,
+          transparencyGovernance: 19
+        },
+        sdgAlignment: ["Good Health", "Reduced Inequalities", "Sustainable Cities"],
+        topPrograms: [
+          {
+            name: "BounceBack",
+            peopleReached: 450000,
+            socialROI: 5.2,
+            impactGrade: "A+"
+          },
+          {
+            name: "Living Life to the Full",
+            peopleReached: 250000,
+            socialROI: 4.9,
+            impactGrade: "A"
+          }
+        ],
+        mission: "Promoting mental health for all and supporting those with mental illness"
+      },
         description: "National Impact Through Local Action",
         impactScore: 96,
         impactGrade: "A+",
