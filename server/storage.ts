@@ -585,7 +585,7 @@ export class MemStorage implements IStorage {
     const endIndex = startIndex + pageSize;
     const paginatedItems = filtered.slice(startIndex, endIndex);
 
-    // Remove duplicates by name and update sorting
+    // Remove duplicates by name and get paginated items
     const uniqueItems = filtered.reduce((acc, current) => {
       const exists = acc.find(item => item.name === current.name);
       if (!exists) {
@@ -594,8 +594,8 @@ export class MemStorage implements IStorage {
       return acc;
     }, [] as typeof filtered);
 
-    // Get paginated items after removing duplicates
-    const paginatedItems = uniqueItems.slice(startIndex, endIndex);
+    // Update paginatedItems with unique items
+    paginatedItems = uniqueItems.slice(startIndex, endIndex);
 
     return {
       items: paginatedItems,
