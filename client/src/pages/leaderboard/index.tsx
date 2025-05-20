@@ -195,18 +195,15 @@ const Leaderboard = () => {
               <thead>
                 <tr className="bg-neutral-100">
                   <th className="px-4 py-3 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
-                    {t('leaderboard.table.rank')}
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
-                    {t('leaderboard.table.organization')}
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
                     <div className="flex items-center cursor-pointer" onClick={() => handleSort('impactScore')}>
                       <span>{t('leaderboard.table.impactIQ')}</span>
                       <span className="material-icons ml-1 text-neutral-500">
                         {getSortIcon('impactScore')}
                       </span>
                     </div>
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
+                    {t('leaderboard.table.organization')}
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
                     <div className="flex items-center cursor-pointer" onClick={() => handleSort('socialROI')}>

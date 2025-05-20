@@ -585,10 +585,17 @@ export class MemStorage implements IStorage {
     const endIndex = startIndex + pageSize;
     const paginatedItems = filtered.slice(startIndex, endIndex);
 
-    // Update ranks based on sorting
-    paginatedItems.forEach((item, index) => {
-      item.rank = startIndex + index + 1;
-    });
+    // Remove duplicates by name and update sorting
+    const uniqueItems = filtered.reduce((acc, current) => {
+      const exists = acc.find(item => item.name === current.name);
+      if (!exists) {
+        acc.push(current);
+      }
+      return acc;
+    }, [] as typeof filtered);
+
+    // Get paginated items after removing duplicates
+    const paginatedItems = uniqueItems.slice(startIndex, endIndex);
 
     return {
       items: paginatedItems,

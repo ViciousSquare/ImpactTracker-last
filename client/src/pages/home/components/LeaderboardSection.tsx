@@ -357,15 +357,12 @@ const getOrganizationNameBySector = (sector: string, index: number): string => {
                             <thead className="bg-neutral-50">
                               <tr>
                                 <th className="px-4 py-2 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
-                                  {t('leaderboard.table.rank')}
-                                </th>
-                                <th className="px-4 py-2 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
-                                  {t('leaderboard.table.organization')}
-                                </th>
-                                <th className="px-4 py-2 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
                                   <MetricTooltip metric="impactScore">
                                     {t('leaderboard.table.impactIQ')}
                                   </MetricTooltip>
+                                </th>
+                                <th className="px-4 py-2 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
+                                  {t('leaderboard.table.organization')}
                                 </th>
                                 <th className="px-4 py-2 text-left text-xs font-medium text-neutral-700 uppercase tracking-wider">
                                   <MetricTooltip metric="impactGrade">
@@ -379,8 +376,15 @@ const getOrganizationNameBySector = (sector: string, index: number): string => {
                                 ?.slice(0, 5)
                                 .map((item) => (
                                   <tr key={item.id} className="hover:bg-neutral-50">
-                                    <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-neutral-900">
-                                      {item.rank}
+                                    <td className="px-4 py-3 whitespace-nowrap">
+                                      <div className="text-sm font-medium text-neutral-900">
+                                        {item.impactScore}
+                                        {item.yearlyChange !== 0 && (
+                                          <span className={`ml-1 text-xs ${item.yearlyChange > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                            {item.yearlyChange > 0 ? '▲' : '▼'}{Math.abs(item.yearlyChange)}%
+                                          </span>
+                                        )}
+                                      </div>
                                     </td>
                                     <td className="px-4 py-3 whitespace-nowrap">
                                       <Link 
