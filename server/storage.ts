@@ -594,11 +594,11 @@ export class MemStorage implements IStorage {
       return acc;
     }, [] as typeof filtered);
 
-    // Update paginatedItems with unique items
-    paginatedItems = uniqueItems.slice(startIndex, endIndex);
+    // Create final paginated items from unique items
+    const finalPaginatedItems = uniqueItems.slice(startIndex, endIndex);
 
     return {
-      items: paginatedItems,
+      items: finalPaginatedItems,
       total: 243 // Mock total for pagination
     };
   }
