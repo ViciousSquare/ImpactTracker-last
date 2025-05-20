@@ -1,5 +1,9 @@
 modules = ["nodejs-20", "web", "postgresql-16"]
 run = "npm run dev"
+
+[env]
+REPLIT_DISABLE_PACKAGE_LAYER = "1"
+
 hidden = [".config", ".git", "generated-icon.png", "node_modules", "dist"]
 
 [nix]
