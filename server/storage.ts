@@ -306,16 +306,68 @@ const mockLeaderboardData = {
 
 export const storage = {
   getLeaderboard: async (filters: any) => {
-    return mockLeaderboardData;
+    return {
+      items: [
+        {
+          id: 1,
+          name: "United Way Centraide Canada",
+          impactScore: 96,
+          impactGrade: "A+",
+          yearlyChange: 8,
+          sector: "Social Services",
+          region: "National",
+          verificationStatus: "Audited",
+          socialROI: 5.2,
+          rank: 1
+        },
+        {
+          id: 2,
+          name: "Food Banks Canada",
+          impactScore: 94,
+          impactGrade: "A",
+          yearlyChange: 7,
+          sector: "Food Security",
+          region: "National",
+          verificationStatus: "Audited",
+          socialROI: 4.8,
+          rank: 1
+        },
+        {
+          id: 3,
+          name: "Canadian Red Cross",
+          impactScore: 95,
+          impactGrade: "A+",
+          yearlyChange: 6,
+          sector: "Health & Wellbeing",
+          region: "National",
+          verificationStatus: "Audited",
+          socialROI: 4.9,
+          rank: 1
+        },
+        {
+          id: 4,
+          name: "YMCA Canada",
+          impactScore: 93,
+          impactGrade: "A",
+          yearlyChange: 5,
+          sector: "Youth Development",
+          region: "National",
+          verificationStatus: "Audited",
+          socialROI: 4.7,
+          rank: 1
+        }
+      ],
+      total: 4
+    };
   },
 
   getTrendingOrganizations: async () => {
     return [
-      { id: 1, name: "Jack.org", change: 15 },
-      { id: 2, name: "Daily Bread Food Bank", change: 12 },
-      { id: 3, name: "Quest Food Exchange", change: 10 },
-      { id: 4, name: "Pathways to Education", change: 8 },
-      { id: 5, name: "Eva's Initiatives", change: 7 }
+      { id: 1, name: "United Way Centraide Canada", change: 15 },
+      { id: 2, name: "Food Banks Canada", change: 12 },
+      { id: 3, name: "Canadian Red Cross", change: 10 },
+      { id: 4, name: "YMCA Canada", change: 8 },
+      { id: 5, name: "Habitat for Humanity Canada", change: 7 }
     ];
   },
 
@@ -331,73 +383,111 @@ export const storage = {
     return [
       {
         id: 1,
-        name: "Jack.org",
-        description: "Canada's only charity training and empowering young leaders to revolutionize mental health",
-        impactScore: 94,
-        sector: "Health & Wellbeing",
+        name: "United Way Centraide Canada",
+        description: "Canada's largest non-governmental funder of community services",
+        impactScore: 96,
+        sector: "Social Services",
         stats: {
-          programs: 15,
-          peopleReached: "250000",
+          programs: 25,
+          peopleReached: "2500000",
           socialROI: 5.2,
           metrics: {
-            reportingQuality: 18,
-            reach: 17,
+            reportingQuality: 19,
+            reach: 20,
             socialROI: 19,
-            outcomeEffectiveness: 20,
-            transparencyGovernance: 20
+            outcomeEffectiveness: 19,
+            transparencyGovernance: 19
+          }
+        },
+        mission: "Building stronger communities by improving lives today and creating lasting change",
+        topPrograms: [
+          {
+            name: "Community Fund",
+            peopleReached: 1200000,
+            socialROI: 5.5,
+            impactGrade: "A+"
           },
-          mission: "Revolutionizing youth mental health through peer support and education",
-          topPrograms: [
-            {
-              name: "School Mental Health Workshops",
-              peopleReached: 35000,
-              socialROI: 4.5,
-              impactGrade: "A"
-            },
-            {
-              name: "Digital Support Platform",
-              peopleReached: 10000,
-              socialROI: 3.8,
-              impactGrade: "A-"
-            }
-          ]
-        }
+          {
+            name: "Youth Success Strategy",
+            peopleReached: 450000,
+            socialROI: 4.8,
+            impactGrade: "A"
+          }
+        ]
       },
       {
         id: 2,
-        name: "Daily Bread Food Bank",
-        description: "Leading organization in the fight against hunger in Canada",
-        impactScore: 93,
+        name: "Food Banks Canada",
+        description: "National charitable organization dedicated to helping Canadians living with food insecurity",
+        impactScore: 94,
         sector: "Food Security",
         stats: {
-          programs: 12,
-          peopleReached: "120000",
+          programs: 20,
+          peopleReached: "1800000",
           socialROI: 4.8,
           metrics: {
-            reportingQuality: 17,
-            reach: 18,
-            socialROI: 16,
-            outcomeEffectiveness: 18,
+            reportingQuality: 18,
+            reach: 19,
+            socialROI: 18,
+            outcomeEffectiveness: 19,
             transparencyGovernance: 18
           }
         }
       },
       {
         id: 3,
-        name: "Indspire",
-        description: "Indigenous-led charity investing in Indigenous education",
+        name: "Canadian Red Cross",
+        description: "Leading humanitarian organization providing emergency response and community support",
         impactScore: 95,
-        sector: "Education",
+        sector: "Health & Wellbeing",
         stats: {
-          programs: 18,
-          peopleReached: "180000",
+          programs: 30,
+          peopleReached: "2000000",
           socialROI: 4.9,
           metrics: {
             reportingQuality: 19,
-            reach: 17,
+            reach: 19,
+            socialROI: 19,
+            outcomeEffectiveness: 19,
+            transparencyGovernance: 19
+          }
+        }
+      },
+      {
+        id: 4,
+        name: "YMCA Canada",
+        description: "Leading provider of community services focused on youth development and healthy living",
+        impactScore: 93,
+        sector: "Youth Development",
+        stats: {
+          programs: 28,
+          peopleReached: "2200000",
+          socialROI: 4.7,
+          metrics: {
+            reportingQuality: 18,
+            reach: 19,
             socialROI: 18,
             outcomeEffectiveness: 18,
-            transparencyGovernance: 19
+            transparencyGovernance: 18
+          }
+        }
+      },
+      {
+        id: 5,
+        name: "Habitat for Humanity Canada",
+        description: "National organization building strength, stability and self-reliance through affordable housing",
+        impactScore: 92,
+        sector: "Housing",
+        stats: {
+          programs: 22,
+          peopleReached: "150000",
+          socialROI: 4.6,
+          metrics: {
+            reportingQuality: 18,
+            reach: 18,
+            socialROI: 18,
+            outcomeEffectiveness: 18,
+            transparencyGovernance: 18
           }
         }
       }
@@ -408,124 +498,100 @@ export const storage = {
     return [
       {
         id: 1,
-        name: "Housing First Initiative",
-        description: "Innovative approach to ending homelessness",
-        impactScore: 89,
-        impactGrade: "A",
-        sector: "Housing",
+        name: "United Way Centraide Canada",
+        description: "National Impact Through Local Action",
+        impactScore: 96,
+        impactGrade: "A+",
+        sector: "Social Services",
         region: "National",
-        verificationType: "verified",
+        verificationType: "audited",
         stats: {
-          programs: 12,
-          peopleReached: 5000,
-          socialROI: 3.5
+          programs: 25,
+          peopleReached: 2500000,
+          socialROI: 5.2
         },
         metrics: {
-          reportingQuality: 18,
-          reach: 16,
-          socialROI: 17,
+          reportingQuality: 19,
+          reach: 20,
+          socialROI: 19,
           outcomeEffectiveness: 19,
           transparencyGovernance: 19
-        }
+        },
+        sdgAlignment: ["No Poverty", "Good Health", "Quality Education", "Reduced Inequalities"],
+        topPrograms: [
+          {
+            name: "Community Fund",
+            peopleReached: 1200000,
+            socialROI: 5.5,
+            impactGrade: "A+"
+          },
+          {
+            name: "Youth Success Strategy",
+            peopleReached: 450000,
+            socialROI: 4.8,
+            impactGrade: "A"
+          }
+        ],
+        mission: "Building stronger communities by improving lives today and creating lasting change"
       },
       {
         id: 2,
-        name: "Second Harvest Food Recovery",
-        description: "Canada's largest food rescue organization",
-        impactScore: 92,
+        name: "Food Banks Canada",
+        description: "Leading the Fight Against Food Insecurity",
+        impactScore: 94,
         impactGrade: "A",
         sector: "Food Security",
         region: "National",
         verificationType: "audited",
         stats: {
-          programs: 8,
-          peopleReached: 4500,
-          socialROI: 4.2
-        },
-        metrics: {
-          reportingQuality: 17,
-          reach: 18,
-          socialROI: 18,
-          outcomeEffectiveness: 17,
-          transparencyGovernance: 18
-        }
-      },
-      {
-        id: 3,
-        name: "Pathways to Education",
-        description: "Breaking the cycle of poverty through education",
-        impactScore: 94,
-        impactGrade: "A+",
-        sector: "Education",
-        region: "National",
-        verificationType: "audited",
-        stats: {
-          programs: 15,
-          peopleReached: 6000,
+          programs: 20,
+          peopleReached: 1800000,
           socialROI: 4.8
-        },
-        metrics: {
-          reportingQuality: 19,
-          reach: 18,
-          socialROI: 19,
-          outcomeEffectiveness: 18,
-          transparencyGovernance: 19
-        }
-      },
-      {
-        id: 8,
-        name: "Covenant House Toronto",
-        impactScore: 89,
-        impactGrade: ImpactGrade.A,
-        yearlyChange: 5,
-        sector: "Housing",
-        region: "Ontario",
-        verificationStatus: VerificationType.Verified,
-        socialROI: 4.3,
-        rank: 2
-      },
-      {
-        id: 5,
-        name: "AGO Community Access",
-        description: "Breaking down barriers to arts access",
-        impactScore: 91,
-        impactGrade: "A",
-        sector: "Arts & Culture",
-        region: "Ontario",
-        verificationType: "audited",
-        stats: {
-          programs: 8,
-          peopleReached: 75000,
-          socialROI: 3.9
         },
         metrics: {
           reportingQuality: 18,
           reach: 19,
-          socialROI: 17,
-          outcomeEffectiveness: 18,
-          transparencyGovernance: 19
-        }
+          socialROI: 18,
+          outcomeEffectiveness: 19,
+          transparencyGovernance: 18
+        },
+        sdgAlignment: ["Zero Hunger", "Good Health", "Sustainable Cities"],
+        topPrograms: [
+          {
+            name: "National Food Sharing System",
+            peopleReached: 900000,
+            socialROI: 5.0,
+            impactGrade: "A"
+          },
+          {
+            name: "After the Bell Program",
+            peopleReached: 400000,
+            socialROI: 4.6,
+            impactGrade: "A-"
+          }
+        ],
+        mission: "Providing food banks with food and support to maximize their impact in communities"
       },
       {
-        id: 6,
-        name: "Microfinance Montreal",
-        description: "Empowering entrepreneurs through accessible finance",
-        impactScore: 88,
-        impactGrade: "A",
-        sector: "Economic Development",
-        region: "Quebec",
-        verificationType: "verified",
+        id: 3,
+        name: "Canadian Red Cross",
+        description: "Emergency Response and Community Support",
+        impactScore: 95,
+        impactGrade: "A+",
+        sector: "Health & Wellbeing",
+        region: "National",
+        verificationType: "audited",
         stats: {
-          programs: 5,
-          peopleReached: 2500,
-          socialROI: 4.5
+          programs: 30,
+          peopleReached: 2000000,
+          socialROI: 4.9
         },
         metrics: {
-          reportingQuality: 17,
-          reach: 16,
+          reportingQuality: 19,
+          reach: 19,
           socialROI: 19,
-          outcomeEffectiveness: 18,
-          transparencyGovernance: 18
+          outcomeEffectiveness: 19,
+          transparencyGovernance: 19
         }
       }
     ];
@@ -557,38 +623,38 @@ export const storage = {
     return [
       {
         id: 1,
-        name: "Rural Food Security Initiative",
-        description: "Connecting rural communities with fresh food",
+        name: "National Food Recovery Network",
+        description: "Nationwide system for rescuing and redistributing surplus food",
         sector: "Food Security",
-        impactScore: 88
-      },
-      {
-        id: 2,
-        name: "Youth Mental Health First Aid",
-        description: "Training programs for early mental health intervention",
-        sector: "Health & Wellbeing",
         impactScore: 92
       },
       {
+        id: 2,
+        name: "Youth Mental Health First Response",
+        description: "24/7 crisis intervention and support services for youth",
+        sector: "Health & Wellbeing",
+        impactScore: 94
+      },
+      {
         id: 3,
-        name: "Indigenous Education Access",
-        description: "Removing barriers to education for Indigenous youth",
+        name: "Indigenous Education Pathways",
+        description: "Culturally-responsive education support for Indigenous youth",
         sector: "Education",
-        impactScore: 90
+        impactScore: 93
       },
       {
         id: 4,
-        name: "Sustainable Housing Development",
-        description: "Eco-friendly affordable housing solutions",
+        name: "Affordable Housing Innovation Fund",
+        description: "Supporting creative solutions to housing affordability",
         sector: "Housing",
-        impactScore: 87
+        impactScore: 91
       },
       {
         id: 5,
-        name: "Digital Literacy for Seniors",
-        description: "Bridging the digital divide for older adults",
+        name: "Digital Inclusion Initiative",
+        description: "Bridging the digital divide for underserved communities",
         sector: "Education",
-        impactScore: 85
+        impactScore: 90
       }
     ];
   },
