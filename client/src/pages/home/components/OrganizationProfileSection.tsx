@@ -13,39 +13,37 @@ const OrganizationProfileSection = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedOrgId, setSelectedOrgId] = useState<number | null>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
-
+  
   const { data: organizations, isLoading } = useQuery<OrganizationProfile[]>({
     queryKey: ['/api/organizations/featured'],
-    retry: 3,
-    staleTime: 30000,
   });
-
+  
   // Add horizontal scrolling with mouse drag
   useEffect(() => {
     const carousel = carouselRef.current;
     if (!carousel) return;
-
+    
     let isDown = false;
     let startX: number;
     let scrollLeft: number;
-
+    
     const handleMouseDown = (e: MouseEvent) => {
       isDown = true;
       carousel.classList.add('cursor-grabbing');
       startX = e.pageX - carousel.offsetLeft;
       scrollLeft = carousel.scrollLeft;
     };
-
+    
     const handleMouseLeave = () => {
       isDown = false;
       carousel.classList.remove('cursor-grabbing');
     };
-
+    
     const handleMouseUp = () => {
       isDown = false;
       carousel.classList.remove('cursor-grabbing');
     };
-
+    
     const handleMouseMove = (e: MouseEvent) => {
       if (!isDown) return;
       e.preventDefault();
@@ -53,12 +51,12 @@ const OrganizationProfileSection = () => {
       const walk = (x - startX) * 2; // Scroll speed
       carousel.scrollLeft = scrollLeft - walk;
     };
-
+    
     carousel.addEventListener('mousedown', handleMouseDown);
     carousel.addEventListener('mouseleave', handleMouseLeave);
     carousel.addEventListener('mouseup', handleMouseUp);
     carousel.addEventListener('mousemove', handleMouseMove);
-
+    
     return () => {
       if (carousel) {
         carousel.removeEventListener('mousedown', handleMouseDown);
@@ -68,17 +66,17 @@ const OrganizationProfileSection = () => {
       }
     };
   }, []);
-
+  
   // Determine which organization to display
   const organization = useMemo(() => {
     if (!organizations || organizations.length === 0) return undefined;
-
+    
     // If we have a selected org ID, find that org
     if (selectedOrgId) {
       const selected = organizations.find(org => org.id === selectedOrgId);
       if (selected) return selected;
     }
-
+    
     // Default to the first one
     return organizations[0];
   }, [organizations, selectedOrgId]);
@@ -133,7 +131,7 @@ const OrganizationProfileSection = () => {
             <h2 className="text-3xl md:text-4xl font-bold gradient-heading gradient-heading-primary mb-2">{t('org.featuredTitle')}</h2>
             <p className="text-neutral-600 text-lg max-w-xl">{t('org.featuredSubtitle')}</p>
           </div>
-
+          
           <Link href="/organizations">
             <div className="mt-4 md:mt-0 inline-flex items-center bg-white hover:bg-amber-50 text-amber-700 font-medium px-5 py-2 rounded-full shadow-sm border border-amber-200 cursor-pointer transition-all duration-300">
               {t('org.viewAll')}
@@ -141,7 +139,7 @@ const OrganizationProfileSection = () => {
             </div>
           </Link>
         </div>
-
+        
         {/* Organization Selection Carousel */}
         {!isLoading && organizations && organizations.length > 1 && (
           <div className="mb-6 overflow-x-auto scrollbar-hide cursor-grab" ref={carouselRef} style={{ WebkitOverflowScrolling: 'touch' }}>
@@ -185,7 +183,7 @@ const OrganizationProfileSection = () => {
             </div>
           </div>
         )}
-
+        
         <div className="bg-white rounded-2xl shadow-lg border border-amber-100 overflow-hidden">
           {isLoading ? (
             <OrganizationProfileSkeleton />
@@ -214,7 +212,7 @@ const OrganizationProfileSection = () => {
                       </span>
                     </div>
                   </div>
-
+                  
                   <div className="mt-5 md:mt-0 md:ml-6 md:pt-14 flex-1">
                     <div className="flex flex-col md:flex-row md:items-center justify-between">
                       <div>
@@ -236,7 +234,7 @@ const OrganizationProfileSection = () => {
                           )}
                         </p>
                       </div>
-
+                      
                       <div className="flex items-center mt-4 md:mt-0">
                         <div className="bg-gradient-to-br from-amber-50 to-amber-100 p-3 rounded-xl shadow-sm">
                           <MetricTooltip metric="impactScore">
@@ -258,7 +256,7 @@ const OrganizationProfileSection = () => {
                   </div>
                 </div>
               </div>
-
+              
               {/* Organization tabs - redesigned with warm colors */}
               <div className="border-t border-amber-100 bg-gradient-to-r from-amber-50/60 to-white">
                 <div className="px-6 sm:px-8">
@@ -318,7 +316,7 @@ const OrganizationProfileSection = () => {
                   </nav>
                 </div>
               </div>
-
+              
               {/* Organization content */}
               <div className="p-6 sm:p-8">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -333,27 +331,23 @@ const OrganizationProfileSection = () => {
                         {organization.mission}
                       </p>
                     </div>
-
+                    
                     <div className="mb-8 bg-white p-5 rounded-xl border border-amber-100 shadow-sm">
                       <h4 className="font-semibold text-amber-800 flex items-center mb-3">
                         <span className="material-icons text-amber-500 mr-2">public</span>
                         {t('org.sdgAlignment')}
                       </h4>
                       <div className="flex flex-wrap gap-2">
-                          {organization?.sdgAlignment ? (
-                            organization.sdgAlignment.map((sdg, index) => (
-                              <BadgeWithIcon
-                                key={index}
-                                text={sdg}
-                                className="bg-gradient-to-r from-amber-100 to-amber-50 text-amber-800 border border-amber-200"
-                              />
-                            ))
-                          ) : (
-                            <span className="text-neutral-500">No SDG alignment data available</span>
-                          )}
-                        </div>
+                        {organization.sdgAlignment.map((sdg, index) => (
+                          <BadgeWithIcon
+                            key={index}
+                            text={sdg}
+                            className="bg-gradient-to-r from-amber-100 to-amber-50 text-amber-800 border border-amber-200"
+                          />
+                        ))}
+                      </div>
                     </div>
-
+                    
                     <div className="bg-white p-5 rounded-xl border border-amber-100 shadow-sm">
                       <h4 className="font-semibold text-amber-800 flex items-center mb-4">
                         <span className="material-icons text-amber-500 mr-2">analytics</span>
@@ -366,7 +360,7 @@ const OrganizationProfileSection = () => {
                             {t('org.stats.peopleReached')}
                           </span>
                           <span className="font-semibold text-teal-700 bg-teal-50 px-2.5 py-1 rounded-md">
-                            {organization?.stats?.peopleReached || 'N/A'}
+                            {organization.stats.peopleReached}
                           </span>
                         </div>
                         <div className="flex justify-between text-sm items-center pb-2 border-b border-amber-100">
@@ -377,7 +371,7 @@ const OrganizationProfileSection = () => {
                             </span>
                           </MetricTooltip>
                           <span className="font-semibold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-md">
-                            {organization?.stats?.socialROI ? `$${organization.stats.socialROI} per $1` : 'N/A'}
+                            ${organization.stats.socialROI} per $1
                           </span>
                         </div>
                         <div className="flex justify-between text-sm items-center pb-2 border-b border-amber-100">
@@ -386,7 +380,7 @@ const OrganizationProfileSection = () => {
                             {t('org.stats.programs')}
                           </span>
                           <span className="font-semibold text-orange-700 bg-orange-50 px-2.5 py-1 rounded-md">
-                            {organization?.stats?.programs ? `${organization.stats.programs} nationwide` : 'N/A'}
+                            {organization.stats.programs} nationwide
                           </span>
                         </div>
                         <div className="flex justify-between text-sm items-center pb-2 border-b border-amber-100">
@@ -395,7 +389,7 @@ const OrganizationProfileSection = () => {
                             {t('org.stats.funding')}
                           </span>
                           <span className="font-semibold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-md">
-                            {organization?.stats?.funding ? `${organization.stats.funding} (2023)` : 'N/A'}
+                            {organization.stats.funding} (2023)
                           </span>
                         </div>
                         <div className="flex justify-between text-sm items-center">
@@ -404,13 +398,13 @@ const OrganizationProfileSection = () => {
                             {t('org.stats.programAllocation')}
                           </span>
                           <span className="font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md">
-                            {organization?.stats?.programAllocation ? `${organization.stats.programAllocation}% of funds` : 'N/A'}
+                            {organization.stats.programAllocation}% of funds
                           </span>
                         </div>
                       </div>
                     </div>
                   </div>
-
+                  
                   {/* Right columns - metrics */}
                   <div className="md:col-span-2">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -423,41 +417,41 @@ const OrganizationProfileSection = () => {
                         <div className="space-y-4">
                           <ProgressWithLabel
                             label={t('org.metrics.reportingQuality')}
-                            value={organization?.metrics?.reportingQuality || 0}
+                            value={organization.metrics.reportingQuality}
                             max={20}
                             color="bg-gradient-to-r from-teal-400 to-teal-500"
                           />
-
+                          
                           <ProgressWithLabel
                             label={t('org.metrics.reach')}
-                            value={organization?.metrics?.reach || 0}
+                            value={organization.metrics.reach}
                             max={20}
                             color="bg-gradient-to-r from-amber-400 to-amber-500"
                           />
-
+                          
                           <ProgressWithLabel
                             label={t('org.metrics.socialROI')}
-                            value={organization?.metrics?.socialROI || 0}
+                            value={organization.metrics.socialROI}
                             max={20}
                             color="bg-gradient-to-r from-orange-400 to-orange-500"
                           />
-
+                          
                           <ProgressWithLabel
                             label={t('org.metrics.outcomeEffectiveness')}
-                            value={organization?.metrics?.outcomeEffectiveness || 0}
+                            value={organization.metrics.outcomeEffectiveness}
                             max={20}
                             color="bg-gradient-to-r from-indigo-400 to-indigo-500"
                           />
-
+                          
                           <ProgressWithLabel
                             label={t('org.metrics.transparencyGovernance')}
-                            value={organization?.metrics?.transparencyGovernance || 0}
+                            value={organization.metrics.transparencyGovernance}
                             max={20}
                             color="bg-gradient-to-r from-emerald-400 to-emerald-500"
                           />
                         </div>
                       </div>
-
+                      
                       {/* Annual Impact Trend */}
                       <div className="bg-neutral-50 p-4 rounded-lg border border-neutral-200">
                         <h4 className="font-medium text-neutral-900 mb-3">{t('org.annualTrend')}</h4>
@@ -465,7 +459,7 @@ const OrganizationProfileSection = () => {
                           <ChartPlaceholder />
                         </div>
                       </div>
-
+                      
                       {/* Top Programs */}
                       <div className="bg-neutral-50 p-4 rounded-lg border border-neutral-200 md:col-span-2">
                         <h4 className="font-medium text-neutral-900 mb-3">{t('org.topPrograms')}</h4>
@@ -480,40 +474,34 @@ const OrganizationProfileSection = () => {
                               </tr>
                             </thead>
                             <tbody className="divide-y divide-neutral-200 bg-white">
-                              {organization?.topPrograms?.map((program, index) => (
+                              {organization.topPrograms.map((program, index) => (
                                 <tr key={index}>
-                                  <td className="px-3 py-2 text-sm text-neutral-900">{program?.name || 'N/A'}</td>
-                                  <td className="px-3 py-2 text-sm text-neutral-900">{program?.peopleReached?.toLocaleString() || 'N/A'}</td>
+                                  <td className="px-3 py-2 text-sm text-neutral-900">{program.name}</td>
+                                  <td className="px-3 py-2 text-sm text-neutral-900">{program.peopleReached.toLocaleString()}</td>
                                   <td className="px-3 py-2 text-sm text-neutral-900">
                                     <MetricTooltip metric="socialROI">
-                                      ${program?.socialROI?.toFixed(2) || 'N/A'}
+                                      ${program.socialROI.toFixed(2)}
                                     </MetricTooltip>
                                   </td>
                                   <td className="px-3 py-2">
                                     <MetricTooltip metric="impactGrade">
                                       <BadgeWithIcon 
-                                        text={program?.impactGrade || 'N/A'}
+                                        text={program.impactGrade}
                                         variant="success"
                                       />
                                     </MetricTooltip>
                                   </td>
                                 </tr>
-                              )) || (
-                                <tr>
-                                  <td colSpan={4} className="px-3 py-4 text-center text-neutral-500">
-                                    No program data available
-                                  </td>
-                                </tr>
-                              )}
+                              ))}
                             </tbody>
                           </table>
                         </div>
                         <div className="mt-3 text-center">
                           <span 
                             className="text-sm text-primary-500 hover:text-primary-600 font-medium cursor-pointer"
-                            onClick={() => organization?.id && (window.location.href = `/organization/${organization.id}/programs`)}
+                            onClick={() => window.location.href = `/organization/${organization.id}/programs`}
                           >
-                            {t('org.viewAllPrograms').replace('{count}', (organization?.stats?.programs || 0).toString())}
+                            {t('org.viewAllPrograms').replace('{count}', organization.stats.programs.toString())}
                           </span>
                         </div>
                       </div>
@@ -541,14 +529,14 @@ const OrganizationProfileSkeleton = () => (
         <div className="bg-white p-2 rounded-lg shadow-sm inline-block">
           <Skeleton className="h-24 w-24 rounded-md" />
         </div>
-
+        
         <div className="mt-4 md:mt-0 md:ml-4 md:pt-12 flex-1">
           <div className="flex flex-col md:flex-row md:items-center justify-between">
             <div>
               <Skeleton className="h-6 w-48 mb-2" />
               <Skeleton className="h-4 w-40" />
             </div>
-
+            
             <div className="flex items-center mt-2 md:mt-0">
               <Skeleton className="h-8 w-8 rounded-full" />
               <Skeleton className="ml-3 h-6 w-16" />
@@ -557,7 +545,7 @@ const OrganizationProfileSkeleton = () => (
         </div>
       </div>
     </div>
-
+    
     <div className="border-t border-neutral-200">
       <div className="px-4 sm:px-6">
         <div className="flex -mb-px py-4 space-x-8">
@@ -568,7 +556,7 @@ const OrganizationProfileSkeleton = () => (
         </div>
       </div>
     </div>
-
+    
     <div className="p-4 sm:p-6">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="md:col-span-1 space-y-6">
@@ -578,7 +566,7 @@ const OrganizationProfileSkeleton = () => (
             <Skeleton className="h-4 w-full mt-1" />
             <Skeleton className="h-4 w-2/3 mt-1" />
           </div>
-
+          
           <div>
             <Skeleton className="h-5 w-32 mb-2" />
             <div className="flex flex-wrap gap-2">
@@ -587,7 +575,7 @@ const OrganizationProfileSkeleton = () => (
               <Skeleton className="h-6 w-28 rounded-full" />
             </div>
           </div>
-
+          
           <div>
             <Skeleton className="h-5 w-24 mb-2" />
             <div className="space-y-2">
@@ -600,7 +588,7 @@ const OrganizationProfileSkeleton = () => (
             </div>
           </div>
         </div>
-
+        
         <div className="md:col-span-2">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="bg-neutral-50 p-4 rounded-lg border border-neutral-200">
@@ -617,12 +605,12 @@ const OrganizationProfileSkeleton = () => (
                 ))}
               </div>
             </div>
-
+            
             <div className="bg-neutral-50 p-4 rounded-lg border border-neutral-200">
               <Skeleton className="h-5 w-36 mb-3" />
               <Skeleton className="h-48 w-full rounded" />
             </div>
-
+            
             <div className="bg-neutral-50 p-4 rounded-lg border border-neutral-200 md:col-span-2">
               <Skeleton className="h-5 w-44 mb-3" />
               <Skeleton className="h-32 w-full rounded" />

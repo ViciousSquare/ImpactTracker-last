@@ -17,44 +17,16 @@ import {
   CarouselPrevious 
 } from '@/components/ui/carousel';
 import { ChevronRight } from 'lucide-react';
-import { CardContent } from "@/components/ui/card";
 
 const SuccessStoriesSection = () => {
   const { t } = useLanguage();
   const [activeStoryIndex, setActiveStoryIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
-
-  const { data: organizations = [], isLoading } = useQuery<OrganizationProfile[]>({
+  
+  const { data: successStories, isLoading } = useQuery<OrganizationProfile[]>({
     queryKey: ['/api/organizations/success-stories'],
-    staleTime: 30000,
-    retry: 3,
-    select: (data) => {
-      if (!data) return [];
-      return data.map(org => ({
-        ...org,
-        stats: {
-          programs: org.stats?.programs || 0,
-          peopleReached: org.stats?.peopleReached || '0',
-          socialROI: org.stats?.socialROI || 0
-        },
-        metrics: org.metrics || {
-          reportingQuality: 0,
-          reach: 0,
-          socialROI: 0,
-          outcomeEffectiveness: 0,
-          transparencyGovernance: 0
-        },
-        sdgAlignment: org.sdgAlignment || [],
-        topPrograms: org.topPrograms?.map(prog => ({
-          ...prog,
-          peopleReached: prog.peopleReached || 0,
-          socialROI: prog.socialROI || 0,
-          impactGrade: prog.impactGrade || 'N/A'
-        })) || []
-      }));
-    }
   });
-
+  
   // No need for mouse drag functionality as we now use natural overflow scrolling
 
   const getVerificationBadge = (type: string) => {
@@ -90,16 +62,11 @@ const SuccessStoriesSection = () => {
     return <SuccessStoriesSkeleton />;
   }
 
-  if (!organizations || organizations.length === 0) {
+  if (!successStories || successStories.length === 0) {
     return null;
   }
 
-  // Make sure we have valid data before accessing activeStory
-  const activeStory = organizations && organizations.length > 0 ? organizations[activeStoryIndex] : null;
-
-  if (!activeStory && !isLoading) {
-    return null;
-  }
+  const activeStory = successStories[activeStoryIndex];
 
   return (
     <section className="py-6 md:py-10 bg-gradient-to-b from-white to-primary-50 border-t border-b border-neutral-200">
@@ -109,7 +76,7 @@ const SuccessStoriesSection = () => {
             <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-800 to-primary-600 mb-1">{t('successStories.title')}</h2>
             <p className="text-neutral-600">{t('successStories.subtitle')}</p>
           </div>
-
+          
           <Link 
             href="/success-stories" 
             className="mt-2 md:mt-0 inline-flex items-center text-primary-500 hover:text-primary-600 font-medium"
@@ -124,7 +91,7 @@ const SuccessStoriesSection = () => {
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-neutral-900">{t('successStories.title')}</h3>
           </div>
-
+          
           <Carousel
             opts={{
               align: "start",
@@ -134,21 +101,8 @@ const SuccessStoriesSection = () => {
           >
             {/* Removed arrow buttons in favor of side scrolling */}
             <CarouselContent className="overflow-x-auto" style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-              {isLoading ? (
-              Array(3).fill(0).map((_, index) => (
-                <CarouselItem key={`skeleton-${index}`} className="basis-1/1 md:basis-1/2 lg:basis-1/3">
-                  <Card className="border-0 shadow-none">
-                    <CardContent className="p-4">
-                      <Skeleton className="h-48 w-full rounded-lg" />
-                      <Skeleton className="h-6 w-3/4 mt-4" />
-                      <Skeleton className="h-4 w-1/2 mt-2" />
-                    </CardContent>
-                  </Card>
-                </CarouselItem>
-              ))
-            ) : organizations && organizations.length > 0 ? (
-              organizations.map((org, index) => (
-                <CarouselItem key={org.id} className="sm:basis-full md:basis-1/2 lg:basis-1/2 xl:basis-1/3 p-2">
+              {successStories.map((story, index) => (
+                <CarouselItem key={story.id} className="sm:basis-full md:basis-1/2 lg:basis-1/2 xl:basis-1/3 p-2">
                   <Card 
                     className={`shadow-sm h-full cursor-pointer hover:shadow-md transition-shadow duration-200 ${
                       index === activeStoryIndex ? 'ring-2 ring-primary-300' : ''
@@ -158,12 +112,12 @@ const SuccessStoriesSection = () => {
                     <div className="relative">
                       <div className="bg-primary-600 h-24"></div>
                       <div className="absolute top-2 right-2">
-                        {org.verificationType && (
+                        {story.verificationType && (
                           <div className="bg-white bg-opacity-90 backdrop-blur-sm rounded-md px-3 py-1 text-xs font-medium text-primary-500 flex items-center">
                             <span className="material-icons text-sm mr-1">
-                              {getVerificationBadge(org.verificationType).icon}
+                              {getVerificationBadge(story.verificationType).icon}
                             </span>
-                            {getVerificationBadge(org.verificationType).text}
+                            {getVerificationBadge(story.verificationType).text}
                           </div>
                         )}
                       </div>
@@ -171,31 +125,31 @@ const SuccessStoriesSection = () => {
                         <div className="bg-white p-2 rounded-lg shadow-sm inline-block">
                           <div className="h-16 w-16 bg-primary-100 rounded-md flex items-center justify-center">
                             <span className="material-icons text-primary-500 text-2xl">
-                              {getSectorIcon(org.sector)}
+                              {getSectorIcon(story.sector)}
                             </span>
                           </div>
                         </div>
-
+                        
                         <div className="ml-3">
-                          <h3 className="font-bold text-neutral-900 text-sm line-clamp-1">{org.name}</h3>
-                          <p className="text-xs text-neutral-500">{org.sector} | {org.region}</p>
+                          <h3 className="font-bold text-neutral-900 text-sm line-clamp-1">{story.name}</h3>
+                          <p className="text-xs text-neutral-500">{story.sector} | {story.region}</p>
                           <div className="flex items-center mt-1">
                             <BadgeWithIcon
-                              text={org.impactGrade}
+                              text={story.impactGrade}
                               variant="success"
                               className="mr-2"
                             />
-                            <span className="text-sm font-medium">{org.impactScore} IQ</span>
+                            <span className="text-sm font-medium">{story.impactScore} IQ</span>
                           </div>
                         </div>
                       </div>
                     </div>
-
+                    
                     <div className="p-4 border-t border-neutral-200">
                       <p className="text-sm text-neutral-700 line-clamp-3 mb-4">
-                        {org.mission}
+                        {story.mission}
                       </p>
-                      <Link href={`/organization/${org.id}`}>
+                      <Link href={`/organization/${story.id}`}>
                         <Button 
                           variant="outline"
                           size="sm"
@@ -207,20 +161,11 @@ const SuccessStoriesSection = () => {
                     </div>
                   </Card>
                 </CarouselItem>
-              ))
-            ) : (
-              <CarouselItem className="basis-full">
-                <Card className="border-0 shadow-none">
-                  <CardContent className="p-4 text-center text-neutral-500">
-                    No success stories available at this time
-                  </CardContent>
-                </Card>
-              </CarouselItem>
-            )}
-          </CarouselContent>
+              ))}
+            </CarouselContent>
           </Carousel>
         </div>
-
+        
         {/* Main story content - Still keep this part for detailed view */}
         <Card className="shadow-sm">
           <div className="relative">
@@ -243,7 +188,7 @@ const SuccessStoriesSection = () => {
                   </span>
                 </div>
               </div>
-
+              
               <div className="mt-4 md:mt-0 md:ml-4 md:pt-12 flex-1">
                 <div className="flex flex-col md:flex-row md:items-center justify-between">
                   <div>
@@ -252,7 +197,7 @@ const SuccessStoriesSection = () => {
                       {activeStory.sector} | {activeStory.region} {activeStory.established ? `| Est. ${activeStory.established}` : ''}
                     </p>
                   </div>
-
+                  
                   <div className="flex items-center mt-2 md:mt-0">
                     <span className="text-2xl font-serif font-bold text-neutral-900">{activeStory.impactScore}</span>
                     <span className="ml-2 text-xs text-neutral-700 leading-tight">
@@ -279,7 +224,7 @@ const SuccessStoriesSection = () => {
                     {activeStory.mission}
                   </p>
                 </div>
-
+                
                 <div className="mb-6">
                   <h4 className="font-medium text-neutral-900 mb-2">{t('org.sdgAlignment')}</h4>
                   <div className="flex flex-wrap gap-2">
@@ -292,7 +237,7 @@ const SuccessStoriesSection = () => {
                     ))}
                   </div>
                 </div>
-
+                
                 <div>
                   <h4 className="font-medium text-neutral-900 mb-2">{t('org.keyStats')}</h4>
                   <div className="space-y-2">
@@ -311,7 +256,7 @@ const SuccessStoriesSection = () => {
                   </div>
                 </div>
               </div>
-
+              
               {/* Right columns - metrics */}
               <div className="md:col-span-2">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -326,25 +271,25 @@ const SuccessStoriesSection = () => {
                         value={activeStory.metrics.reportingQuality}
                         max={20}
                       />
-
+                      
                       <ProgressWithLabel
                         label={t('org.metrics.reach')}
                         value={activeStory.metrics.reach}
                         max={20}
                       />
-
+                      
                       <ProgressWithLabel
                         label={t('org.metrics.socialROI')}
                         value={activeStory.metrics.socialROI}
                         max={20}
                       />
-
+                      
                       <ProgressWithLabel
                         label={t('org.metrics.outcomeEffectiveness')}
                         value={activeStory.metrics.outcomeEffectiveness}
                         max={20}
                       />
-
+                      
                       <ProgressWithLabel
                         label={t('org.metrics.transparencyGovernance')}
                         value={activeStory.metrics.transparencyGovernance}
@@ -352,7 +297,7 @@ const SuccessStoriesSection = () => {
                       />
                     </div>
                   </div>
-
+                  
                   {/* Top Programs */}
                   <div className="bg-neutral-50 p-4 rounded-lg border border-neutral-200">
                     <h4 className="font-medium text-neutral-900 mb-3">{t('org.topPrograms')}</h4>
@@ -378,7 +323,7 @@ const SuccessStoriesSection = () => {
                     </div>
                   </div>
                 </div>
-
+                
                 <div className="mt-4 text-center">
                   <Link href={`/organization/${activeStory.id}`}>
                     <Button 
@@ -417,7 +362,7 @@ const SuccessStoriesSkeleton = () => (
           </div>
           <Skeleton className="h-4 w-32" />
         </div>
-
+        
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[1, 2, 3].map((i) => (
             <Card key={i} className="shadow-sm">
@@ -470,14 +415,14 @@ const SuccessStoriesSkeleton = () => (
               <Skeleton className="h-4 w-full mb-1" />
               <Skeleton className="h-4 w-full mb-1" />
               <Skeleton className="h-4 w-4/5 mb-6" />
-
+              
               <Skeleton className="h-4 w-24 mb-2" />
               <div className="flex flex-wrap gap-2 mb-6">
                 <Skeleton className="h-6 w-20" />
                 <Skeleton className="h-6 w-24" />
                 <Skeleton className="h-6 w-16" />
               </div>
-
+              
               <Skeleton className="h-4 w-24 mb-2" />
               <div className="space-y-2">
                 <div className="flex justify-between">
@@ -494,13 +439,13 @@ const SuccessStoriesSkeleton = () => (
                 </div>
               </div>
             </div>
-
+            
             <div className="md:col-span-2">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Skeleton className="h-64 w-full rounded-lg" />
                 <Skeleton className="h-64 w-full rounded-lg" />
               </div>
-
+              
               <div className="mt-4 text-center">
                 <Skeleton className="h-10 w-48 mx-auto" />
               </div>
