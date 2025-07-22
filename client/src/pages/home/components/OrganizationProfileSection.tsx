@@ -15,7 +15,7 @@ const OrganizationProfileSection = () => {
   const carouselRef = useRef<HTMLDivElement>(null);
   
   const { data: organizations, isLoading } = useQuery<OrganizationProfile[]>({
-    queryKey: ['/api/organizations/featured'],
+    queryKey: ['/.netlify/functions/get-featured-orgs'],
   });
   
   // Add horizontal scrolling with mouse drag

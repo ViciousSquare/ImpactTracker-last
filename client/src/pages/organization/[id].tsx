@@ -16,7 +16,7 @@ const OrganizationProfilePage = () => {
   const [match, params] = useRoute('/organization/:id');
   
   const { data: organization, isLoading } = useQuery<OrganizationProfileType>({
-    queryKey: [`/api/organizations/${params?.id}`],
+    queryKey: [`/.netlify/functions/get-org-by-id?id=${params?.id}`],
   });
 
   if (!match) {

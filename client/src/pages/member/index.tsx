@@ -32,7 +32,7 @@ const MemberDashboard = () => {
 
   // Get organization data
   const { data: organization, isLoading: orgLoading } = useQuery({
-    queryKey: ['/api/organizations', organizationId],
+    queryKey: ['/.netlify/functions/get-org-by-id', organizationId],
     queryFn: getQueryFn({ on401: "throw" }),
   });
 

@@ -24,7 +24,7 @@ const SuccessStoriesSection = () => {
   const carouselRef = useRef<HTMLDivElement>(null);
   
   const { data: successStories, isLoading } = useQuery<OrganizationProfile[]>({
-    queryKey: ['/api/organizations/success-stories'],
+    queryKey: ['/.netlify/functions/get-success-stories'],
   });
   
   // No need for mouse drag functionality as we now use natural overflow scrolling

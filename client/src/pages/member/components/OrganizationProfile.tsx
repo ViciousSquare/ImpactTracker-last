@@ -31,7 +31,8 @@ const OrganizationProfile = ({ organization, isLoading }: OrganizationProfilePro
 
   const updateOrgMutation = useMutation({
     mutationFn: async (data: any) => {
-      return apiRequest(`/api/organizations/${organization?.id}`, {
+      // TODO: Implement PATCH as a Netlify Function
+      return apiRequest(`/.netlify/functions/get-org-by-id?id=${organization?.id}`, {
         method: "PATCH",
         body: JSON.stringify(data),
       });
@@ -42,7 +43,7 @@ const OrganizationProfile = ({ organization, isLoading }: OrganizationProfilePro
         description: "Your organization profile has been successfully updated.",
       });
       setEditMode(false);
-      queryClient.invalidateQueries({ queryKey: ['/api/organizations', organization?.id] });
+      queryClient.invalidateQueries({ queryKey: ['/.netlify/functions/get-org-by-id', organization?.id] });
     },
     onError: () => {
       toast({

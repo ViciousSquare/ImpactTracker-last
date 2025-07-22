@@ -75,8 +75,8 @@ export const OrganizationManager = () => {
   const [selectedOrgId, setSelectedOrgId] = useState<number | null>(null);
 
   const { data: organizationsData, isLoading, refetch } = useQuery({
-    queryKey: ['/api/organizations'],
-    queryFn: getQueryFn('/api/organizations'),
+    queryKey: ['/.netlify/functions/get-orgs'],
+    queryFn: getQueryFn('/.netlify/functions/get-orgs'),
     refetchInterval: 3000, // Refresh every 3 seconds
     staleTime: 0, // Consider data immediately stale
     cacheTime: 1000 * 60 * 5, // Cache for 5 minutes
@@ -85,7 +85,7 @@ export const OrganizationManager = () => {
 
   const addOrganizationMutation = useMutation({
     mutationFn: async (data: any) => {
-      const response = await fetch('/api/organizations', {
+      const response = await fetch('/.netlify/functions/create-org', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -99,7 +99,7 @@ export const OrganizationManager = () => {
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/organizations'] });
+      queryClient.invalidateQueries({ queryKey: ['/.netlify/functions/get-orgs'] });
       toast({
         title: "Success",
         description: "Organization has been successfully added",
