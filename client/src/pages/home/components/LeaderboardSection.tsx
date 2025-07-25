@@ -48,11 +48,23 @@ const LeaderboardSection = () => {
   });
 
   // Fetch leaderboard data with filters
-  const { data: leaderboardData, isLoading: leaderboardLoading } = useQuery<{
-    items: LeaderboardItem[];
-    total: number;
-  }>({
-    queryKey: ['/api/leaderboard', 'all', region, sdg, 1],
+  const fetchLeaderboard = async ({ queryKey }: any) => {
+    const [_key, sector, region, sdg, page] = queryKey;
+    const params = new URLSearchParams({
+      sector,
+      region,
+      sdg,
+      page: page.toString(),
+    });
+
+    const res = await fetch(`/api/get-leaderboard?${params.toString()}`);
+    if (!res.ok) throw new Error('Network response was not ok');
+    return res.json();
+  };
+
+  const { data: leaderboardData, isLoading: leaderboardLoading } = useQuery({
+    queryKey: ['get-leaderboard', 'all', region, sdg, 1],
+    queryFn: fetchLeaderboard,
   });
 
   // Function to get real organization names by sector (moved outside the component for accessibility throughout the file)
