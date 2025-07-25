@@ -49,12 +49,13 @@ const LeaderboardSection = () => {
 
   // Fetch leaderboard data with filters
   const fetchLeaderboard = async ({ queryKey }: any) => {
-    const [_key, sector, region, sdg, page] = queryKey;
+    const [_key, filters] = queryKey;
+
     const params = new URLSearchParams({
-      sector,
-      region,
-      sdg,
-      page: page.toString(),
+      sector: filters.sector || 'all',
+      region: filters.region || 'all',
+      sdg: filters.sdg || 'all',
+      page: String(filters.page || 1),
     });
 
     const res = await fetch(`/api/get-leaderboard?${params.toString()}`);
@@ -63,7 +64,12 @@ const LeaderboardSection = () => {
   };
 
   const { data: leaderboardData, isLoading: leaderboardLoading } = useQuery({
-    queryKey: ['get-leaderboard', 'all', region, sdg, 1],
+    queryKey: ['get-leaderboard', {
+      sector: 'all',
+      region: region,
+      sdg: sdg,
+      page: 1,
+    }],
     queryFn: fetchLeaderboard,
   });
 
@@ -386,7 +392,7 @@ const getOrganizationNameBySector = (sector: string, index: number): string => {
                             <tbody className="bg-white divide-y divide-neutral-200">
                               {sectorData[sectorOption.value as Sector]
                                 ?.slice(0, 5)
-                                .map((item) => (
+                                .map((item: LeaderboardItem) => (
                                   <tr key={item.id} className="hover:bg-neutral-50">
                                     <td className="px-4 py-3 whitespace-nowrap">
                                       <div className="text-sm font-medium text-neutral-900">
