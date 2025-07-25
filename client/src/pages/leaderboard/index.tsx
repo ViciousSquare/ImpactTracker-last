@@ -293,8 +293,8 @@ const Leaderboard = () => {
                       </td>
                     </tr>
                   ))
-                ) : leaderboardData && leaderboardData.items.length > 0 ? (
-                  leaderboardData.items.map((item) => {
+                ) : leaderboardData && leaderboardData.items && leaderboardData.items.length > 0 ? (
+                  leaderboardData.items.map((item: LeaderboardItem) => {
                     const verificationDetails = getVerificationDetails(item.verificationType);
 
                     return (
