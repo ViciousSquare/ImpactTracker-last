@@ -31,7 +31,10 @@ export type Sector =
   | "Health"
   | "Economic Development"
   | "Social Services"
-  | "Arts & Culture";
+  | "Arts & Culture"
+  | "International Development"
+  | "Innovation & Entrepreneurship"
+  | "Youth Mental Health";
 
 export type Region = 
   | "National" 
@@ -47,6 +50,7 @@ export type SDG =
   | "SDG 1: No Poverty"
   | "SDG 2: Zero Hunger"
   | "SDG 3: Good Health"
+  | "SDG 3: Good Health and Well-being"
   | "SDG 4: Quality Education"
   | "SDG 5: Gender Equality"
   | "SDG 6: Clean Water"
@@ -56,6 +60,7 @@ export type SDG =
   | "SDG 10: Reduced Inequalities"
   | "SDG 11: Sustainable Cities and Communities"
   | "SDG 12: Responsible Consumption"
+  | "SDG 12: Responsible Consumption and Production"
   | "SDG 13: Climate Action"
   | "SDG 14: Life Below Water"
   | "SDG 15: Life on Land"

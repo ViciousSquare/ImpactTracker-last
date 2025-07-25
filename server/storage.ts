@@ -541,16 +541,17 @@ export class MemStorage implements IStorage {
       }
     ];
 
-    // Apply filters (simple implementation for demo)
-    let filtered = [...leaderboard];
+    // Helper for permissive filtering
+    const matchesFilter = (item: any, filters: any) => {
+      return (
+        (!filters.sector || filters.sector === 'all' || item.sector === filters.sector) &&
+        (!filters.region || filters.region === 'all' || item.region === filters.region) &&
+        (!filters.sdg || filters.sdg === 'all' || item.sdg === filters.sdg)
+      );
+    };
 
-    if (filters.sector) {
-      filtered = filtered.filter(item => item.sector === filters.sector);
-    }
-
-    if (filters.region) {
-      filtered = filtered.filter(item => item.region === filters.region);
-    }
+    // Apply filters (permissive)
+    let filtered = leaderboard.filter(item => matchesFilter(item, filters));
 
     if (filters.query) {
       const query = filters.query.toLowerCase();
@@ -599,7 +600,7 @@ export class MemStorage implements IStorage {
 
     return {
       items: finalPaginatedItems,
-      total: 243 // Mock total for pagination
+      total: filtered.length // Use filtered.length for accurate pagination
     };
   }
 
@@ -1421,7 +1422,7 @@ export class MemStorage implements IStorage {
         sector: 'Food Security',
         region: 'Ontario',
         established: 1985,
-        impactScore: 85,
+        impactScore: 87,
         impactGrade: ImpactGrade.A,
         verificationType: VerificationType.Audited,
         yearlyChange: 6.2,
