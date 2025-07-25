@@ -46,46 +46,33 @@ const Leaderboard = () => {
 
   // Fetch leaderboard data with filters
   const fetchLeaderboard = async ({ queryKey }: any) => {
-    const [
-      _key,
-      sector,
-      region,
-      sdg,
-      searchQuery,
-      currentPage,
-      sortBy,
-      sortOrder,
-      size
-    ] = queryKey;
-
+    const [_key, filters] = queryKey;
     const params = new URLSearchParams({
-      sector,
-      region,
-      sdg,
-      query: searchQuery,
-      page: currentPage.toString(),
-      sortBy,
-      sortOrder,
-      size,
+      sector: filters.sector || '',
+      region: filters.region || '',
+      sdg: filters.sdg || '',
+      query: filters.query || '',
+      page: String(filters.page || 1),
+      sortBy: filters.sortBy || 'impactScore',
+      sortOrder: filters.sortOrder || 'desc',
+      size: filters.size || '',
     });
-
     const res = await fetch(`/api/get-leaderboard?${params.toString()}`);
     if (!res.ok) throw new Error('Network response was not ok');
     return res.json();
   };
 
   const { data: leaderboardData, isLoading: leaderboardLoading } = useQuery({
-    queryKey: [
-      'get-leaderboard',
+    queryKey: ['get-leaderboard', {
       sector,
       region,
       sdg,
-      searchQuery,
-      currentPage,
+      query: searchQuery,
+      page: currentPage,
       sortBy,
       sortOrder,
       size,
-    ],
+    }],
     queryFn: fetchLeaderboard,
   });
 

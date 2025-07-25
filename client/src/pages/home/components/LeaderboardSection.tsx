@@ -176,12 +176,14 @@ const getOrganizationNameBySector = (sector: string, index: number): string => {
     const sectorData: Record<string, LeaderboardItem[]> = {};
     
     // Group existing items by sector
-    leaderboardData.items.forEach(item => {
-      if (!sectorData[item.sector]) {
-        sectorData[item.sector] = [];
-      }
-      sectorData[item.sector].push(item);
-    });
+    if (leaderboardData && leaderboardData.items) {
+      leaderboardData.items.forEach((item: LeaderboardItem) => {
+        if (!sectorData[item.sector]) {
+          sectorData[item.sector] = [];
+        }
+        sectorData[item.sector].push(item);
+      });
+    }
     
     // Make sure each sector has at least 5 items by creating variations of existing items
     SECTOR_OPTIONS.filter(s => s.value !== 'all').forEach(sectorOption => {
